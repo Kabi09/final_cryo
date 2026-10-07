@@ -4,6 +4,7 @@ import { MaterialRequest } from '../models/MaterialRequest.js';
 import { Inventory, StockLedger } from '../models/Inventory.js';
 import { QAInspection } from '../models/QAInspection.js';
 import { BOM } from '../models/BOM.js';
+import { Product } from '../models/Product.js';
 import { getNextSequence } from '../services/numberingService.js';
 import { logAudit } from '../middleware/audit.js';
 
@@ -82,6 +83,11 @@ export const planMaterials = async (req, res) => {
     const order = await ProductionOrder.findById(req.params.id).populate('bom');
     if (!order) return res.status(404).json({ message: 'Production order not found' });
 
+    let product = null;
+    if (order.product) {
+      product = await Product.findById(order.product).populate('requiredMaterials.material');
+    }
+
     let bom = order.bom;
     if (!bom && order.product) {
       bom = await BOM.findOne({ product: order.product, status: 'APPROVED' });
@@ -92,30 +98,62 @@ export const planMaterials = async (req, res) => {
       }
     }
 
-    if (!bom || !bom.items || bom.items.length === 0) {
-      return res.status(400).json({ message: 'No active BOM configured for this product. Please assign a BOM.' });
+    // Determine material requirement source: Product requiredMaterials or BOM items
+    let materialSources = [];
+    if (product && product.requiredMaterials && product.requiredMaterials.length > 0) {
+      materialSources = product.requiredMaterials.map(rm => ({
+        materialCode: rm.materialCode,
+        materialName: rm.materialName,
+        quantity: rm.quantity || 1,
+        unit: rm.unit || 'Nos',
+        scrapPercentage: 0,
+        isRequired: rm.isRequired,
+        alternativeMaterial: rm.alternativeMaterial
+      }));
+    } else if (bom && bom.items && bom.items.length > 0) {
+      materialSources = bom.items.map(bi => ({
+        materialCode: bi.materialCode,
+        materialName: bi.materialName,
+        quantity: bi.quantity || 1,
+        unit: bi.unit || 'Nos',
+        scrapPercentage: bi.scrapPercentage || 0,
+        isRequired: true
+      }));
+    }
+
+    if (materialSources.length === 0) {
+      return res.status(400).json({ 
+        message: 'No material requirements configured. Please map inventory materials in the Product Master or assign an approved BOM.' 
+      });
     }
 
     const itemsPlanning = [];
     let shortageFound = false;
 
-    for (const bomItem of bom.items) {
-      const inv = await Inventory.findOne({ itemCode: bomItem.materialCode });
-      const available = inv ? Math.max(0, inv.currentStock - inv.reservedStock) : 0;
-      const required = (bomItem.quantity || 1) * order.quantity;
+    for (const mat of materialSources) {
+      const inv = await Inventory.findOne({ itemCode: mat.materialCode });
+      const currentStock = inv ? inv.currentStock : 0;
+      const reservedStock = inv ? inv.reservedStock : 0;
+      const available = inv ? Math.max(0, currentStock - reservedStock) : 0;
+      const required = (mat.quantity || 1) * order.quantity;
       const shortage = Math.max(0, required - available);
 
       if (shortage > 0) shortageFound = true;
 
+      const coverageStatus = shortage === 0 ? 'FULL' : (available > 0 ? 'PARTIAL' : 'NONE');
+
       itemsPlanning.push({
-        itemCode: bomItem.materialCode,
-        itemName: bomItem.materialName,
+        itemCode: mat.materialCode,
+        itemName: mat.materialName,
         requiredQty: required,
         availableQty: available,
-        reservedQty: inv ? inv.reservedStock : 0,
+        currentStock,
+        reservedQty: reservedStock,
         shortageQty: shortage,
-        unit: bomItem.unit || 'Nos',
-        scrapWastage: bomItem.scrapPercentage || 0
+        unit: mat.unit || 'Nos',
+        coverageStatus,
+        isRequired: mat.isRequired !== false,
+        scrapWastage: mat.scrapPercentage || 0
       });
     }
 
@@ -143,18 +181,20 @@ export const planMaterials = async (req, res) => {
       entityNumber: order.productionNumber,
       performedBy: req.user.name,
       userRole: req.user.role,
-      details: `Material request ${mrNumber} generated. Shortage present: ${shortageFound}`
+      details: `Material planning completed for ${order.productionNumber}. Shortage present: ${shortageFound}`
     });
 
     res.json({
       order,
       materialRequest,
-      shortagePresent: shortageFound
+      shortagePresent: shortageFound,
+      itemsPlanning
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 // Material Issue by Store
 export const issueMaterials = async (req, res) => {

@@ -63,12 +63,35 @@
 
 ## Change History
 
+### 2026-10-07 (Update 7)
+#### Change
+- What was changed: Complete decoupling of Product Master and Stores Inventory Master, with multi-select required material mapping, dynamic shortage calculation formula (`orderQty × unitReqQty - availableStock`), coverage status indicators (`FULL`, `PARTIAL`, `NONE`), and end-to-end integration across Product → Inventory → BOM → Material Planning → Procurement PR → Stores Issue → Production.
+- Files changed:
+  - Backend Models: `server/src/models/Product.js`, `server/src/models/Inventory.js`.
+  - Backend Controllers: `server/src/controllers/productController.js`, `server/src/controllers/inventoryController.js`, `server/src/controllers/productionController.js`.
+  - Backend Routes: `server/src/routes/apiRoutes.js`.
+  - Database Seeder: `server/src/seed.js`.
+  - Integration Test: `server/test_workflow.js`.
+  - Frontend UI: `client/src/pages/products/Products.jsx`, `client/src/pages/inventory/Inventory.jsx`, `client/src/pages/production/Production.jsx`.
+- Logic changed:
+  1. **Decoupled Architecture**: Removed `currentStock` from Product Master. Product represents commercial machine models, specifications, selling prices, warranty, and required material mapping references. Inventory Master is the independent stores ledger for physical parts (compressors, copper tubing, refrigerants, controllers, polyurethane, electrical panels).
+  2. **Multi-Select Product ↔ Inventory Mapping**: Products now maintain an array of `requiredMaterials` storing the Inventory ObjectId reference, code, name, quantity per unit, unit of measure, `isRequired` boolean, optional alternative material reference, and technical remarks.
+  3. **Dedicated API Endpoints**: Added `PUT /api/products/:id/materials` for dedicated BOM material mapping and `PUT /api/inventory/:id` for inventory details update.
+  4. **Dynamic Stock Rule & Shortage Formula**: When a Production Order is planned (e.g. 2 units of CS-ULT-80), material planning multiplies `requiredQty = unitQty * orderQuantity`. It compares against stores available stock (`currentStock - reservedStock`) to calculate `shortageQty = Math.max(0, requiredQty - availableQty)` and assigns coverage status (`FULL`, `PARTIAL`, `NONE`). If any shortage exists, an automated Procurement Requisition (PR) is generated in the stores ledger.
+  5. **Frontend Enhancements**:
+     - `Products.jsx`: Added multi-item material mapping modal allowing selecting from stores inventory with quantity, unit, required/optional toggle, and alternative material; added specifications modal; removed conflicting stock fields.
+     - `Inventory.jsx`: Added "+ Add Material Item" and "Edit Item" modals with complete stores fields (Material Type enum, Purchase Price, Issue Price, Min Stock, Reorder Point, Warehouse, Bin Location, Supplier); added shortage highlighting.
+     - `Production.jsx`: Enhanced BOM Material Planning modal to display order quantity multiplier, unit required vs total required, available stores stock, exact shortage quantity, coverage status badges (`FULL`, `PARTIAL`, `NONE`), and direct store issuance.
+  6. **Automated Verification**: Created and executed `server/test_workflow.js`, verifying 100% test pass on cascade compressor shortage calculation, stock replenishment, and material issue deduction.
+- Reason: User requested fixing the mismatched Product and Inventory workflow so Product and Inventory are properly mapped while remaining distinct concepts, with full end-to-end integration and mathematical shortage calculations.
+- Impact: Solves data conflation, provides accurate factory material planning, and prevents false inventory assumptions.
+
 ### 2026-10-07 (Update 6)
 #### Change
 - What was changed: Resolved Production Order creation on production release so orders with dynamic product items automatically map to their Product and BOM references without Mongoose validation failure.
 - Files changed:
   - Backend: `server/src/controllers/salesOrderController.js` (`releaseForProduction`).
-- Logic changed: When a Sales Order was created from a Quotation, line items stored `productCode` and `description` rather than a raw Mongoose ObjectId. When releasing to production, `ProductionOrder.create` attempted to assign `firstItem.product` (which was undefined), triggering a schema validation failure. Enhanced `releaseForProduction` to resolve the `Product` entity by `productCode` and link an approved BOM version with fallback. Initialized `PROD-2026-0002` for `SO-2026-0001` (`kabili`, `CFS-DF-300`).
+  - Logic changed: When a Sales Order was created from a Quotation, line items stored `productCode` and `description` rather than a raw Mongoose ObjectId. When releasing to production, `ProductionOrder.create` attempted to assign `firstItem.product` (which was undefined), triggering a schema validation failure. Enhanced `releaseForProduction` to resolve the `Product` entity by `productCode` and link an approved BOM version with fallback. Initialized `PROD-2026-0002` for `SO-2026-0001` (`kabili`, `CFS-DF-300`).
 - Reason: User noticed `SO-2026-0001` was not displaying on the Manufacturing & Production Orders table after production release.
 - Impact: Released orders now reliably spawn active Production Orders in the manufacturing module.
 
@@ -127,16 +150,26 @@
 
 ## Current Progress
 - Completed:
-  - MongoDB database connected and seeded.
+  - MongoDB database connected and seeded with decoupled Product and Inventory masters.
+  - Product Master and Stores Inventory Master decoupled: Product holds commercial model specifications, selling price, warranty, and multi-select material references; Inventory holds physical parts, material types, supplier, warehouse, and stock ledgers.
+  - Multi-select required materials configuration UI (`Products.jsx`) and API (`PUT /api/products/:id/materials`) implemented.
+  - Stores Inventory Master management UI (`Inventory.jsx`) with "+ Add Material Item" modal, editing, stock receipt, and reconciliation.
+  - Dynamic stock rule verified: Product ordered quantity multiplies unit material requirements (`orderQty × unitReqQty`), evaluating stores stock availability, computing exact shortage quantities, and assigning coverage status (`FULL`, `PARTIAL`, `NONE`).
+  - Automated PR generation when shortage is present; direct store issuance to production floor when coverage is `FULL`.
   - Express REST API running on port 5000 with complete authentication, RBAC, and business logic.
   - Vector PDF engine operational for all business documents.
   - React/Vite frontend running on port 5173 with all modules, cross-linking, and public tracking portals.
   - Browser verification executed: login, dashboard metrics, quotations versioning, and 13-milestone tracking validated in real browser.
+  - Automated integration test `server/test_workflow.js` passed with 100% assertions on material planning and shortage formulas.
   - `.gitignore` configured across root, client, and server; cached `node_modules` and `.env` safely untracked.
 - In Progress: Ready for production deployment and user operations.
 - Pending: Client external credential configuration (SMTP, WhatsApp API) when going live.
 
 ## Technical Decisions
+- Decision: Separation of Concerns between Product Master and Inventory Master.
+- Reason: Commercial products (e.g. -80°C Deep Freezer) are built from raw materials, sub-assemblies, and bought-out components. Conflating Product and Inventory previously caused confusion because finished machine stock was treated as raw stock. Decoupling them allows one machine model to reference multiple stores items (compressors, refrigerant cylinders, copper piping, controllers) with exact quantities and units.
+- Decision: Dynamic Shortage Formula based on Product Order Quantity.
+- Reason: When 2 units of a freezer are ordered, requirement is `2 × unitQty`. Comparing this total against available stores stock (`currentStock - reservedStock`) ensures accurate shortage calculations and prevents under-procurement.
 - Decision: Pure vector PDF generation via PDFKit instead of headless browser rendering.
 - Reason: Instant sub-50ms generation, minimal CPU overhead, and exact typographic reproduction of `ref/Modern_ERP_5_Document_Suite.pdf`.
 - Decision: Token-based secure public tracking URLs (`/track/:token`, `/quotation/view/:token`).
@@ -145,4 +178,5 @@
 - Reason: Guarantees sensitive operations like commercial price revisions and production releases are protected while allowing testers to test any role in one click.
 - Decision: Repository-wide `.gitignore` protecting credentials and build artifacts.
 - Reason: Prevents committing sensitive credentials (`.env`), heavy `node_modules/`, and build artifacts into version control while retaining `.env.example` templates.
+
 

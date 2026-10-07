@@ -16,7 +16,10 @@ export const listProducts = async (req, res) => {
     if (category) query.category = category;
     if (active !== undefined) query.active = active === 'true';
 
-    const products = await Product.find(query).sort({ name: 1 });
+    const products = await Product.find(query)
+      .populate('requiredMaterials.material')
+      .populate('requiredMaterials.alternativeMaterial')
+      .sort({ name: 1 });
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -25,7 +28,9 @@ export const listProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id)
+      .populate('requiredMaterials.material')
+      .populate('requiredMaterials.alternativeMaterial');
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
     const boms = await BOM.find({ product: product._id }).sort({ version: -1 });
@@ -40,6 +45,10 @@ export const createProduct = async (req, res) => {
   try {
     const product = await Product.create(req.body);
 
+    const populated = await Product.findById(product._id)
+      .populate('requiredMaterials.material')
+      .populate('requiredMaterials.alternativeMaterial');
+
     await logAudit({
       action: 'PRODUCT_CREATED',
       entityType: 'Product',
@@ -50,7 +59,7 @@ export const createProduct = async (req, res) => {
       details: `Created product: ${product.name} (${product.model}) with price ₹${product.sellingPrice}`
     });
 
-    res.status(201).json(product);
+    res.status(201).json(populated);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -79,7 +88,9 @@ export const updateProduct = async (req, res) => {
       }
     }
 
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updates, { new: true });
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updates, { new: true })
+      .populate('requiredMaterials.material')
+      .populate('requiredMaterials.alternativeMaterial');
 
     await logAudit({
       action: 'PRODUCT_UPDATED',
@@ -92,6 +103,38 @@ export const updateProduct = async (req, res) => {
     });
 
     res.json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const updateProductMaterials = async (req, res) => {
+  try {
+    const { requiredMaterials } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    product.requiredMaterials = requiredMaterials || [];
+    await product.save();
+
+    const populated = await Product.findById(product._id)
+      .populate('requiredMaterials.material')
+      .populate('requiredMaterials.alternativeMaterial');
+
+    await logAudit({
+      action: 'PRODUCT_MATERIALS_UPDATED',
+      entityType: 'Product',
+      entityId: product._id,
+      entityNumber: product.productCode,
+      performedBy: req.user.name,
+      userRole: req.user.role,
+      details: `Updated required materials mapping for ${product.name} (${product.requiredMaterials.length} materials configured)`
+    });
+
+    res.json({
+      message: 'Product material requirements updated successfully',
+      product: populated
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

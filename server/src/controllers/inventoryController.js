@@ -74,6 +74,27 @@ export const createItem = async (req, res) => {
   }
 };
 
+export const updateItem = async (req, res) => {
+  try {
+    const item = await Inventory.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!item) return res.status(404).json({ message: 'Inventory item not found' });
+
+    await logAudit({
+      action: 'INVENTORY_ITEM_UPDATED',
+      entityType: 'Inventory',
+      entityId: item._id,
+      entityNumber: item.itemCode,
+      performedBy: req.user.name,
+      userRole: req.user.role,
+      details: `Updated inventory item: ${item.itemName} (${item.itemCode})`
+    });
+
+    res.json(item);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Add stock (Stock In / Receipt)
 export const addStock = async (req, res) => {
   try {

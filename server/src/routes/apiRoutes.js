@@ -55,6 +55,7 @@ router.get('/products', protect, productCtrl.listProducts);
 router.get('/products/:id', protect, productCtrl.getProductById);
 router.post('/products', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'SALES_MANAGER', 'MANAGEMENT'), productCtrl.createProduct);
 router.put('/products/:id', protect, productCtrl.updateProduct);
+router.put('/products/:id/materials', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'PRODUCTION_MANAGER', 'SALES_MANAGER'), productCtrl.updateProductMaterials);
 // Dedicated Price Update Route with RBAC enforcement
 router.put('/products/:id/price', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'FINANCE', 'SALES_MANAGER'), productCtrl.updateProductPrice);
 
@@ -63,6 +64,7 @@ router.get('/inventory', protect, inventoryCtrl.listInventory);
 router.get('/inventory/ledger', protect, inventoryCtrl.listStockLedger);
 router.get('/inventory/:id', protect, inventoryCtrl.getItemById);
 router.post('/inventory', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'STORE'), inventoryCtrl.createItem);
+router.put('/inventory/:id', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'STORE'), inventoryCtrl.updateItem);
 // Dedicated Stock Add / In Route
 router.post('/inventory/:id/add-stock', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'STORE'), inventoryCtrl.addStock);
 // Dedicated Stock Adjustment Route

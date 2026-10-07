@@ -227,26 +227,45 @@ export default function Production() {
       {/* Material Planning & Stock Check Result Modal */}
       {planningResult && (
         <div className="modal-overlay">
-          <div className="modal-content" style={{ maxWidth: '820px' }}>
+          <div className="modal-content" style={{ maxWidth: '880px' }}>
             <div className="modal-header">
-              <h3>BOM Material Planning & Stock Check</h3>
+              <div>
+                <h3 style={{ margin: 0 }}>BOM Material Planning & Inventory Stock Check</h3>
+                <span style={{ fontSize: '12px', color: '#64748B' }}>
+                  Prod: <strong>{planningResult.materialPlanning?.productionNumber || planningResult.materialRequest?.productionOrder}</strong> | Model: <strong>{planningResult.materialPlanning?.model}</strong> | Order Qty: <strong>{planningResult.materialPlanning?.orderQuantity || 1} Units</strong>
+                </span>
+              </div>
               <button className="close-btn" onClick={() => setPlanningResult(null)}>✕</button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body" style={{ maxHeight: '72vh', overflowY: 'auto' }}>
               <div style={{
                 background: planningResult.shortagePresent ? '#FEF2F2' : '#ECFDF5',
                 border: `1px solid ${planningResult.shortagePresent ? '#FECACA' : '#A7F3D0'}`,
-                padding: '12px',
-                borderRadius: '4px',
+                padding: '12px 16px',
+                borderRadius: '6px',
                 marginBottom: '14px',
-                fontSize: '13px'
+                fontSize: '13px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
               }}>
-                <strong>Stock Availability Assessment: </strong>
-                {planningResult.shortagePresent ? (
-                  <span style={{ color: '#DC2626' }}>Shortage detected. Procurement PR automatically generated.</span>
-                ) : (
-                  <span style={{ color: '#059669' }}>All materials are in stock and ready to issue.</span>
-                )}
+                <div>
+                  <strong>Inventory Stock Assessment: </strong>
+                  {planningResult.shortagePresent ? (
+                    <span style={{ color: '#DC2626' }}>
+                      Material shortage detected ({planningResult.materialPlanning?.shortageItemsCount || 'Multiple'} item(s)). Procurement PR generated.
+                    </span>
+                  ) : (
+                    <span style={{ color: '#059669' }}>
+                      All required materials are fully available in stock and ready to issue to production floor.
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <span className={`status-badge ${planningResult.materialPlanning?.overallCoverage === 'FULL' ? 'success' : planningResult.materialPlanning?.overallCoverage === 'PARTIAL' ? 'warning' : 'danger'}`}>
+                    Coverage: {planningResult.materialPlanning?.overallCoverage || (planningResult.shortagePresent ? 'PARTIAL' : 'FULL')}
+                  </span>
+                </div>
               </div>
 
               <div className="table-container">
@@ -254,36 +273,51 @@ export default function Production() {
                   <thead>
                     <tr>
                       <th>Material Code</th>
-                      <th>Material Description</th>
-                      <th>Req Qty</th>
-                      <th>Avail Stock</th>
+                      <th>Material Name</th>
+                      <th>Unit Req</th>
+                      <th>Total Req</th>
+                      <th>Available Stock</th>
                       <th>Shortage</th>
                       <th>Unit</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {planningResult.materialRequest?.items?.map((item, idx) => (
-                      <tr key={idx}>
-                        <td style={{ fontWeight: 600 }}>{item.itemCode}</td>
-                        <td>{item.itemName}</td>
-                        <td style={{ fontWeight: 700 }}>{item.requiredQty}</td>
-                        <td>{item.availableQty}</td>
-                        <td style={{ fontWeight: 700, color: item.shortageQty > 0 ? '#DC2626' : '#059669' }}>
-                          {item.shortageQty}
-                        </td>
-                        <td>{item.unit}</td>
-                      </tr>
-                    ))}
+                    {(planningResult.materialPlanning?.items || planningResult.materialRequest?.items)?.map((item, idx) => {
+                      const coverage = item.coverageStatus || (item.shortageQty === 0 ? 'FULL' : item.availableQty > 0 ? 'PARTIAL' : 'NONE');
+                      return (
+                        <tr key={idx} style={{ backgroundColor: item.shortageQty > 0 ? '#FFFBEB' : 'transparent' }}>
+                          <td style={{ fontWeight: 700, color: '#0F2C59' }}>{item.materialCode || item.itemCode}</td>
+                          <td style={{ fontWeight: 600 }}>{item.materialName || item.itemName}</td>
+                          <td style={{ color: '#64748B' }}>{item.unitQty || (item.requiredQty / (planningResult.materialPlanning?.orderQuantity || 1))}</td>
+                          <td style={{ fontWeight: 700 }}>{item.requiredQty}</td>
+                          <td style={{ fontWeight: 600, color: '#0F2C59' }}>{item.availableQty}</td>
+                          <td style={{ fontWeight: 700, color: item.shortageQty > 0 ? '#DC2626' : '#059669' }}>
+                            {item.shortageQty}
+                          </td>
+                          <td>{item.unit}</td>
+                          <td>
+                            <span className={`status-badge ${coverage === 'FULL' ? 'success' : coverage === 'PARTIAL' ? 'warning' : 'danger'}`}>
+                              {coverage}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={() => setPlanningResult(null)}>Close</button>
-              {!planningResult.shortagePresent && (
+              {!planningResult.shortagePresent ? (
                 <button type="button" className="btn btn-primary" onClick={() => handleIssueMaterials(planningResult.materialRequest?._id)}>
                   Issue Materials to Assembly Line
                 </button>
+              ) : (
+                <span style={{ fontSize: '12px', color: '#DC2626', fontWeight: 600, marginRight: '10px' }}>
+                  Procurement Requisition (PR) Raised in Stores Purchase Ledger
+                </span>
               )}
             </div>
           </div>

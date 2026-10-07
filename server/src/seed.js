@@ -115,94 +115,26 @@ const seed = async () => {
     });
     console.log('Seeded Customers.');
 
-    // 3. Seed Products
-    const prod1 = await Product.create({
-      productCode: 'CFS-ULT-500',
-      name: 'Ultra Low Temperature Freezer (-80°C)',
-      category: 'Ultra Low Temperature Freezer',
-      model: 'CFS-ULT-500',
-      brand: 'Cryo Scientific',
-      description: 'Cascade refrigeration ultra-low temperature laboratory upright freezer (-50°C to -86°C). Designed for biological sample preservation.',
-      unit: 'Units',
-      baseCost: 165000,
-      minSellingPrice: 220000,
-      sellingPrice: 250000,
-      taxRate: 18,
-      warrantyMonths: 12,
-      serialised: true,
-      currentStock: 4,
-      specifications: [
-        { label: 'Temperature Range', value: '-50°C to -86°C (Setpoint -80°C)' },
-        { label: 'Internal Capacity', value: '498 Litres / 17.6 Cu.Ft' },
-        { label: 'Refrigeration System', value: 'Dual Stage Cascade Semi-Hermetic Compressors' },
-        { label: 'Refrigerants', value: 'CFC/HCFC-Free Green Eco Blends (R404A / R508B)' },
-        { label: 'Controller', value: '7-inch Touchscreen Microprocessor with USB logging' },
-        { label: 'Dimensions (W x D x H)', value: '1120 mm x 980 mm x 1980 mm' },
-        { label: 'Electrical Supply', value: '230V AC ± 10%, 50 Hz, Single Phase' }
-      ]
-    });
-
-    const prod2 = await Product.create({
-      productCode: 'CFS-DF-300',
-      name: 'Biomedical Deep Freezer (-40°C)',
-      category: 'Deep Freezer',
-      model: 'CFS-DF-300',
-      brand: 'Cryo Scientific',
-      description: 'Heavy duty biomedical upright deep freezer for enzyme, plasma and test specimen storage.',
-      unit: 'Units',
-      baseCost: 95000,
-      minSellingPrice: 125000,
-      sellingPrice: 145000,
-      taxRate: 18,
-      warrantyMonths: 12,
-      serialised: true,
-      currentStock: 6,
-      specifications: [
-        { label: 'Temperature Range', value: '-20°C to -40°C' },
-        { label: 'Capacity', value: '310 Litres' },
-        { label: 'Power', value: '230V / 50Hz' }
-      ]
-    });
-
-    const prod3 = await Product.create({
-      productCode: 'CFS-BBR-450',
-      name: 'Blood Bank Refrigerator (+4°C)',
-      category: 'Blood Bank Refrigerator',
-      model: 'CFS-BBR-450',
-      brand: 'Cryo Scientific',
-      description: 'Precision forced-air circulation blood bag storage refrigerator with 7-day temperature chart recorder.',
-      unit: 'Units',
-      baseCost: 110000,
-      minSellingPrice: 155000,
-      sellingPrice: 180000,
-      taxRate: 18,
-      warrantyMonths: 12,
-      serialised: true,
-      currentStock: 3,
-      specifications: [
-        { label: 'Temperature Range', value: '+2°C to +6°C (Target +4.0°C)' },
-        { label: 'Bag Capacity', value: '240 Blood Bags (450ml)' },
-        { label: 'Door', value: 'Heated Triple Pane Glass with self-closing hinge' }
-      ]
-    });
-    console.log('Seeded Products.');
-
-    // 4. Seed Inventory Materials & Stock
-    const inventoryData = [
-      { itemCode: 'RAW-SS-304', itemName: 'Stainless Steel Sheet SS304 1.2mm', category: 'RAW_MATERIAL', unit: 'Sheets', currentStock: 120, reservedStock: 20, minStockLevel: 25, reorderPoint: 40, unitCost: 3200 },
-      { itemCode: 'RAW-COMP-15HP', itemName: 'Hermetic Cascade Compressor 1.5HP', category: 'RAW_MATERIAL', unit: 'Nos', currentStock: 18, reservedStock: 6, minStockLevel: 4, reorderPoint: 8, unitCost: 42000 },
-      { itemCode: 'RAW-REF-R508B', itemName: 'Ultra-Low Cryo Refrigerant R508B (Cylinder 5kg)', category: 'RAW_MATERIAL', unit: 'Cylinders', currentStock: 14, reservedStock: 4, minStockLevel: 3, reorderPoint: 6, unitCost: 18500 },
-      { itemCode: 'RAW-REF-R404A', itemName: 'First Stage Refrigerant R404A (10kg)', category: 'RAW_MATERIAL', unit: 'Cylinders', currentStock: 22, reservedStock: 4, minStockLevel: 5, reorderPoint: 10, unitCost: 6500 },
-      { itemCode: 'RAW-PUF-FOAM', itemName: 'High Density Polyurethane PUF Chemical Set', category: 'RAW_MATERIAL', unit: 'Drums', currentStock: 35, reservedStock: 10, minStockLevel: 8, reorderPoint: 15, unitCost: 14000 },
-      { itemCode: 'ELEC-PID-TOUCH', itemName: '7-inch Touchscreen Microprocessor Controller', category: 'RAW_MATERIAL', unit: 'Nos', currentStock: 25, reservedStock: 5, minStockLevel: 5, reorderPoint: 10, unitCost: 16500 },
-      { itemCode: 'ELEC-PT100-SEN', itemName: 'Class A RTD PT-100 Ultra Cryo Temperature Sensor', category: 'RAW_MATERIAL', unit: 'Nos', currentStock: 60, reservedStock: 12, minStockLevel: 15, reorderPoint: 25, unitCost: 2800 },
-      { itemCode: 'SPARE-EXP-VALV', itemName: 'Cryogenic Electronic Expansion Valve 0.5T', category: 'SPARE_PART', unit: 'Nos', currentStock: 8, reservedStock: 1, minStockLevel: 2, reorderPoint: 5, unitCost: 11500 },
-      { itemCode: 'SPARE-DOOR-GSK', itemName: 'Magnetic Heated Silicon Door Gasket Set (CFS-500)', category: 'SPARE_PART', unit: 'Sets', currentStock: 15, reservedStock: 2, minStockLevel: 3, reorderPoint: 6, unitCost: 5200 },
-      { itemCode: 'CFS-ULT-500', itemName: 'Ultra Low Temperature Freezer (-80°C) Model CFS-ULT-500', category: 'FINISHED_GOODS', unit: 'Units', currentStock: 4, reservedStock: 1, minStockLevel: 2, reorderPoint: 3, unitCost: 165000 }
+    // 3. Seed Inventory Materials Master (Separate from Products)
+    const inventoryItems = [
+      { itemCode: 'RAW-SS-304', itemName: 'Stainless Steel Sheet SS304 1.2mm', materialType: 'RAW_MATERIAL', unit: 'Sheets', currentStock: 120, reservedStock: 20, minStockLevel: 25, reorderPoint: 40, purchasePrice: 3200, unitCost: 3200, sellingPrice: 3800, warehouse: 'Main Plant - Chennai', binLocation: 'Bay-A1', supplier: 'Jindal Stainless Steel Ltd', description: 'Grade 304 food/cryo safe sheet for inner chambers' },
+      { itemCode: 'RAW-COMP-15HP', itemName: 'Hermetic Cascade Compressor 1.5HP', materialType: 'REFRIGERATION', unit: 'Nos', currentStock: 18, reservedStock: 6, minStockLevel: 4, reorderPoint: 8, purchasePrice: 42000, unitCost: 42000, sellingPrice: 48000, warehouse: 'Main Plant - Chennai', binLocation: 'Rack-R2', supplier: 'Embraco / Secop Compressors', description: 'Low back pressure compressor for -86°C cascade refrigeration' },
+      { itemCode: 'RAW-REF-R508B', itemName: 'Ultra-Low Cryo Refrigerant R508B (Cylinder 5kg)', materialType: 'CHEMICAL', unit: 'Cylinders', currentStock: 14, reservedStock: 4, minStockLevel: 3, reorderPoint: 6, purchasePrice: 18500, unitCost: 18500, sellingPrice: 21000, warehouse: 'Main Plant - Chennai', binLocation: 'Gas-Cage-1', supplier: 'Chemours Cryo Gases', description: 'Non-toxic, CFC-free low stage refrigerant' },
+      { itemCode: 'RAW-REF-R404A', itemName: 'First Stage Refrigerant R404A (10kg)', materialType: 'CHEMICAL', unit: 'Cylinders', currentStock: 22, reservedStock: 4, minStockLevel: 5, reorderPoint: 10, purchasePrice: 6500, unitCost: 6500, sellingPrice: 7500, warehouse: 'Main Plant - Chennai', binLocation: 'Gas-Cage-2', supplier: 'Honeywell Fluorines', description: 'High stage eco blend refrigerant' },
+      { itemCode: 'RAW-COP-PIPE', itemName: 'Cryogenic Grade Copper Tubing 3/8" OD (20M Roll)', materialType: 'MECHANICAL', unit: 'M', currentStock: 150, reservedStock: 30, minStockLevel: 40, reorderPoint: 60, purchasePrice: 450, unitCost: 450, sellingPrice: 550, warehouse: 'Main Plant - Chennai', binLocation: 'Pipe-Rack-3', supplier: 'Mandev Copper Ltd', description: 'Deoxidized high residual phosphorous copper coils' },
+      { itemCode: 'RAW-PUF-FOAM', itemName: 'High Density Polyurethane PUF Chemical Set', materialType: 'CHEMICAL', unit: 'Drums', currentStock: 35, reservedStock: 10, minStockLevel: 8, reorderPoint: 15, purchasePrice: 14000, unitCost: 14000, sellingPrice: 16000, warehouse: 'Main Plant - Chennai', binLocation: 'Chem-Store-1', supplier: 'BASF Polyurethanes', description: 'Rigid foaming component A + B for 130mm thermal barrier' },
+      { itemCode: 'ELEC-PID-TOUCH', itemName: '7-inch Touchscreen Microprocessor Controller', materialType: 'ELECTRICAL', unit: 'Nos', currentStock: 25, reservedStock: 5, minStockLevel: 5, reorderPoint: 10, purchasePrice: 16500, unitCost: 16500, sellingPrice: 19500, warehouse: 'Main Plant - Chennai', binLocation: 'Electronics-E1', supplier: 'Dixell / Emerson Automation', description: 'Dual sensor display with password lock and USB export' },
+      { itemCode: 'ELEC-PT100-SEN', itemName: 'Class A RTD PT-100 Ultra Cryo Temperature Sensor', materialType: 'ELECTRICAL', unit: 'Nos', currentStock: 60, reservedStock: 12, minStockLevel: 15, reorderPoint: 25, purchasePrice: 2800, unitCost: 2800, sellingPrice: 3400, warehouse: 'Main Plant - Chennai', binLocation: 'Electronics-E2', supplier: 'Radix Electrosystems', description: 'Platinum resistance sensor calibrated down to -100°C' },
+      { itemCode: 'ELEC-PANEL-MAIN', itemName: 'Industrial Electrical Panel 230V / 50Hz Assembly', materialType: 'ELECTRICAL', unit: 'Sets', currentStock: 20, reservedStock: 4, minStockLevel: 5, reorderPoint: 10, purchasePrice: 9500, unitCost: 9500, sellingPrice: 11000, warehouse: 'Main Plant - Chennai', binLocation: 'Panel-Bay-1', supplier: 'Schneider Electric OEM', description: 'Voltage protector, contactors, and thermal overload relays' },
+      { itemCode: 'SPARE-EXP-VALV', itemName: 'Cryogenic Electronic Expansion Valve 0.5T', materialType: 'SPARE_PART', unit: 'Nos', currentStock: 8, reservedStock: 1, minStockLevel: 2, reorderPoint: 5, purchasePrice: 11500, unitCost: 11500, sellingPrice: 13500, warehouse: 'Main Plant - Chennai', binLocation: 'Spares-S1', supplier: 'Danfoss Cryogenics', description: 'Modulating electronic expansion valve for precise sub-cooling' },
+      { itemCode: 'SPARE-DOOR-GSK', itemName: 'Magnetic Heated Silicon Door Gasket Set (CFS-500)', materialType: 'SPARE_PART', unit: 'Sets', currentStock: 15, reservedStock: 2, minStockLevel: 3, reorderPoint: 6, purchasePrice: 5200, unitCost: 5200, sellingPrice: 6200, warehouse: 'Main Plant - Chennai', binLocation: 'Gasket-Rack', supplier: 'Cryo Seals India', description: 'Four-point sub-zero magnetic compression seal with defrost heater' }
     ];
 
-    for (const inv of inventoryData) {
-      await Inventory.create(inv);
+    const invMap = {};
+    for (const inv of inventoryItems) {
+      const created = await Inventory.create(inv);
+      invMap[inv.itemCode] = created;
+
       await StockLedger.create({
         itemCode: inv.itemCode,
         itemName: inv.itemName,
@@ -217,6 +149,109 @@ const seed = async () => {
     }
     console.log('Seeded Inventory & Stock Ledgers.');
 
+    // 4. Seed Products with Required Materials Mapping (Product ↔ Inventory)
+    const prod1 = await Product.create({
+      productCode: 'CFS-ULT-500',
+      name: 'Ultra Low Temperature Freezer (-80°C)',
+      category: 'Ultra Low Temperature Freezer',
+      model: 'CS-ULT-80',
+      brand: 'Cryo Scientific',
+      description: 'Cascade refrigeration ultra-low temperature laboratory upright freezer (-50°C to -86°C). Designed for biological sample preservation.',
+      unit: 'Units',
+      baseCost: 165000,
+      minSellingPrice: 220000,
+      sellingPrice: 250000,
+      taxRate: 18,
+      warranty: '2 Years Comprehensive',
+      warrantyMonths: 24,
+      serialised: true,
+      active: true,
+      specifications: [
+        { label: 'Temperature Range', value: '-50°C to -86°C (Setpoint -80°C)' },
+        { label: 'Internal Capacity', value: '498 Litres / 17.6 Cu.Ft' },
+        { label: 'Refrigeration System', value: 'Dual Stage Cascade Semi-Hermetic Compressors' },
+        { label: 'Refrigerants', value: 'CFC/HCFC-Free Green Eco Blends (R404A / R508B)' },
+        { label: 'Controller', value: '7-inch Touchscreen Microprocessor with USB logging' },
+        { label: 'Dimensions (W x D x H)', value: '1120 mm x 980 mm x 1980 mm' },
+        { label: 'Electrical Supply', value: '230V AC ± 10%, 50 Hz, Single Phase' }
+      ],
+      requiredMaterials: [
+        { material: invMap['RAW-COMP-15HP']._id, materialCode: 'RAW-COMP-15HP', materialName: 'Hermetic Cascade Compressor 1.5HP', quantity: 2, unit: 'Nos', isRequired: true },
+        { material: invMap['RAW-REF-R508B']._id, materialCode: 'RAW-REF-R508B', materialName: 'Ultra-Low Cryo Refrigerant R508B', quantity: 1, unit: 'Cylinders', isRequired: true },
+        { material: invMap['RAW-REF-R404A']._id, materialCode: 'RAW-REF-R404A', materialName: 'First Stage Refrigerant R404A', quantity: 1, unit: 'Cylinders', isRequired: true },
+        { material: invMap['RAW-COP-PIPE']._id, materialCode: 'RAW-COP-PIPE', materialName: 'Cryogenic Grade Copper Tubing 3/8"', quantity: 20, unit: 'M', isRequired: true },
+        { material: invMap['RAW-SS-304']._id, materialCode: 'RAW-SS-304', materialName: 'Stainless Steel Sheet SS304 1.2mm', quantity: 6, unit: 'Sheets', isRequired: true },
+        { material: invMap['RAW-PUF-FOAM']._id, materialCode: 'RAW-PUF-FOAM', materialName: 'High Density Polyurethane PUF Chemical Set', quantity: 1, unit: 'Drums', isRequired: true },
+        { material: invMap['ELEC-PID-TOUCH']._id, materialCode: 'ELEC-PID-TOUCH', materialName: '7-inch Touchscreen Microprocessor Controller', quantity: 1, unit: 'Nos', isRequired: true },
+        { material: invMap['ELEC-PT100-SEN']._id, materialCode: 'ELEC-PT100-SEN', materialName: 'Class A RTD PT-100 Ultra Cryo Sensor', quantity: 2, unit: 'Nos', isRequired: true },
+        { material: invMap['ELEC-PANEL-MAIN']._id, materialCode: 'ELEC-PANEL-MAIN', materialName: 'Industrial Electrical Panel 230V Assembly', quantity: 1, unit: 'Sets', isRequired: true },
+        { material: invMap['SPARE-DOOR-GSK']._id, materialCode: 'SPARE-DOOR-GSK', materialName: 'Magnetic Heated Silicon Door Gasket Set', quantity: 1, unit: 'Sets', isRequired: true }
+      ]
+    });
+
+    const prod2 = await Product.create({
+      productCode: 'CFS-DF-300',
+      name: 'Biomedical Deep Freezer (-40°C)',
+      category: 'Deep Freezer',
+      model: 'CS-DF-40',
+      brand: 'Cryo Scientific',
+      description: 'Heavy duty biomedical upright deep freezer for enzyme, plasma and test specimen storage.',
+      unit: 'Units',
+      baseCost: 95000,
+      minSellingPrice: 125000,
+      sellingPrice: 145000,
+      taxRate: 18,
+      warranty: '1 Year Standard',
+      warrantyMonths: 12,
+      serialised: true,
+      active: true,
+      specifications: [
+        { label: 'Temperature Range', value: '-20°C to -40°C' },
+        { label: 'Capacity', value: '310 Litres' },
+        { label: 'Power', value: '230V / 50Hz' }
+      ],
+      requiredMaterials: [
+        { material: invMap['RAW-COMP-15HP']._id, materialCode: 'RAW-COMP-15HP', materialName: 'Hermetic Cascade Compressor 1.5HP', quantity: 1, unit: 'Nos', isRequired: true },
+        { material: invMap['RAW-REF-R404A']._id, materialCode: 'RAW-REF-R404A', materialName: 'First Stage Refrigerant R404A', quantity: 1, unit: 'Cylinders', isRequired: true },
+        { material: invMap['RAW-COP-PIPE']._id, materialCode: 'RAW-COP-PIPE', materialName: 'Cryogenic Grade Copper Tubing 3/8"', quantity: 12, unit: 'M', isRequired: true },
+        { material: invMap['RAW-SS-304']._id, materialCode: 'RAW-SS-304', materialName: 'Stainless Steel Sheet SS304 1.2mm', quantity: 4, unit: 'Sheets', isRequired: true },
+        { material: invMap['RAW-PUF-FOAM']._id, materialCode: 'RAW-PUF-FOAM', materialName: 'High Density Polyurethane PUF Chemical Set', quantity: 1, unit: 'Drums', isRequired: true },
+        { material: invMap['ELEC-PID-TOUCH']._id, materialCode: 'ELEC-PID-TOUCH', materialName: '7-inch Touchscreen Controller', quantity: 1, unit: 'Nos', isRequired: true },
+        { material: invMap['ELEC-PT100-SEN']._id, materialCode: 'ELEC-PT100-SEN', materialName: 'Class A RTD PT-100 Sensor', quantity: 1, unit: 'Nos', isRequired: true }
+      ]
+    });
+
+    const prod3 = await Product.create({
+      productCode: 'CFS-BBR-450',
+      name: 'Blood Bank Refrigerator (+4°C)',
+      category: 'Blood Bank Refrigerator',
+      model: 'CS-BBR-04',
+      brand: 'Cryo Scientific',
+      description: 'Precision forced-air circulation blood bag storage refrigerator with 7-day temperature chart recorder.',
+      unit: 'Units',
+      baseCost: 110000,
+      minSellingPrice: 155000,
+      sellingPrice: 180000,
+      taxRate: 18,
+      warranty: '1 Year Standard',
+      warrantyMonths: 12,
+      serialised: true,
+      active: true,
+      specifications: [
+        { label: 'Temperature Range', value: '+2°C to +6°C (Target +4.0°C)' },
+        { label: 'Bag Capacity', value: '240 Blood Bags (450ml)' },
+        { label: 'Door', value: 'Heated Triple Pane Glass with self-closing hinge' }
+      ],
+      requiredMaterials: [
+        { material: invMap['RAW-SS-304']._id, materialCode: 'RAW-SS-304', materialName: 'Stainless Steel Sheet SS304 1.2mm', quantity: 5, unit: 'Sheets', isRequired: true },
+        { material: invMap['RAW-PUF-FOAM']._id, materialCode: 'RAW-PUF-FOAM', materialName: 'High Density Polyurethane PUF Chemical Set', quantity: 1, unit: 'Drums', isRequired: true },
+        { material: invMap['RAW-COP-PIPE']._id, materialCode: 'RAW-COP-PIPE', materialName: 'Cryogenic Grade Copper Tubing 3/8"', quantity: 10, unit: 'M', isRequired: true },
+        { material: invMap['ELEC-PID-TOUCH']._id, materialCode: 'ELEC-PID-TOUCH', materialName: '7-inch Touchscreen Controller', quantity: 1, unit: 'Nos', isRequired: true },
+        { material: invMap['ELEC-PT100-SEN']._id, materialCode: 'ELEC-PT100-SEN', materialName: 'Class A RTD PT-100 Sensor', quantity: 2, unit: 'Nos', isRequired: true }
+      ]
+    });
+    console.log('Seeded Products with Required Materials Mapping.');
+
     // 5. Seed BOM for CFS-ULT-500
     const bom1 = await BOM.create({
       bomNumber: 'BOM-2026-0001',
@@ -230,10 +265,11 @@ const seed = async () => {
         { materialCode: 'RAW-COMP-15HP', materialName: 'Hermetic Cascade Compressor 1.5HP', quantity: 2, unit: 'Nos', unitCost: 42000, workCenter: 'Refrigeration' },
         { materialCode: 'RAW-REF-R508B', materialName: 'Ultra-Low Cryo Refrigerant R508B', quantity: 1, unit: 'Cylinders', unitCost: 18500, workCenter: 'Refrigeration' },
         { materialCode: 'RAW-REF-R404A', materialName: 'First Stage Refrigerant R404A', quantity: 1, unit: 'Cylinders', unitCost: 6500, workCenter: 'Refrigeration' },
+        { materialCode: 'RAW-COP-PIPE', materialName: 'Cryogenic Grade Copper Tubing 3/8"', quantity: 20, unit: 'M', unitCost: 450, workCenter: 'Refrigeration' },
         { materialCode: 'ELEC-PID-TOUCH', materialName: '7-inch Touchscreen Controller', quantity: 1, unit: 'Nos', unitCost: 16500, workCenter: 'Electrical' },
         { materialCode: 'ELEC-PT100-SEN', materialName: 'Class A RTD PT-100 Sensor', quantity: 2, unit: 'Nos', unitCost: 2800, workCenter: 'Electrical' }
       ],
-      totalEstimatedCost: 151500,
+      totalEstimatedCost: 160500,
       approvedBy: users[0]._id,
       approvedAt: new Date()
     });
