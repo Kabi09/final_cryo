@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client.js';
+import { openPdfDocument } from '../../utils/pdfHelper.js';
 
 import SecurityIcon from '@mui/icons-material/Security';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -75,8 +76,8 @@ export default function Installation() {
     }
   };
 
-  const downloadWarranty = (id) => {
-    window.open(`/api/warranties/${id}/pdf`, '_blank');
+  const downloadWarranty = (id, warrantyNumber) => {
+    openPdfDocument(`/warranties/${id}/pdf`, `${warrantyNumber || 'Warranty-Certificate'}.pdf`);
   };
 
   return (

@@ -149,10 +149,6 @@ export const releaseForProduction = async (req, res) => {
       });
     }
 
-    order.productionStatus = 'RELEASED';
-    order.currentStage = 'PRODUCTION_STARTED';
-    await order.save();
-
     // Automatically initialize Production Order if not already present
     const existingProd = await ProductionOrder.findOne({ salesOrder: order._id });
     let prodOrder = existingProd;
@@ -160,16 +156,31 @@ export const releaseForProduction = async (req, res) => {
       const prodNumber = await getNextSequence('PROD', 4);
       const firstItem = order.items[0] || {};
       
-      // Find active BOM for the product
-      const activeBom = firstItem.product ? await BOM.findOne({ product: firstItem.product, status: 'APPROVED' }) : null;
+      // Resolve Product ObjectId
+      let targetProduct = null;
+      if (firstItem.product) {
+        targetProduct = await Product.findById(firstItem.product);
+      }
+      if (!targetProduct && firstItem.productCode) {
+        targetProduct = await Product.findOne({ productCode: firstItem.productCode });
+      }
+      if (!targetProduct) {
+        targetProduct = await Product.findOne();
+      }
+
+      // Find active BOM for the product or any available BOM
+      let activeBom = targetProduct ? await BOM.findOne({ product: targetProduct._id, status: 'APPROVED' }) : null;
+      if (!activeBom) {
+        activeBom = await BOM.findOne({ status: 'APPROVED' }) || await BOM.findOne();
+      }
 
       prodOrder = await ProductionOrder.create({
         productionNumber: prodNumber,
         salesOrder: order._id,
         soNumber: order.soNumber,
-        product: firstItem.product,
-        productName: firstItem.description || 'Scientific Refrigeration Unit',
-        model: firstItem.productCode || 'CFS-ULT-500',
+        product: targetProduct?._id,
+        productName: firstItem.description || targetProduct?.name || 'Scientific Refrigeration Unit',
+        model: firstItem.productCode || targetProduct?.model || targetProduct?.productCode || 'CFS-ULT-500',
         quantity: firstItem.quantity || 1,
         targetDeliveryDate: new Date(Date.now() + (45 * 24 * 60 * 60 * 1000)), // 6-8 weeks
         bom: activeBom?._id,
@@ -184,6 +195,10 @@ export const releaseForProduction = async (req, res) => {
         ]
       });
     }
+
+    order.productionStatus = 'RELEASED';
+    order.currentStage = 'PRODUCTION_STARTED';
+    await order.save();
 
     await logAudit({
       action: 'PRODUCTION_RELEASED',

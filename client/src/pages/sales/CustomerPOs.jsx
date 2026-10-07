@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client.js';
+import { openPdfDocument } from '../../utils/pdfHelper.js';
 
 import AddIcon from '@mui/icons-material/Add';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
@@ -108,8 +109,8 @@ export default function CustomerPOs() {
     }
   };
 
-  const downloadPDF = (id) => {
-    window.open(`/api/customer-pos/${id}/pdf`, '_blank');
+  const downloadPDF = (id, poNumber) => {
+    openPdfDocument(`/customer-pos/${id}/pdf`, `${poNumber || 'PO'}.pdf`);
   };
 
   return (

@@ -2,7 +2,8 @@ import { Quotation } from '../models/Quotation.js';
 import { Customer } from '../models/Customer.js';
 import { Lead } from '../models/Lead.js';
 import { getNextSequence } from '../services/numberingService.js';
-import { generateDocumentPDF } from '../services/pdfService.js';
+import { generateDocumentPDF, generateDocumentPDFBuffer } from '../services/pdfService.js';
+import { sendQuotationEmail } from '../services/emailService.js';
 import { logAudit } from '../middleware/audit.js';
 
 export const listQuotations = async (req, res) => {
@@ -172,16 +173,37 @@ export const sendQuotation = async (req, res) => {
     const quotation = await Quotation.findById(req.params.id).populate('customer');
     if (!quotation) return res.status(404).json({ message: 'Quotation not found' });
 
+    const targetSentVia = sendVia || 'LINK';
+    const emailTo = recipientEmail || quotation.customerSnapshot?.email || quotation.customer?.email;
+    const phoneTo = recipientPhone || quotation.customerSnapshot?.phone || quotation.customer?.phone;
+
     quotation.status = 'SENT';
     quotation.sendDetails = {
       sentAt: new Date(),
-      sentVia,
-      recipientEmail: recipientEmail || quotation.customerSnapshot?.email,
-      recipientPhone: recipientPhone || quotation.customerSnapshot?.phone
+      sentVia: targetSentVia,
+      recipientEmail: emailTo,
+      recipientPhone: phoneTo
     };
     await quotation.save();
 
     const publicUrl = `${process.env.PUBLIC_URL || 'http://localhost:5173'}/quotation/view/${quotation.publicToken}`;
+
+    let emailResult = null;
+    if (targetSentVia === 'EMAIL' && emailTo) {
+      try {
+        const docType = quotation.revisionNumber === 'R00' ? 'Quotation' : `Quotation Revision (${quotation.revisionNumber})`;
+        const pdfBuf = await generateDocumentPDFBuffer(docType, quotation);
+        emailResult = await sendQuotationEmail({
+          to: emailTo,
+          quotation,
+          pdfBuffer: pdfBuf,
+          publicUrl
+        });
+      } catch (mailErr) {
+        console.error('Email dispatch error:', mailErr);
+        emailResult = { success: false, error: mailErr.message };
+      }
+    }
 
     await logAudit({
       action: 'QUOTATION_SENT',
@@ -190,13 +212,14 @@ export const sendQuotation = async (req, res) => {
       entityNumber: quotation.quotationNumber,
       performedBy: req.user.name,
       userRole: req.user.role,
-      details: `Sent quotation ${quotation.quotationNumber} via ${sendVia}. Public Link: ${publicUrl}`
+      details: `Sent quotation ${quotation.quotationNumber} via ${targetSentVia}. Recipient: ${emailTo || phoneTo || 'Link'}. Public Link: ${publicUrl}`
     });
 
     res.json({
-      message: 'Quotation sent successfully',
+      message: emailResult?.success ? 'Quotation dispatched successfully via email!' : 'Quotation sent successfully',
       quotation,
-      publicUrl
+      publicUrl,
+      emailResult
     });
   } catch (error) {
     res.status(400).json({ message: error.message });

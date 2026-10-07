@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client.js';
+import { openPdfDocument } from '../../utils/pdfHelper.js';
 
 import AddIcon from '@mui/icons-material/Add';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -146,7 +147,7 @@ export default function Quotations() {
   };
 
   const downloadPDF = (id, quoteNumber) => {
-    window.open(`/api/quotations/${id}/pdf`, '_blank');
+    openPdfDocument(`/quotations/${id}/pdf`, `${quoteNumber || 'Quotation'}.pdf`);
   };
 
   return (

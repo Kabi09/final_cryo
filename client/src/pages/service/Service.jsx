@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client.js';
+import { openPdfDocument } from '../../utils/pdfHelper.js';
 
 import BuildIcon from '@mui/icons-material/Build';
 import AddIcon from '@mui/icons-material/Add';
@@ -184,8 +185,8 @@ export default function Service() {
     }
   };
 
-  const downloadReport = (id) => {
-    window.open(`/api/service/tickets/${id}/report-pdf`, '_blank');
+  const downloadReport = (id, ticketNumber) => {
+    openPdfDocument(`/service/tickets/${id}/report-pdf`, `${ticketNumber || 'Service-Report'}.pdf`);
   };
 
   return (

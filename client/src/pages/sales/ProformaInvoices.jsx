@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client.js';
+import { openPdfDocument } from '../../utils/pdfHelper.js';
 
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import AddIcon from '@mui/icons-material/Add';
@@ -49,8 +50,8 @@ export default function ProformaInvoices() {
     }
   };
 
-  const downloadPDF = (id) => {
-    window.open(`/api/proforma-invoices/${id}/pdf`, '_blank');
+  const downloadPDF = (id, piNumber) => {
+    openPdfDocument(`/proforma-invoices/${id}/pdf`, `${piNumber || 'PI-2026'}.pdf`);
   };
 
   return (
@@ -97,7 +98,7 @@ export default function ProformaInvoices() {
                   <td style={{ fontWeight: 700 }}>₹{pi.grandTotal.toLocaleString('en-IN')}</td>
                   <td><span className="status-badge success">{pi.status}</span></td>
                   <td>
-                    <button className="btn btn-secondary btn-sm" onClick={() => downloadPDF(pi._id)}>
+                    <button className="btn btn-secondary btn-sm" onClick={() => downloadPDF(pi._id, pi.piNumber)}>
                       <PictureAsPdfIcon fontSize="inherit" /> PDF
                     </button>
                   </td>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client.js';
+import { openPdfDocument } from '../../utils/pdfHelper.js';
 
 import VerifiedIcon from '@mui/icons-material/Verified';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
@@ -53,8 +54,8 @@ export default function QA() {
     }
   };
 
-  const downloadCert = (id) => {
-    window.open(`/api/qa/${id}/certificate-pdf`, '_blank');
+  const downloadCert = (id, certNumber) => {
+    openPdfDocument(`/qa/${id}/certificate-pdf`, `${certNumber || 'QA-Cert'}.pdf`);
   };
 
   return (

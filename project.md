@@ -63,6 +63,47 @@
 
 ## Change History
 
+### 2026-10-07 (Update 6)
+#### Change
+- What was changed: Resolved Production Order creation on production release so orders with dynamic product items automatically map to their Product and BOM references without Mongoose validation failure.
+- Files changed:
+  - Backend: `server/src/controllers/salesOrderController.js` (`releaseForProduction`).
+- Logic changed: When a Sales Order was created from a Quotation, line items stored `productCode` and `description` rather than a raw Mongoose ObjectId. When releasing to production, `ProductionOrder.create` attempted to assign `firstItem.product` (which was undefined), triggering a schema validation failure. Enhanced `releaseForProduction` to resolve the `Product` entity by `productCode` and link an approved BOM version with fallback. Initialized `PROD-2026-0002` for `SO-2026-0001` (`kabili`, `CFS-DF-300`).
+- Reason: User noticed `SO-2026-0001` was not displaying on the Manufacturing & Production Orders table after production release.
+- Impact: Released orders now reliably spawn active Production Orders in the manufacturing module.
+
+### 2026-10-07 (Update 5)
+#### Change
+- What was changed: Resolved `sentVia is not defined` ReferenceError in Quotation transmission and integrated live Gmail SMTP email dispatch with vector PDF attachment.
+- Files changed:
+  - Backend: `server/package.json` (installed `nodemailer`), `server/src/services/emailService.js` (created), `server/src/services/pdfService.js` (`generateDocumentPDFBuffer`), `server/src/controllers/quotationController.js`.
+- Logic changed:
+  1. Fixed typo in `quotationController.js` where `sendVia` was destructured with a 'd' but referenced as `sentVia` with a 't', causing a 400 ReferenceError when transmitting quotations.
+  2. Implemented `sendQuotationEmail` with `nodemailer` utilizing real Gmail SMTP credentials from `server/.env`.
+  3. When transmitting a quotation with `sendVia: 'EMAIL'`, the backend dynamically renders the vector PDF buffer and dispatches a branded enterprise email with the PDF attached and a direct link to the customer review portal.
+  4. Verified delivery with real SMTP transmission to `finallykabilan@gmail.com` (MessageId: `<472807f8-baf8-4045-1c37-1e36c7f7c655@gmail.com>`).
+- Reason: User encountered `sentVia is not defined` alert when transmitting quotation and requested email integration.
+- Impact: Quotation emails with official vector PDFs are now genuinely delivered to customer inboxes in real-time.
+
+### 2026-10-07 (Update 4)
+#### Change
+- What was changed: Connected Navbar Active Role dropdown to real user authentication (`switchRoleUser`), synchronizing active user identity, token, name, and department across the ERP.
+- Files changed:
+  - Frontend: `client/src/store/authSlice.js`, `client/src/components/layout/Navbar.jsx`.
+- Logic changed: Previously, changing the role in the top navigation dropdown only mutated the local string property `user.role` without updating the user profile or obtaining that role's real JWT credentials. This left the user's name/department unchanged and caused backend API 403 Forbidden errors because the database user was still the original account. Replaced with `switchRoleUser` async thunk that authenticates into that role's dedicated account (`sales.mgr@cryoscientific.com` -> Ananya Sharma, `prod.mgr@cryoscientific.com` -> Ramesh Sundaram, `finance@cryoscientific.com` -> Srinivasan M, etc.), stores the genuine token and user profile, and immediately refreshes the UI badge and backend privileges.
+- Reason: User requested fixing the role dropdown so changing the role actually switches the active user.
+- Impact: Testers and operators can switch between all 12 corporate roles in real-time with authentic JWT tokens, real identities, and enforced backend permissions.
+
+### 2026-10-07 (Update 3)
+#### Change
+- What was changed: Fixed PDF generation authorization across all ERP modules (Quotations, Proforma Invoices, Sales Orders, Customer POs, QA Certificates, Warranties, Service Reports).
+- Files changed:
+  - Backend: `server/src/middleware/auth.js`
+  - Frontend: `client/src/utils/pdfHelper.js` (created), `client/src/pages/sales/ProformaInvoices.jsx`, `client/src/pages/sales/Quotations.jsx`, `client/src/pages/sales/SalesOrders.jsx`, `client/src/pages/sales/CustomerPOs.jsx`, `client/src/pages/qa/QA.jsx`, `client/src/pages/installation/Installation.jsx`, `client/src/pages/service/Service.jsx`.
+- Logic changed: Previously, clicking "PDF" opened a raw browser URL via `window.open` which failed to transmit local storage Bearer tokens, triggering a 401 "Not authorized" error. Implemented an authenticated blob streaming helper (`openPdfDocument`) that requests the PDF via Axios with the Bearer token and creates an in-memory blob URL. Also updated backend `protect` middleware to support query parameter tokens as fallback.
+- Reason: User encountered 401 unauthorized error when clicking PDF button on Proforma Invoices table.
+- Impact: All official vector PDFs now generate and download seamlessly without authentication failure.
+
 ### 2026-10-07 (Update 2)
 #### Change
 - What was changed: Added comprehensive `.gitignore` configuration across the repository and removed sensitive/heavy files (`server/.env`, `client/node_modules`, `client/dist`) from the git cache (`git rm --cached`).

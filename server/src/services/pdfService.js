@@ -1,5 +1,21 @@
 import PDFDocument from 'pdfkit';
+import { PassThrough } from 'stream';
 import { COMPANY_PROFILE } from '../config/constants.js';
+
+export const generateDocumentPDFBuffer = (docType, data) => {
+  return new Promise(async (resolve, reject) => {
+    const stream = new PassThrough();
+    const chunks = [];
+    stream.on('data', chunk => chunks.push(chunk));
+    stream.on('end', () => resolve(Buffer.concat(chunks)));
+    stream.on('error', reject);
+    try {
+      await generateDocumentPDF(docType, data, stream);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 export const generateDocumentPDF = (docType, data, stream) => {
   return new Promise((resolve, reject) => {

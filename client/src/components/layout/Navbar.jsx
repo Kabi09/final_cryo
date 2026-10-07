@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout, switchRoleDemo } from '../../store/authSlice.js';
+import { logout, switchRoleUser } from '../../store/authSlice.js';
 import api from '../../api/client.js';
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -43,8 +43,13 @@ export default function Navbar() {
     navigate('/login');
   };
 
-  const handleRoleChange = (e) => {
-    dispatch(switchRoleDemo(e.target.value));
+  const handleRoleChange = async (e) => {
+    const newRole = e.target.value;
+    try {
+      await dispatch(switchRoleUser(newRole)).unwrap();
+    } catch (err) {
+      console.error('Failed to switch user account for role:', err);
+    }
   };
 
   return (

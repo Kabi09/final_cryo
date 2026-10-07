@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client.js';
+import { openPdfDocument } from '../../utils/pdfHelper.js';
 
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -56,8 +57,8 @@ export default function SalesOrders() {
     }
   };
 
-  const downloadPDF = (id) => {
-    window.open(`/api/sales-orders/${id}/pdf`, '_blank');
+  const downloadPDF = (id, soNumber) => {
+    openPdfDocument(`/sales-orders/${id}/pdf`, `${soNumber || 'SO-2026'}.pdf`);
   };
 
   return (
@@ -122,7 +123,7 @@ export default function SalesOrders() {
                         </button>
                       )}
 
-                      <button className="btn btn-secondary btn-sm" onClick={() => downloadPDF(order._id)}>
+                      <button className="btn btn-secondary btn-sm" onClick={() => downloadPDF(order._id, order.soNumber)} title="Download Sales Order PDF">
                         <PictureAsPdfIcon fontSize="inherit" />
                       </button>
 
