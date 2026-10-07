@@ -1,0 +1,64 @@
+# ==============================================================================
+# Git Ignore Configuration - Cryo Scientific Systems ERP
+# ==============================================================================
+
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment Variables & Sensitive Credentials
+.env
+.env.*
+server/.env
+server/.env.local
+server/.env.development
+server/.env.production
+*.env
+*.env.*
+!*.env.example
+!.env.example
+
+# Production & Build Artifacts
+dist/
+client/dist/
+build/
+out/
+.parcel-cache/
+
+# Logs & Debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# IDE & Code Editor Configurations
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary and Cache Directories
+.cache/
+.eslintcache
+.stylelintcache
+tmp/
+temp/
+*.tmp

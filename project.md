@@ -63,7 +63,18 @@
 
 ## Change History
 
-### 2026-10-07
+### 2026-10-07 (Update 2)
+#### Change
+- What was changed: Added comprehensive `.gitignore` configuration across the repository and removed sensitive/heavy files (`server/.env`, `client/node_modules`, `client/dist`) from the git cache (`git rm --cached`).
+- Files changed:
+  - Root: `.gitignore`
+  - Client: `client/.gitignore`
+  - Server: `server/.gitignore`
+- Logic changed: Configured git to permanently ignore `node_modules/`, `dist/`, `.env`, OS artifacts (`.DS_Store`, `Thumbs.db`), editor configs (`.vscode/`, `.idea/`), and log files across both frontend and backend modules while keeping `.env.example` as a template for deployment.
+- Reason: User requested adding git ignore to protect secrets, prevent committing heavy build outputs, and ensure clean version control.
+- Impact: Repository is clean and ready for version control without accidental leaks of environment secrets or 40,000+ dependency files.
+
+### 2026-10-07 (Update 1)
 #### Change
 - What was changed: Built complete, production-ready MERN ERP web application from end to end.
 - Files changed:
@@ -80,6 +91,7 @@
   - Vector PDF engine operational for all business documents.
   - React/Vite frontend running on port 5173 with all modules, cross-linking, and public tracking portals.
   - Browser verification executed: login, dashboard metrics, quotations versioning, and 13-milestone tracking validated in real browser.
+  - `.gitignore` configured across root, client, and server; cached `node_modules` and `.env` safely untracked.
 - In Progress: Ready for production deployment and user operations.
 - Pending: Client external credential configuration (SMTP, WhatsApp API) when going live.
 
@@ -90,3 +102,6 @@
 - Reason: Strict security requirement protecting internal Mongo ObjectIds, profit margins, and internal notes from public exposure.
 - Decision: Centralized RBAC enforcement at both API middleware and frontend UI levels with an interactive header role switcher for testing.
 - Reason: Guarantees sensitive operations like commercial price revisions and production releases are protected while allowing testers to test any role in one click.
+- Decision: Repository-wide `.gitignore` protecting credentials and build artifacts.
+- Reason: Prevents committing sensitive credentials (`.env`), heavy `node_modules/`, and build artifacts into version control while retaining `.env.example` templates.
+
