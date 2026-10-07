@@ -63,6 +63,15 @@
 
 ## Change History
 
+### 2026-10-07 (Update 8)
+#### Change
+- What was changed: Resolved `Product is not defined` ReferenceError in `salesOrderController.js` when triggering production release (`PUT /api/sales-orders/:id/release-production`).
+- Files changed:
+  - Backend Controller: `server/src/controllers/salesOrderController.js`.
+- Logic changed: `releaseForProduction` references `Product` to resolve product codes and link active BOMs when auto-initializing Production Orders. However, `import { Product } from '../models/Product.js'` was missing from the file imports, throwing a runtime `ReferenceError: Product is not defined` when an operator clicked the **Release** button in the Sales Orders dashboard. Added the model import, restarted Node server with `--watch` mode, and verified that production order `PROD-2026-0009` was successfully generated with HTTP 200.
+- Reason: User encountered an alert popup `Product is not defined` on `localhost:5173/sales/orders` upon clicking Release.
+- Impact: Operators can now release orders to production smoothly without runtime exceptions.
+
 ### 2026-10-07 (Update 7)
 #### Change
 - What was changed: Complete decoupling of Product Master and Stores Inventory Master, with multi-select required material mapping, dynamic shortage calculation formula (`orderQty × unitReqQty - availableStock`), coverage status indicators (`FULL`, `PARTIAL`, `NONE`), and end-to-end integration across Product → Inventory → BOM → Material Planning → Procurement PR → Stores Issue → Production.

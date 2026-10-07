@@ -7,6 +7,7 @@ import { Shipment, TaxInvoice } from '../models/Dispatch.js';
 import { Installation, Warranty } from '../models/Installation.js';
 import { ServiceTicket } from '../models/ServiceTicket.js';
 import { AuditLog } from '../models/AuditLog.js';
+import { Product } from '../models/Product.js';
 import { BOM } from '../models/BOM.js';
 import { getNextSequence } from '../services/numberingService.js';
 import { generateDocumentPDF } from '../services/pdfService.js';
