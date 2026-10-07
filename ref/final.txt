@@ -1,0 +1,10208 @@
+1. LEAD — Complete Workflow
+NEW LEAD
+   ↓
+Capture Lead Details
+   ↓
+Lead Qualification
+   ↓
+Assign Sales Person
+   ↓
+Follow-up
+   ↓
+Customer Response?
+   ├── No → Follow-up again
+   │
+   └── Yes
+        ↓
+     Interested?
+       ├── No → Mark LOST
+       │
+       └── Yes
+            ↓
+         Create/Convert to ENQUIRY
+            ↓
+         Move to QUOTATION
+
+The source document defines the high-level Marketing flow as:
+Lead → Follow-up → Enquiry → Sales → Won/Lost. Cryo Scientific Systems Pvt Ltd
+The detailed ERP document expands this into qualification, customer identification, quotation creation, negotiation, acceptance, and subsequent sales stages. ERP_Client_Business_Workflow_Do…
+2. Step 1 — Create Lead
+A lead is the first record of a potential business opportunity.
+For example:
+ABC Hospital contacts Cryo Scientific Systems and says:
+“We need a -80°C deep freezer.”
+
+Sales employee creates a Lead.
+Lead form
+Lead Information
+────────────────────────────
+Lead Number:     LEAD-000001
+Lead Date:       06-10-2026
+
+Lead Source:     Website
+Lead Type:       New Customer
+
+Customer Name:   ABC Hospital
+Contact Person:  Dr. Kumar
+Phone:           9876543210
+Email:           abc@hospital.com
+
+Requirement:
+-80°C Deep Freezer
+
+Quantity:        2
+
+Expected Value:  ₹8,00,000
+
+Expected Date:   20-10-2026
+
+Assigned To:     Sales Executive
+
+Priority:        High
+
+Remarks:
+Customer requires quotation urgently.
+
+Initial status
+Lead Status = NEW
+
+3. Step 2 — Lead Qualification
+Creating a lead does not mean the customer is ready to buy.
+Salesperson needs to understand whether the lead is genuine and useful.
+The salesperson checks:
+Customer requirement
+        ↓
+Product required?
+        ↓
+Quantity?
+        ↓
+Budget / expected value?
+        ↓
+Expected purchase date?
+        ↓
+Decision maker?
+        ↓
+Customer contact information?
+        ↓
+Is this a genuine opportunity?
+
+Example
+Salesperson calls ABC Hospital:
+“How many freezers do you require?”
+
+Customer:
+“2 units.”
+
+Salesperson:
+“When do you need them?”
+
+Customer:
+“Within this month.”
+
+Now the Lead becomes qualified.
+Lead Status
+
+NEW
+ ↓
+QUALIFIED
+
+4. Step 3 — Existing Customer or New Customer?
+During lead qualification, the system should check:
+Does customer already exist?
+        ↓
+     YES ─────→ Select existing Customer
+        │
+       NO
+        ↓
+Create Customer
+
+This is important because the detailed workflow specifically requires checking whether the customer already exists and then selecting or creating the customer. ERP_Client_Business_Workflow_Do…
+Example
+If ABC Hospital already exists:
+Customer
+ABC Hospital
+Customer ID: CUST-000023
+
+The Lead is linked to that customer.
+If not:
+Create Customer
+        ↓
+CUST-000024
+        ↓
+Link Lead
+
+5. Step 4 — Assign Salesperson
+The Lead should have an owner.
+Lead
+  ↓
+Sales Manager
+  ↓
+Assign Sales Executive
+
+Example:
+Lead: LEAD-000001
+
+Assigned To:
+Kabilan - Sales Executive
+
+Manager:
+Sales Manager
+
+Now that salesperson is responsible for follow-ups.
+6. Step 5 — Follow-up
+This is a very important part of the Lead module.
+The salesperson should not simply create a Lead and forget it.
+Create a follow-up activity.
+Lead
+ ↓
+Follow-up
+ ↓
+Customer Contact
+ ↓
+Record Result
+
+Follow-up fields
+Follow-up Date
+Follow-up Type
+    ↓
+    Call
+    Email
+    Meeting
+    WhatsApp
+    Visit
+
+Assigned Employee
+
+Discussion
+
+Customer Response
+
+Next Follow-up Date
+
+Remarks
+
+Example:
+Date: 07-10-2026
+
+Type: Phone Call
+
+Discussion:
+Customer confirmed requirement for
+2 units of -80°C freezer.
+
+Response:
+Interested
+
+Next Follow-up:
+09-10-2026
+
+7. Step 6 — Customer Response
+After each follow-up, the salesperson records the result.
+There can be different outcomes.
+Case A — Customer is interested
+Follow-up
+    ↓
+Interested
+    ↓
+Continue Sales Process
+    ↓
+Enquiry
+
+Case B — Customer needs more time
+Follow-up
+    ↓
+Need More Time
+    ↓
+Set Next Follow-up
+    ↓
+Follow-up Again
+
+Case C — Customer is not interested
+Follow-up
+    ↓
+Not Interested
+    ↓
+Reason
+    ↓
+LEAD LOST
+
+Case D — Customer cannot be contacted
+Follow-up
+    ↓
+No Response
+    ↓
+Schedule Next Follow-up
+
+8. Lead Follow-up Loop
+This is where the Lead workflow becomes practical.
+                ┌──────────────────┐
+                │      LEAD        │
+                │  LEAD-000001     │
+                └────────┬─────────┘
+                         ↓
+                  Qualification
+                         ↓
+                    Follow-up
+                         ↓
+                 Customer Response
+                         ↓
+              ┌──────────┼──────────┐
+              ↓          ↓          ↓
+          Interested   Later      Not Interested
+              ↓          ↓          ↓
+           Enquiry    Follow-up    LOST
+              ↑          │
+              └──────────┘
+
+So “Follow-up” is not a separate unrelated page. It belongs to the Lead lifecycle.
+9. Step 7 — Convert Lead to Enquiry
+Suppose ABC Hospital says:
+“Yes, please send us your quotation for 2 units.”
+
+Now the Lead has become a genuine sales opportunity.
+LEAD
+ ↓
+QUALIFIED
+ ↓
+FOLLOW-UP
+ ↓
+CUSTOMER INTERESTED
+ ↓
+ENQUIRY
+
+The system should retain the relationship:
+Lead
+LEAD-000001
+      ↓
+Enquiry
+ENQ-000001
+      ↓
+Quotation
+QT-000001
+
+Do not delete the Lead after conversion.
+The history should remain.
+10. What Happens After Lead?
+Once the Lead becomes an Enquiry, the process moves into the Sales/Quotation workflow:
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+QUOTATION APPROVAL
+ ↓
+SEND TO CUSTOMER
+ ↓
+NEGOTIATION
+ ↓
+QUOTATION REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+
+The detailed source explicitly requires quotation creation after qualification/customer identification, internal approval, sending to customer, negotiation/revision where necessary, and customer acceptance before moving forward. ERP_Client_Business_Workflow_Do…
+11. Lead Page — What Should the ERP Screen Contain?
+Lead List
+---------------------------------------------------------------
+LEADS
+---------------------------------------------------------------
++ Create Lead
+
+Search | Filter | Status | Assigned To | Date
+
+Lead No.     Customer       Requirement       Value    Status
+----------------------------------------------------------------
+LEAD-000001  ABC Hospital   -80°C Freezer     ₹8L      Qualified
+LEAD-000002  XYZ Lab        Refrigerator      ₹4L      Follow-up
+LEAD-000003  DEF College    Freezer            ₹6L      Lost
+
+12. Lead Details Page
+When clicking LEAD-000001:
+┌─────────────────────────────────────────────┐
+│ LEAD-000001                  QUALIFIED       │
+├─────────────────────────────────────────────┤
+│ Customer                                     │
+│ ABC Hospital                                 │
+│                                              │
+│ Contact Person: Dr. Kumar                    │
+│ Phone: 9876543210                             │
+│ Email: abc@hospital.com                      │
+│                                              │
+│ Requirement                                  │
+│ -80°C Deep Freezer                           │
+│ Quantity: 2                                  │
+│                                              │
+│ Assigned To: Sales Executive                 │
+└─────────────────────────────────────────────┘
+
+Then tabs:
+Overview
+Follow-ups
+Activities
+Notes
+Documents
+Enquiry
+Quotation
+Timeline
+
+13. Lead Status
+A practical status flow based on the source workflow:
+NEW
+ ↓
+QUALIFIED
+ ↓
+FOLLOW-UP
+ ↓
+INTERESTED
+ ↓
+ENQUIRY
+ ↓
+CONVERTED
+
+Alternative ending:
+NEW
+ ↓
+QUALIFIED
+ ↓
+FOLLOW-UP
+ ↓
+NOT INTERESTED
+ ↓
+LOST
+
+Or:
+FOLLOW-UP
+ ↓
+NO RESPONSE
+ ↓
+FOLLOW-UP AGAIN
+
+14. Very Important: Don't Mix Lead and Customer
+These are different concepts.
+Lead
+Potential business opportunity.
+"ABC Hospital may buy 2 freezers."
+
+Customer
+Actual business entity/master record.
+ABC Hospital
+Customer ID: CUST-000023
+
+Enquiry
+Specific requirement/opportunity.
+ABC Hospital requires
+2 × -80°C Freezer
+
+Quotation
+Commercial offer.
+2 × Freezer
+Price
+Tax
+Delivery
+Warranty
+Payment Terms
+
+So:
+LEAD
+  ↓
+CUSTOMER + ENQUIRY
+  ↓
+QUOTATION
+
+15. Complete Lead Workflow Example
+Let's take one real example.
+Day 1
+ABC Hospital contacts Cryo.
+Create Lead
+
+LEAD-000001
+Customer: ABC Hospital
+Requirement: 2 × -80°C Freezer
+Source: Website
+Status: NEW
+
+Day 1
+Salesperson qualifies the requirement.
+Requirement confirmed
+Quantity confirmed
+Customer details confirmed
+
+Status → QUALIFIED
+
+Day 2
+Salesperson calls customer.
+Follow-up #1
+
+Customer: Interested
+Next Action: Prepare quotation
+
+Day 2
+Lead converts to enquiry.
+LEAD-000001
+       ↓
+ENQ-000001
+
+Day 2
+Quotation created.
+ENQ-000001
+       ↓
+QT-000001
+
+Customer negotiates
+QT-000001
+      ↓
+Revision Required
+      ↓
+QT-000001-R2
+      ↓
+Send Again
+
+Customer accepts
+Accepted
+   ↓
+Proforma Invoice
+   ↓
+Customer PO
+   ↓
+PO Verification
+   ↓
+Sales Order
+
+From there, Production → Procurement → Inventory → QA → Packing → Invoice → Dispatch → Installation → Warranty → Service continues.
+The most important concept
+The Lead page should not be designed as an isolated CRUD page.
+It should create the first link in the ERP transaction chain:
+                 SALES JOURNEY
+
+LEAD
+ │
+ ├── Customer
+ │
+ ├── Follow-ups
+ │
+ ├── Activities
+ │
+ └── Enquiry
+       │
+       ↓
+    QUOTATION
+       │
+       ↓
+   NEGOTIATION
+       │
+       ↓
+ QUOTATION REVISION
+       │
+       ↓
+ CUSTOMER ACCEPTANCE
+       │
+       ↓
+ PROFORMA INVOICE
+       │
+       ↓
+ CUSTOMER PO
+       │
+       ↓
+ PO VERIFICATION
+       │
+       ↓
+ SALES ORDER
+
+This is the first workflow I would implement in the ERP. The next workflow should be Enquiry → Quotation, including quotation creation, approval, sending, negotiation, revision, and resending.
+
+
+
+
+
+Next workflow
+Workflow 2 — ENQUIRY → QUOTATION
+After the Lead is qualified and the customer confirms that they have a genuine requirement, the next workflow is Enquiry → Quotation.
+
+LEAD
+ ↓
+QUALIFIED
+ ↓
+FOLLOW-UP
+ ↓
+CUSTOMER INTERESTED
+ ↓
+ENQUIRY
+ ↓
+CREATE QUOTATION
+ ↓
+INTERNAL QUOTATION APPROVAL
+ ↓
+SEND QUOTATION TO CUSTOMER
+ ↓
+CUSTOMER RESPONSE
+ ├── Negotiation / Changes
+ │      ↓
+ │   Revise Quotation
+ │      ↓
+ │   Approval
+ │      ↓
+ │   Send Again
+ │
+ ├── Accepted
+ │      ↓
+ │   Customer Acceptance
+ │
+ └── Rejected
+        ↓
+      LOST / CLOSED
+The ERP documentation specifically defines quotation creation after qualification, internal approval, sending to the customer, negotiation/revision when required, and acceptance before proceeding to the Proforma Invoice. 
+
+1. Create Enquiry
+Example:
+
+ABC Hospital has requested:
+
+2 × -80°C Deep Freezer
+
+The salesperson converts the qualified Lead into an Enquiry.
+
+LEAD-000001
+      ↓
+ENQ-000001
+Enquiry information
+Enquiry No:       ENQ-000001
+Enquiry Date:     06-10-2026
+
+Customer:
+ABC Hospital
+
+Contact Person:
+Dr. Kumar
+
+Requirement:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Expected Delivery:
+30-10-2026
+
+Source:
+Website
+
+Assigned Salesperson:
+Kabilan
+
+Status:
+OPEN
+2. Enquiry Qualification
+Before creating the quotation, Sales should understand exactly what the customer needs.
+
+Customer Requirement
+        ↓
+Product
+        ↓
+Specification
+        ↓
+Quantity
+        ↓
+Delivery Requirement
+        ↓
+Warranty Requirement
+        ↓
+Payment Requirement
+        ↓
+Other Customer Requirements
+For example:
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Temperature:
+-80°C
+
+Warranty:
+2 Years
+
+Delivery:
+Customer Location
+
+Installation:
+Required
+
+Expected Delivery:
+30 Days
+3. Check Product
+The salesperson selects the product from the Product Master.
+
+Enquiry
+   ↓
+Select Product
+   ↓
+Product Master
+   ↓
+-80°C Deep Freezer
+The system should pull the relevant product information rather than allowing inconsistent product names to be entered manually.
+
+4. Create Quotation
+Now the salesperson creates the quotation from the Enquiry.
+
+ENQ-000001
+     ↓
+Create Quotation
+     ↓
+QT-000001
+Quotation header
+Quotation No: QT-000001
+Date: 06-10-2026
+
+Customer:
+ABC Hospital
+
+Reference Enquiry:
+ENQ-000001
+
+Salesperson:
+Kabilan
+Quotation items
+----------------------------------------------------
+Product              Qty    Rate       Amount
+----------------------------------------------------
+-80°C Deep Freezer    2      ₹4,00,000  ₹8,00,000
+----------------------------------------------------
+
+Subtotal:                         ₹8,00,000
+Tax:                              ₹1,44,000
+--------------------------------------------
+Grand Total:                      ₹9,44,000
+Other commercial information:
+
+Payment Terms
+Delivery Terms
+Warranty Terms
+Validity
+Tax
+Discount
+Installation Charges
+Transport Charges
+Remarks
+5. Quotation Draft
+Initially:
+
+Quotation Status = DRAFT
+The salesperson can:
+
+Create
+ ↓
+Edit
+ ↓
+Save
+ ↓
+Preview
+But it should not yet be sent to the customer if the company requires internal approval.
+
+6. Internal Approval
+The source workflow specifies internal quotation approval before sending it to the customer. 
+
+So:
+
+DRAFT
+  ↓
+SUBMIT FOR APPROVAL
+  ↓
+SALES MANAGER
+  ↓
+APPROVED / REJECTED
+If approved
+APPROVED
+   ↓
+Ready to Send
+If rejected
+REJECTED
+   ↓
+Reason
+   ↓
+Salesperson edits
+   ↓
+Submit again
+Example:
+
+Manager says the discount is too high.
+
+QT-000001
+Status: REJECTED
+
+Reason:
+"Reduce discount from 10% to 5%."
+Salesperson edits the quotation and resubmits it.
+
+7. Send Quotation to Customer
+Once approved:
+
+APPROVED
+   ↓
+SEND TO CUSTOMER
+The system can generate a quotation document/PDF.
+
+QT-000001.pdf
+Record:
+
+Sent Date
+Sent By
+Sent To
+Email
+Document
+Status:
+
+SENT
+8. Customer Response
+Now the workflow waits for the customer.
+
+There are three major possibilities:
+
+             CUSTOMER RESPONSE
+                    │
+       ┌────────────┼────────────┐
+       ↓            ↓            ↓
+  Negotiation    Accepted     Rejected
+       │            │            │
+       ↓            ↓            ↓
+   Revision      Acceptance    Closed/Lost
+9. Case A — Customer Wants Negotiation
+Example:
+
+Customer says:
+
+“Price is high. Please reduce the price and give 3-year warranty.”
+
+Do not overwrite the original quotation.
+
+Instead:
+
+QT-000001
+    ↓
+Revision Required
+    ↓
+QT-000001-R2
+The source specifically requires quotation revisions to preserve previous versions, with only the final accepted revision moving forward. 
+
+10. Quotation Revision
+Original
+QT-000001-R1
+
+Price:
+₹4,00,000
+
+Warranty:
+2 Years
+
+Discount:
+5%
+Customer negotiation
+Customer requested:
+
+Price reduction
+Warranty increase
+New revision
+QT-000001-R2
+
+Price:
+₹3,80,000
+
+Warranty:
+3 Years
+
+Discount:
+8%
+The old revision remains available:
+
+QT-000001-R1 → Original
+QT-000001-R2 → Revised
+This gives complete history.
+
+11. Revision Approval
+The revised quotation goes through approval again.
+
+R2
+ ↓
+Submit
+ ↓
+Sales Manager
+ ↓
+Approve
+ ↓
+Send Customer
+If customer asks for another change:
+
+R2
+ ↓
+Customer Negotiation
+ ↓
+R3
+ ↓
+Approval
+ ↓
+Send
+So it can become:
+
+QT-000001-R1
+       ↓
+QT-000001-R2
+       ↓
+QT-000001-R3
+       ↓
+QT-000001-R4
+But only one version becomes FINAL ACCEPTED.
+
+12. Case B — Customer Accepts
+Suppose customer accepts:
+
+QT-000001-R3
+The system records:
+
+Quotation Status:
+ACCEPTED
+
+Accepted Revision:
+R3
+
+Accepted Date:
+10-10-2026
+
+Accepted By:
+ABC Hospital
+Then:
+
+QUOTATION ACCEPTED
+       ↓
+CUSTOMER ACCEPTANCE
+       ↓
+PROFORMA INVOICE
+The next workflow is therefore Proforma Invoice.
+
+13. Case C — Customer Rejects
+Customer says:
+
+“We decided not to purchase.”
+
+Then:
+
+Quotation
+   ↓
+Rejected
+   ↓
+Reason
+   ↓
+Closed / Lost
+Example:
+
+QT-000001
+
+Status:
+REJECTED
+
+Reason:
+Customer selected another supplier.
+The system should retain the history for reporting.
+
+14. Complete Quotation State Flow
+DRAFT
+  ↓
+PENDING APPROVAL
+  ↓
+APPROVED
+  ↓
+SENT
+  ↓
+CUSTOMER RESPONSE
+  │
+  ├───────────────┐
+  ↓               ↓
+NEGOTIATION     ACCEPTED
+  ↓               ↓
+REVISION       ACCEPTANCE
+  ↓               ↓
+APPROVAL       PROFORMA
+  ↓
+SEND AGAIN
+  ↓
+CUSTOMER RESPONSE
+Rejected path:
+
+SENT
+ ↓
+REJECTED
+ ↓
+CLOSED / LOST
+15. Important ERP Rule
+Never modify the accepted quotation directly.
+
+For example:
+
+Wrong ❌
+
+QT-000001
+Price changed
+Warranty changed
+Old data lost
+Instead:
+
+Correct ✅
+
+QT-000001-R1
+Original quotation
+
+        ↓
+
+QT-000001-R2
+First revision
+
+        ↓
+
+QT-000001-R3
+Final revision
+
+        ↓
+
+ACCEPTED
+This gives the company a complete negotiation history.
+
+16. Quotation Page
+The ERP should have:
+
+QUOTATIONS
+
++ Create Quotation
+
+Search
+Filter
+Status
+Customer
+Salesperson
+Date
+Example:
+
+-------------------------------------------------------------
+Quotation   Customer       Amount       Revision    Status
+-------------------------------------------------------------
+QT-000001   ABC Hospital   ₹9.44 L      R1          Sent
+QT-000002   XYZ Lab        ₹5.20 L      R2          Negotiation
+QT-000003   DEF Hospital   ₹7.80 L      R3          Accepted
+-------------------------------------------------------------
+17. Quotation Details Page
+When opening QT-000001:
+
+Quotation
+│
+├── Overview
+├── Customer
+├── Products
+├── Pricing
+├── Taxes
+├── Payment Terms
+├── Delivery Terms
+├── Warranty
+├── Revisions
+├── Negotiations
+├── Approvals
+├── Documents
+├── Communication
+└── Timeline
+Timeline
+06 Oct
+Quotation Created
+
+06 Oct
+Submitted for Approval
+
+06 Oct
+Approved by Sales Manager
+
+06 Oct
+Sent to Customer
+
+08 Oct
+Customer Requested Price Reduction
+
+08 Oct
+Revision R2 Created
+
+08 Oct
+R2 Approved
+
+09 Oct
+R2 Sent
+
+10 Oct
+Customer Accepted
+This timeline is extremely useful for the ERP.
+
+18. Final Workflow
+So the second workflow is:
+
+                    ENQUIRY
+                       ↓
+             Understand Requirement
+                       ↓
+              Select Customer
+                       ↓
+              Select Product
+                       ↓
+             Add Quantity/Specs
+                       ↓
+             Create Quotation
+                       ↓
+                   DRAFT
+                       ↓
+             Internal Approval
+                 ↙          ↘
+            REJECTED       APPROVED
+               ↓              ↓
+            Edit Again    Send Customer
+                              ↓
+                       Customer Response
+                              ↓
+              ┌───────────────┼───────────────┐
+              ↓               ↓               ↓
+         Negotiation       Accepted        Rejected
+              ↓               ↓               ↓
+        Create Revision   Acceptance       Close/Lost
+              ↓               ↓
+           Approval       Proforma Invoice
+              ↓
+        Send Again
+              ↓
+        Customer Response
+The chain so far
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+APPROVAL
+ ↓
+SEND CUSTOMER
+ ↓
+NEGOTIATION
+ ↓
+QUOTATION REVISION
+ ↓
+APPROVAL
+ ↓
+SEND AGAIN
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+Next workflow: PROFORMA INVOICE → CUSTOMER PO → PO VERIFICATION → SALES ORDER.
+
+Next workflow
+Workflow 3 — PROFORMA INVOICE → CUSTOMER PO → PO VERIFICATION → SALES ORDER
+After the customer accepts the final quotation, the next business process is the commercial order confirmation.
+
+FINAL QUOTATION ACCEPTED
+        ↓
+PROFORMA INVOICE
+        ↓
+SEND PI TO CUSTOMER
+        ↓
+CUSTOMER PO RECEIVED
+        ↓
+PO VERIFICATION
+        ↓
+    ┌───┴────┐
+    ↓        ↓
+MATCHED    MISMATCH
+    ↓        ↓
+APPROVE    HOLD
+    ↓        ↓
+SALES     CORRECTION
+ORDER        ↓
+    ↓      RE-VERIFY
+PAYMENT
+    ↓
+PRODUCTION RELEASE
+The source workflow specifies customer acceptance → proforma → customer PO → PO verification → sales order, with PO verification comparing the customer's PO against the quotation/proforma. 
+
+1. Customer Accepts Final Quotation
+Suppose the quotation process ended with:
+
+QT-000001-R3
+Status: ACCEPTED
+The system records:
+
+Accepted By:
+ABC Hospital
+
+Accepted Date:
+10-10-2026
+
+Accepted Revision:
+R3
+Important: only the accepted quotation revision can move forward.
+
+QT-R1 ❌
+QT-R2 ❌
+QT-R3 ✅ FINAL ACCEPTED
+2. Create Proforma Invoice
+Now Sales/Accounts creates the Proforma Invoice.
+
+Accepted Quotation
+        ↓
+Create PI
+        ↓
+PI-000001
+PI example
+PROFORMA INVOICE
+────────────────────────────
+
+PI No:       PI-000001
+Date:        10-10-2026
+
+Customer:
+ABC Hospital
+
+Reference:
+QT-000001-R3
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Subtotal:
+₹7,60,000
+
+Tax:
+₹1,36,800
+
+Total:
+₹8,96,800
+Also include:
+
+Payment Terms
+Delivery Terms
+Warranty Terms
+Tax
+Bank Details
+Validity
+Remarks
+3. Why Proforma Invoice?
+The PI acts as a commercial confirmation before the customer's formal PO.
+
+The customer can use the PI information to prepare their purchase order.
+
+So the relationship is:
+
+Quotation
+    ↓
+Proforma Invoice
+    ↓
+Customer Purchase Order
+The PI should maintain a reference to the accepted quotation.
+
+PI-000001
+     ↓
+QT-000001-R3
+4. Send Proforma Invoice
+After creation/approval:
+
+PI-000001
+    ↓
+Approve
+    ↓
+Generate PDF
+    ↓
+Send Customer
+Status:
+
+DRAFT
+ ↓
+APPROVED
+ ↓
+SENT
+Record:
+
+Sent Date
+Sent By
+Customer Contact
+Document
+5. Customer Creates Purchase Order
+Now ABC Hospital sends its official Purchase Order.
+
+Example:
+
+CUSTOMER PO
+
+PO Number:
+ABC/PO/2026/1025
+
+PO Date:
+11-10-2026
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+The ERP creates:
+
+Customer PO
+CPO-000001
+And links it:
+
+CPO-000001
+      ↓
+PI-000001
+      ↓
+QT-000001-R3
+6. Customer PO Is NOT Automatically Approved
+This is an important control.
+
+When the PO arrives:
+
+PO RECEIVED
+     ↓
+PO VERIFICATION
+The ERP must compare the customer's PO against the company's accepted commercial documents.
+
+The source specifically requires checking items such as product, quantity, price, tax, delivery terms, payment terms, warranty and customer details. 
+
+7. PO Verification
+The Accounts/Sales team opens:
+
+PO Verification
+PO: CPO-000001
+Then compares:
+
+Check	Accepted Quotation / PI	Customer PO	Result
+Customer	ABC Hospital	ABC Hospital	✅
+Product	-80°C Freezer	-80°C Freezer	✅
+Quantity	2	2	✅
+Price	₹3,80,000	₹3,80,000	✅
+Tax	18%	18%	✅
+Delivery	30 days	30 days	✅
+Payment	30% Advance	30% Advance	✅
+Warranty	3 years	3 years	✅
+Everything matches.
+
+PO Verification
+       ↓
+MATCHED
+       ↓
+APPROVE
+8. What If PO Has a Mismatch?
+This is very important.
+
+Suppose the accepted quotation says:
+
+Quantity = 2
+But customer PO says:
+
+Quantity = 3
+Then:
+
+PO
+ ↓
+Verification
+ ↓
+Mismatch ❌
+ ↓
+HOLD
+The ERP should not create a confirmed Sales Order automatically.
+
+Instead:
+
+PO Verification
+     ↓
+MISMATCH
+     ↓
+Select Reason
+     ↓
+Notify Sales
+     ↓
+Customer Correction / Internal Approval
+     ↓
+Re-verify
+The source explicitly says mismatches should be placed on hold, corrected, and re-verified. 
+
+9. Example of PO Mismatch
+Quotation:
+
+Quantity: 2
+Price: ₹3,80,000
+Warranty: 3 Years
+Customer PO:
+
+Quantity: 2
+Price: ₹3,50,000 ❌
+Warranty: 3 Years
+System displays:
+
+⚠ PO Mismatch
+
+Price Difference:
+Quotation: ₹3,80,000
+PO:        ₹3,50,000
+
+Status:
+ON HOLD
+
+Action:
+Resolve Mismatch
+Salesperson contacts customer.
+
+Possible result:
+
+Option A — Customer corrects PO
+Old PO
+ ↓
+Corrected PO
+ ↓
+Re-verify
+ ↓
+MATCHED
+Option B — Company accepts the difference
+Only if company policy/authorized approval allows it:
+
+Mismatch
+ ↓
+Authorized Approval
+ ↓
+Override
+ ↓
+PO Approved
+The exact override policy should be confirmed with the client rather than assumed.
+
+10. PO Verification Approval
+Once everything matches:
+
+PO RECEIVED
+     ↓
+VERIFY
+     ↓
+ALL CONDITIONS MATCH
+     ↓
+APPROVE
+Status:
+
+PO Status = VERIFIED
+Now the system can move to Sales Order.
+
+11. Create Sales Order
+Verified Customer PO
+        ↓
+Create Sales Order
+        ↓
+SO-000001
+The Sales Order becomes the internal execution order.
+
+Example:
+
+SALES ORDER
+
+SO No: SO-000001
+
+Customer:
+ABC Hospital
+
+Reference:
+CPO-000001
+
+Quotation:
+QT-000001-R3
+
+PI:
+PI-000001
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Value:
+₹8,96,800
+12. Important Relationship
+The ERP should preserve the complete chain:
+
+LEAD-000001
+      ↓
+ENQ-000001
+      ↓
+QT-000001
+      ↓
+QT-000001-R2
+      ↓
+QT-000001-R3 ✅
+      ↓
+PI-000001
+      ↓
+CPO-000001
+      ↓
+PO Verification
+      ↓
+SO-000001
+This is extremely important for traceability.
+
+If someone opens SO-000001, they should be able to see:
+
+Which customer?
+Which PO?
+Which PI?
+Which quotation?
+Which quotation revision?
+Which lead?
+
+13. Payment Stage
+After Sales Order, payment becomes the next important gate.
+
+Example:
+
+SO-000001
+     ↓
+Payment Required
+     ↓
+Customer Payment
+Possible states include:
+
+PENDING
+PARTIAL
+RECEIVED
+VERIFIED
+FAILED
+REVERSED
+OVERPAYMENT
+SHORT PAYMENT
+REFUND
+The source explicitly includes these payment exceptions. 
+
+14. Example — 30% Advance
+Suppose:
+
+Sales Order Value = ₹8,96,800
+
+Advance Required = 30%
+Required advance:
+
+₹8,96,800 × 30%
+= ₹2,69,040
+Customer pays:
+
+₹2,69,040
+Then:
+
+PAYMENT RECEIVED
+       ↓
+PAYMENT VERIFIED
+       ↓
+PRODUCTION RELEASE
+However, whether production can start before full/partial payment is a client-configurable business rule, and the source identifies this as a point requiring client confirmation. 
+
+So don't hard-code:
+
+“30% payment always required.”
+
+Instead make it configurable.
+
+15. Payment Failure Example
+Customer payment fails:
+
+SO-000001
+    ↓
+Payment
+    ↓
+FAILED
+The Sales Order remains:
+
+Payment Status = FAILED
+Production should not automatically proceed if the company's payment-release policy blocks production.
+
+16. Partial Payment
+Customer pays only ₹1,50,000 instead of ₹2,69,040.
+
+Required:  ₹2,69,040
+Received:  ₹1,50,000
+Balance:   ₹1,19,040
+Status:
+
+PARTIAL PAYMENT
+Then:
+
+Partial
+   ↓
+Balance Pending
+   ↓
+Receive Remaining
+   ↓
+Verified
+Whether production can proceed at this stage depends on the configured payment-release rule.
+
+17. Final Workflow
+                QUOTATION ACCEPTED
+                        ↓
+                PROFORMA INVOICE
+                        ↓
+                   PI APPROVAL
+                        ↓
+                 SEND TO CUSTOMER
+                        ↓
+                CUSTOMER PO RECEIVED
+                        ↓
+                  PO VERIFICATION
+                        ↓
+              ┌─────────┴─────────┐
+              ↓                   ↓
+           MATCHED             MISMATCH
+              ↓                   ↓
+          APPROVE                HOLD
+              ↓                   ↓
+        SALES ORDER           CORRECTION
+              ↓                   ↓
+           PAYMENT             RE-VERIFY
+              ↓                   │
+        ┌─────┴─────┐             │
+        ↓           ↓             │
+     VERIFIED    FAILED           │
+        ↓           ↓             │
+   PRODUCTION    RESOLVE          │
+    RELEASE      PAYMENT          │
+        ↑                         │
+        └─────────────────────────┘
+So far, the complete business chain is:
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+QUOTATION APPROVAL
+ ↓
+CUSTOMER
+ ↓
+NEGOTIATION
+ ↓
+QUOTATION REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+ ↓
+PAYMENT
+ ↓
+PAYMENT VERIFICATION
+ ↓
+PRODUCTION RELEASE
+Next workflow: SALES ORDER → PRODUCTION ORDER → BOM → MATERIAL REQUEST → STOCK CHECK → MATERIAL ISSUE / PROCUREMENT. This is where the Sales process connects directly to Production + Inventory + Procurement.
+
+Next workflow
+Workflow 4 — SALES ORDER → PRODUCTION → BOM → MATERIAL REQUEST
+Now we move from the Sales/Commercial side into the Production + Inventory + Procurement side.
+
+The key idea is:
+
+A confirmed Sales Order creates the requirement for Production. Production determines what materials are required, and the ERP checks whether those materials are available in Store.
+
+The source workflow defines:
+
+Sales Order → Production → BOM/Materials → Material Request → Inventory Check → Issue Material if available / Procurement if unavailable. 
+
+1. Sales Order Is Confirmed
+From the previous workflow:
+
+Customer PO
+     ↓
+PO Verification
+     ↓
+Sales Order
+     ↓
+Payment Verification
+     ↓
+Production Release
+Example:
+
+SO-000001
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Status:
+CONFIRMED
+Now Production receives this requirement.
+
+2. Create Production Order
+Production should not manually re-enter the customer's order.
+
+Instead:
+
+SO-000001
+     ↓
+Create Production Order
+     ↓
+PROD-000001
+Example:
+
+Production Order
+────────────────────────────
+
+Production No:
+PROD-000001
+
+Sales Order:
+SO-000001
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Required Date:
+30-10-2026
+
+Status:
+READY
+The Production Order should retain the Sales Order reference.
+
+SO-000001
+     ↓
+PROD-000001
+3. Production Planning
+Production Manager reviews the order.
+
+Questions:
+
+What product?
+      ↓
+How many?
+      ↓
+When required?
+      ↓
+Which BOM?
+      ↓
+What materials?
+      ↓
+What is available?
+      ↓
+What must be purchased?
+Example:
+
+Product:
+-80°C Deep Freezer
+
+Production Quantity:
+2
+
+BOM:
+BOM-FREEZER-80-V2
+4. BOM — Bill of Materials
+The BOM tells Production what materials are required to manufacture the product.
+
+For example:
+
+-80°C Deep Freezer — BOM
+────────────────────────────────
+
+Material                     Qty / Unit
+
+Compressor                   1
+Controller                   1
+Temperature Sensor           1
+Evaporator Coil              1
+Condenser                    1
+Insulation                   2
+Copper Pipe                  X
+Electrical Panel             1
+Door Assembly                1
+Fasteners                    X
+Refrigerant                  X
+For 2 finished products:
+
+Required Quantity
+=
+BOM Quantity × Production Quantity
+So if:
+
+Compressor = 1 per freezer
+Production = 2
+Required:
+
+2 compressors
+5. BOM Version
+The source specifically requires BOM version control. 
+
+So don't simply overwrite an old BOM.
+
+Example:
+
+BOM-FREEZER-80-V1
+        ↓
+BOM-FREEZER-80-V2
+Production Order should record which BOM version was used:
+
+PROD-000001
+
+BOM:
+BOM-FREEZER-80-V2
+This is important for future traceability.
+
+6. Create Material Request
+After BOM is confirmed:
+
+Production Order
+       ↓
+BOM
+       ↓
+Calculate Required Materials
+       ↓
+Material Request
+Example:
+
+MR-000001
+
+Production Order:
+PROD-000001
+
+Requested By:
+Production Department
+
+Purpose:
+Manufacture 2 × -80°C Freezers
+Material Request
+------------------------------------------------
+Material             Required Qty
+------------------------------------------------
+Compressor                 2
+Controller                 2
+Sensor                     2
+Evaporator Coil            2
+Condenser                  2
+Copper Pipe               20m
+Insulation                 10
+------------------------------------------------
+7. Inventory Check
+Now Store receives the Material Request.
+
+The ERP checks stock for each required material.
+
+Material Request
+       ↓
+Store
+       ↓
+Check Inventory
+There are three important situations:
+
+             STOCK CHECK
+                  │
+        ┌─────────┼─────────┐
+        ↓         ↓         ↓
+       FULL     PARTIAL     NONE
+        ↓         ↓         ↓
+      ISSUE    ISSUE      PURCHASE
+     ALL       AVAILABLE  REQUIRED
+The source explicitly defines full stock, partial stock, and no stock paths. 
+
+8. Case A — Full Stock Available
+Example:
+
+Required:
+2 Compressors
+
+Available:
+5 Compressors
+Therefore:
+
+Required = 2
+Available = 5
+Store can issue 2.
+
+Material Request
+      ↓
+Stock Available
+      ↓
+Approve Material Issue
+      ↓
+Issue 2 Compressors
+Inventory becomes:
+
+Before: 5
+Issued: 2
+Balance: 3
+9. Material Issue
+Create a Material Issue transaction.
+
+MI-000001
+
+Production Order:
+PROD-000001
+
+Material:
+Compressor
+
+Requested:
+2
+
+Issued:
+2
+
+Warehouse:
+Main Store
+
+Issued To:
+Production
+Stock transaction:
+
+STOCK OUT
+
+Compressor
+-2
+The material is now physically transferred from Store to Production.
+
+10. Case B — Partial Stock
+This is very important.
+
+Suppose Production requires:
+
+Compressors = 2
+Store has:
+
+Available = 1
+Then:
+
+Required = 2
+Available = 1
+Shortage = 1
+The ERP should not simply reject the entire request.
+
+Instead:
+
+Material Request
+       ↓
+Partial Stock
+       ↓
+Issue Available Quantity
+       ↓
+1 Compressor
+       ↓
+Create Procurement Requirement
+       ↓
+Purchase 1 Compressor
+This is explicitly supported by the source workflow. 
+
+11. Case C — No Stock
+Example:
+
+Required:
+2 Controllers
+
+Available:
+0
+Then:
+
+Material Request
+       ↓
+No Stock
+       ↓
+Procurement Required
+The shortage goes to Procurement.
+
+Production
+   ↓
+Material Request
+   ↓
+Store
+   ↓
+No Stock
+   ↓
+Purchase Request
+12. Material Decision Table
+For every material:
+
+Required	Available	Result
+10	10	Full Issue
+10	15	Full Issue
+10	5	Partial Issue + Procurement
+10	0	Procurement
+10	8	Issue 8 + Procure 2
+This decision should be handled by the ERP automatically.
+
+13. Example — Complete Material Request
+Production needs:
+
+2 × -80°C Freezers
+BOM calculates:
+
+Material	Required	Stock	Decision
+Compressor	2	5	Issue 2
+Controller	2	2	Issue 2
+Sensor	2	1	Issue 1 + Procure 1
+Evaporator	2	0	Procure 2
+Copper Pipe	20m	30m	Issue 20m
+Insulation	10	6	Issue 6 + Procure 4
+So the ERP splits the requirement:
+
+             MATERIAL REQUEST
+                    │
+       ┌────────────┴─────────────┐
+       ↓                          ↓
+   AVAILABLE                    SHORTAGE
+       ↓                          ↓
+ MATERIAL ISSUE             PROCUREMENT
+       ↓                          ↓
+Production                 Purchase Request
+14. Production Should Not Continue Blindly
+Suppose Production requires:
+
+10 materials
+and 3 materials are unavailable.
+
+The ERP should show:
+
+Production Order: PROD-000001
+
+Material Readiness
+────────────────────────────
+
+Available:       7
+Shortage:        3
+
+Production Status:
+MATERIAL SHORTAGE
+Production can then see exactly what is blocking the order.
+
+15. Production Status
+A useful production lifecycle from the source is:
+
+READY
+  ↓
+FABRICATION
+  ↓
+REFRIGERATION
+  ↓
+ELECTRICAL
+  ↓
+ASSEMBLY
+  ↓
+COMPLETED
+The source explicitly defines these production operations. 
+
+But before actual manufacturing starts:
+
+Production Order
+      ↓
+BOM
+      ↓
+Material Request
+      ↓
+Material Availability
+      ↓
+Material Issue / Procurement
+      ↓
+Materials Ready
+      ↓
+Production
+16. Production + Inventory + Procurement Connection
+This is one of the most important ERP connections.
+
+                 SALES ORDER
+                      ↓
+               PRODUCTION ORDER
+                      ↓
+                     BOM
+                      ↓
+              MATERIAL REQUEST
+                      ↓
+                STORE CHECK
+                      ↓
+             ┌────────┴────────┐
+             ↓                 ↓
+        STOCK AVAILABLE      SHORTAGE
+             ↓                 ↓
+        MATERIAL ISSUE     PURCHASE REQUEST
+             ↓                 ↓
+         PRODUCTION        RFQ
+                               ↓
+                       VENDOR QUOTATION
+                               ↓
+                       VENDOR SELECTION
+                               ↓
+                         VENDOR PO
+                               ↓
+                            GRN
+                               ↓
+                           STORE IN
+                               ↓
+                       MATERIAL AVAILABLE
+                               ↓
+                       MATERIAL ISSUE
+                               ↓
+                           PRODUCTION
+The procurement portion continues through Purchase Request → RFQ → Vendor Quotations → comparison/selection → Vendor PO → delivery → GRN → inventory. 
+
+17. Example End-to-End
+ABC Hospital ordered:
+
+2 × -80°C Freezer
+Sales
+SO-000001
+Production
+PROD-000001
+BOM
+BOM-FREEZER-80-V2
+Material Request
+MR-000001
+Store checks
+Compressor       5 available → Issue 2
+Controller       2 available → Issue 2
+Sensor           1 available → Issue 1 + Purchase 1
+Evaporator       0 available → Purchase 2
+Copper Pipe     30m available → Issue 20m
+Result
+             MATERIAL READINESS
+
+Compressor       ✅
+Controller       ✅
+Sensor           ⚠ Partial
+Evaporator       ❌
+Copper Pipe      ✅
+Procurement now handles the shortages.
+
+18. Important Database Relationship
+The ERP should preserve the entire chain:
+
+SO-000001
+    ↓
+PROD-000001
+    ↓
+BOM-V2
+    ↓
+MR-000001
+    ↓
+Material Issue
+    ↓
+Stock Transactions
+    ↓
+Purchase Request
+    ↓
+Vendor PO
+    ↓
+GRN
+    ↓
+Stock
+This means someone can later open the Production Order and answer:
+
+Where did the materials come from?
+
+and:
+
+Which Sales Order caused this production?
+
+19. Final Workflow
+╔══════════════════════════════════════════╗
+║          SALES ORDER CONFIRMED           ║
+╚════════════════════╤═════════════════════╝
+                     ↓
+              PRODUCTION ORDER
+                     ↓
+                   BOM
+                     ↓
+          CALCULATE MATERIALS
+                     ↓
+             MATERIAL REQUEST
+                     ↓
+              STORE CHECK STOCK
+                     ↓
+          ┌──────────┼──────────┐
+          ↓          ↓          ↓
+        FULL       PARTIAL      NONE
+          ↓          ↓          ↓
+        ISSUE      ISSUE      PURCHASE
+        ALL       AVAILABLE    REQUIRED
+                     ↓
+                SHORTAGE
+                     ↓
+             PURCHASE REQUEST
+                     ↓
+                   RFQ
+                     ↓
+            VENDOR QUOTATIONS
+                     ↓
+              VENDOR SELECTION
+                     ↓
+                VENDOR PO
+                     ↓
+                  DELIVERY
+                     ↓
+                    GRN
+                     ↓
+              STORE / INVENTORY
+                     ↓
+             MATERIAL AVAILABLE
+                     ↓
+              MATERIAL ISSUE
+                     ↓
+             MATERIALS READY
+                     ↓
+                PRODUCTION
+Overall ERP chain so far
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+NEGOTIATION / REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+ ↓
+PAYMENT
+ ↓
+PRODUCTION ORDER
+ ↓
+BOM
+ ↓
+MATERIAL REQUEST
+ ↓
+STOCK CHECK
+ ├── FULL → MATERIAL ISSUE
+ ├── PARTIAL → ISSUE + PROCUREMENT
+ └── NONE → PROCUREMENT
+ ↓
+MATERIALS READY
+ ↓
+PRODUCTION
+Next workflow: PROCUREMENT → RFQ → VENDOR QUOTATION → COMPARISON → VENDOR SELECTION → VENDOR PO → GRN → INVENTORY.
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+Workflow 5 — PROCUREMENT: PURCHASE REQUEST → RFQ → VENDOR QUOTATION → VENDOR PO → GRN
+This workflow starts when Production/Store identifies a material shortage.
+The source defines the procurement chain as:
+Purchase Request → RFQ → Vendor Quotations → Comparison → Vendor Selection → Vendor PO → Delivery → GRN → Inventory. ERP_Client_Business_Workflow_Do…
+1. Material Shortage Creates Purchase Request
+From the previous workflow:
+Production Order
+      ↓
+BOM
+      ↓
+Material Request
+      ↓
+Store Stock Check
+      ↓
+Material Shortage
+      ↓
+Purchase Request
+
+Example:
+MR-000001
+
+Required:
+2 Sensors
+
+Available:
+1 Sensor
+
+Shortage:
+1 Sensor
+
+The system creates:
+PR-000001
+Purchase Request
+
+Purchase Request
+Purchase Request: PR-000001
+
+Requested By:
+Production
+
+Reference:
+PROD-000001
+
+Material:
+Temperature Sensor
+
+Required Qty:
+1
+
+Reason:
+Production shortage
+
+Priority:
+High
+
+Status:
+PENDING
+
+2. Purchase Request Approval
+The Purchase team receives the request.
+PR-000001
+     ↓
+Review
+     ↓
+Approve / Reject
+
+If approved:
+APPROVED
+   ↓
+Create RFQ
+
+If rejected:
+REJECTED
+   ↓
+Reason
+   ↓
+Return to Requester
+
+The exact approval hierarchy/threshold is a client-configurable point, so the ERP should make approval rules configurable rather than hard-code a specific amount.
+3. Create RFQ
+RFQ = Request for Quotation.
+The company asks one or more vendors:
+“Please provide your price and commercial terms for this material.”
+
+PR-000001
+     ↓
+RFQ
+     ↓
+RFQ-000001
+
+Example:
+RFQ-000001
+
+Material:
+Temperature Sensor
+
+Quantity:
+1
+
+Required Delivery:
+10 Days
+
+Specification:
+Required sensor specification
+
+Requested Terms:
+Price
+Tax
+Delivery
+Warranty
+Payment Terms
+
+4. Send RFQ to Vendors
+The purchasing employee selects suitable vendors.
+Example:
+RFQ-000001
+      │
+      ├── Vendor A
+      ├── Vendor B
+      └── Vendor C
+
+Each vendor receives the RFQ.
+RFQ
+ ↓
+Vendor
+ ↓
+Vendor submits quotation
+
+5. Vendor Quotation
+Suppose three vendors respond.
+Vendor A
+Price: ₹8,000
+Delivery: 7 days
+Warranty: 1 year
+Payment: 30 days
+
+Vendor B
+Price: ₹7,500
+Delivery: 15 days
+Warranty: 2 years
+Payment: Advance
+
+Vendor C
+Price: ₹8,200
+Delivery: 5 days
+Warranty: 1 year
+Payment: 30 days
+
+The ERP stores each quotation separately.
+RFQ-000001
+   │
+   ├── VQ-000001 → Vendor A
+   ├── VQ-000002 → Vendor B
+   └── VQ-000003 → Vendor C
+
+6. Vendor Comparison
+Now Purchase compares the vendors.
+The source says vendor selection should consider factors including price, quality, delivery, warranty, payment terms and vendor rating. ERP_Client_Business_Workflow_Do…
+The ERP should show something like:
+Criteria	Vendor A	Vendor B	Vendor C
+Price	₹8,000	₹7,500	₹8,200
+Delivery	7 days	15 days	5 days
+Warranty	1 year	2 years	1 year
+Payment	30 days	Advance	30 days
+Quality/Rating	Good	Good	Excellent
+
+
+So the cheapest vendor is not automatically selected.
+For example, Vendor C costs more but delivers faster and has a better rating.
+7. Vendor Selection
+Purchase decides which vendor should receive the order.
+Vendor Comparison
+       ↓
+Purchase Recommendation
+       ↓
+Approval
+       ↓
+Vendor Selected
+
+Example:
+Selected Vendor:
+Vendor C
+
+Reason:
+Fast delivery + excellent rating
+
+The system should record the reason for selection.
+Vendor Selection
+────────────────────────
+Vendor: Vendor C
+Selected By: Purchase Manager
+
+Reason:
+Required urgently for production.
+Vendor has reliable delivery history.
+
+8. Create Vendor PO
+After vendor selection:
+Selected Vendor
+      ↓
+Vendor Purchase Order
+      ↓
+VPO-000001
+
+Example:
+VENDOR PO
+
+PO No:
+VPO-000001
+
+Vendor:
+Vendor C
+
+Material:
+Temperature Sensor
+
+Quantity:
+1
+
+Rate:
+₹8,200
+
+Tax:
+Applicable Tax
+
+Delivery:
+5 Days
+
+Payment:
+30 Days
+
+Relationship:
+id="q1v2p3"
+PR-000001
+    ↓
+RFQ-000001
+    ↓
+Vendor Quotation
+    ↓
+Vendor Selection
+    ↓
+VPO-000001
+
+9. Vendor PO Approval
+Depending on company approval rules:
+VPO DRAFT
+    ↓
+SUBMIT
+    ↓
+APPROVAL
+    ↓
+APPROVED
+    ↓
+SEND TO VENDOR
+
+If rejected:
+REJECTED
+   ↓
+Edit
+   ↓
+Submit Again
+
+10. Vendor Accepts the Order
+The vendor receives:
+VPO-000001
+
+The vendor confirms:
+Order Accepted
+
+Now the ERP tracks the expected delivery.
+VPO-000001
+
+Ordered: 1
+Received: 0
+Pending: 1
+
+11. Vendor Delivery
+Vendor sends the material.
+Vendor
+  ↓
+Material Delivery
+  ↓
+Receiving / Store
+
+But receiving the physical material does not automatically mean the material is accepted into usable stock.
+It must go through GRN.
+12. GRN — Goods Receipt Note
+GRN records what actually arrived.
+Vendor Delivery
+      ↓
+GRN
+      ↓
+GRN-000001
+
+Example:
+GRN-000001
+
+Vendor:
+Vendor C
+
+Vendor PO:
+VPO-000001
+
+Ordered:
+1
+
+Received:
+1
+
+Accepted:
+1
+
+Rejected:
+0
+
+Damaged:
+0
+
+Warehouse:
+Main Store
+
+The source specifically requires GRN to capture ordered, received, accepted, rejected and damaged quantities, along with inspection and warehouse information. ERP_Client_Business_Workflow_Do…
+13. Partial Delivery
+A vendor may not deliver everything at once.
+Example:
+Vendor PO:
+10 units
+
+Vendor delivers:
+First delivery:
+6 units
+
+Then:
+GRN-000001
+
+Ordered: 10
+Received: 6
+Accepted: 6
+Pending: 4
+
+The PO must remain partially open.
+Later:
+Second delivery:
+4 units
+
+Create another GRN:
+GRN-000002
+
+Received: 4
+Accepted: 4
+
+Final status:
+Ordered: 10
+Received: 10
+Pending: 0
+
+VPO Status:
+FULLY RECEIVED
+
+The source explicitly says partial receipt must be supported and a PO should not be marked fully received while pending quantity remains. ERP_Client_Business_Workflow_Do…
+14. Damaged Material
+Suppose:
+Ordered: 10
+Received: 10
+
+But:
+Accepted: 8
+Damaged: 2
+
+Then:
+GRN
+ ↓
+Inspection
+ ↓
+8 Accepted
+2 Rejected/Damaged
+
+The ERP should retain this information.
+Possible next action:
+Damaged
+   ↓
+Vendor Return
+   ↓
+Replacement / Credit
+
+Vendor return is one of the documented exception workflows.
+15. Accepted Material Enters Inventory
+After GRN acceptance:
+GRN
+ ↓
+Accepted Quantity
+ ↓
+Inventory Stock-In
+
+Example:
+Before:
+Sensor = 1
+
+GRN:
+Received = 1
+Accepted = 1
+
+After:
+Sensor = 2
+
+Now the shortage from Production can be fulfilled.
+id="a7b8c9"
+Procurement
+    ↓
+GRN
+    ↓
+Inventory
+    ↓
+Material Available
+    ↓
+Material Issue
+    ↓
+Production
+
+16. Connect Back to Production
+This is the important ERP connection.
+Remember:
+PROD-000001
+     ↓
+MR-000001
+     ↓
+Sensor shortage
+
+Procurement solved that shortage:
+PR-000001
+     ↓
+RFQ
+     ↓
+Vendor Quotation
+     ↓
+VPO-000001
+     ↓
+GRN-000001
+     ↓
+Inventory
+
+Now:
+Inventory
+    ↓
+Material Issue
+    ↓
+PROD-000001
+
+So Procurement is not a separate module disconnected from Production.
+17. Complete Procurement Workflow
+                  MATERIAL SHORTAGE
+                         ↓
+                  PURCHASE REQUEST
+                         ↓
+                    PR APPROVAL
+                         ↓
+                       RFQ
+                         ↓
+                 SEND TO VENDORS
+                         ↓
+              VENDOR QUOTATIONS
+                         ↓
+                VENDOR COMPARISON
+                         ↓
+                 VENDOR SELECTION
+                         ↓
+                  APPROVAL
+                         ↓
+                   VENDOR PO
+                         ↓
+                  SEND TO VENDOR
+                         ↓
+                 VENDOR DELIVERY
+                         ↓
+                       GRN
+                         ↓
+                    INSPECTION
+                         ↓
+               ┌─────────┴─────────┐
+               ↓                   ↓
+           ACCEPTED            REJECTED/DAMAGED
+               ↓                   ↓
+          STOCK-IN             VENDOR RETURN
+               ↓                   ↓
+          INVENTORY            REPLACEMENT/
+               ↓               CREDIT/etc.
+          MATERIAL ISSUE
+               ↓
+           PRODUCTION
+
+18. One Complete Example
+ABC Hospital ordered:
+2 × -80°C Freezers
+
+Production requires:
+2 Temperature Sensors
+
+Store has:
+1 Sensor
+
+Shortage:
+1 Sensor
+
+Procurement starts
+PR-000001
+Required: 1 Sensor
+
+↓
+RFQ-000001
+
+↓
+Three vendors respond:
+Vendor A → ₹8,000
+Vendor B → ₹7,500
+Vendor C → ₹8,200
+
+↓
+Purchase compares:
+Price
+Quality
+Delivery
+Warranty
+Payment
+Rating
+
+↓
+Vendor C selected.
+↓
+VPO-000001
+
+↓
+Vendor delivers.
+↓
+GRN-000001
+
+Ordered: 1
+Received: 1
+Accepted: 1
+
+↓
+Inventory
+Sensor:
+1 → 2
+
+↓
+Store issues the new sensor:
+Material Issue
+Sensor:
+1
+
+↓
+Production now has all required materials.
+PROD-000001
+Material Status:
+READY
+
+19. Important Traceability
+The ERP should be able to trace why a purchase happened:
+Customer
+   ↓
+Sales Order
+   ↓
+Production Order
+   ↓
+BOM
+   ↓
+Material Request
+   ↓
+Shortage
+   ↓
+Purchase Request
+   ↓
+RFQ
+   ↓
+Vendor Quotation
+   ↓
+Vendor Selection
+   ↓
+Vendor PO
+   ↓
+GRN
+   ↓
+Inventory
+   ↓
+Material Issue
+   ↓
+Production
+
+This is one of the most important characteristics of the ERP: every procurement transaction should have a business reason and source transaction where applicable.
+Overall workflow completed so far
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+NEGOTIATION / REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+ ↓
+PAYMENT
+ ↓
+PRODUCTION ORDER
+ ↓
+BOM
+ ↓
+MATERIAL REQUEST
+ ↓
+STOCK CHECK
+ │
+ ├── FULL → MATERIAL ISSUE
+ │
+ ├── PARTIAL → PARTIAL ISSUE
+ │              ↓
+ │           PROCUREMENT
+ │
+ └── NONE → PROCUREMENT
+              ↓
+          PURCHASE REQUEST
+              ↓
+             RFQ
+              ↓
+      VENDOR QUOTATIONS
+              ↓
+       VENDOR COMPARISON
+              ↓
+       VENDOR SELECTION
+              ↓
+          VENDOR PO
+              ↓
+          DELIVERY
+              ↓
+             GRN
+              ↓
+          INVENTORY
+              ↓
+        MATERIAL ISSUE
+              ↓
+          PRODUCTION
+
+Next workflow is the actual Manufacturing flow: MATERIALS READY → FABRICATION → REFRIGERATION → ELECTRICAL → ASSEMBLY → WIP/CONSUMPTION → PRODUCTION COMPLETED → QA.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Next workflow
+Workflow 7 — QA TESTING → PASS / FAIL → CERTIFICATE → SERIAL NUMBER → FINISHED GOODS
+Now the manufactured product has reached Production Completed.
+
+The next workflow is Quality Assurance (QA). This is a critical gate because a product should not move to Finished Goods/Dispatch simply because manufacturing is marked completed.
+
+The source defines:
+
+QA Testing → PASS → Certificate / Finished Goods
+FAIL → Rectification → Retest → Rework or Scrap if required. 
+
+1. Production Completed
+From the previous workflow:
+
+PROD-000001
+     ↓
+Fabrication
+     ↓
+Refrigeration
+     ↓
+Electrical
+     ↓
+Assembly
+     ↓
+PRODUCTION COMPLETED
+Example:
+
+Product:
+-80°C Deep Freezer
+
+Production Quantity:
+2
+
+Production Status:
+COMPLETED
+Now Production sends the completed units to QA.
+
+PROD-000001
+      ↓
+QA TESTING
+2. Create QA Record
+The ERP creates a QA record linked to the Production Order.
+
+QA-000001
+Relationship:
+
+Sales Order
+     ↓
+Production Order
+     ↓
+QA Record
+Example:
+
+QA Record
+──────────────────────
+QA No: QA-000001
+
+Production Order:
+PROD-000001
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Status:
+PENDING
+3. QA Inspection / Testing
+QA team performs the required tests according to the product's defined QA requirements.
+
+The source confirms QA testing but does not prescribe a universal detailed test checklist for every product, so the exact test parameters should come from the client's product/QA configuration rather than being hard-coded.
+
+Conceptually:
+
+Product
+   ↓
+QA Inspection
+   ↓
+Perform Required Tests
+   ↓
+Record Results
+   ↓
+QA Decision
+The QA record should capture things such as:
+
+Test
+Result
+Measured Value
+Expected Value
+Remarks
+Tester
+Date/Time
+4. QA Decision
+After testing:
+
+             QA TESTING
+                  ↓
+          ┌───────┴────────┐
+          ↓                ↓
+         PASS             FAIL
+          ↓                ↓
+      Certificate       Rectification
+      / Finished            ↓
+        Goods             Retest
+5. Case A — QA PASS
+Suppose both freezers pass.
+
+QA-000001
+     ↓
+PASS
+Record:
+
+QA Status:
+PASSED
+
+Quantity Tested:
+2
+
+Quantity Passed:
+2
+
+Quantity Failed:
+0
+Now the products can move toward Finished Goods.
+
+PRODUCTION COMPLETED
+        ↓
+QA PASSED
+        ↓
+FINISHED GOODS
+6. QA Certificate
+If the product requires a QA/certification document, the ERP generates or stores the certificate.
+
+QA PASS
+   ↓
+Certificate
+   ↓
+CERT-000001
+Example:
+
+Certificate No:
+CERT-000001
+
+Product:
+-80°C Deep Freezer
+
+Production Order:
+PROD-000001
+
+QA Record:
+QA-000001
+
+Serial Numbers:
+SN-001
+SN-002
+
+Result:
+PASSED
+The source explicitly includes certificate generation/documentation after QA pass. 
+
+7. Serial Number Assignment
+For products requiring individual traceability, assign serial numbers.
+
+The source defines the traceability chain:
+
+Serial → Production Order → QA → Invoice → Dispatch → Delivery → Warranty → Service. 
+
+Example:
+
+Product Quantity = 2
+
+Serial Numbers:
+
+SN-2026-000001
+SN-2026-000002
+Each serial should be linked back to the production and QA records.
+
+SN-2026-000001
+        ↓
+PROD-000001
+        ↓
+QA-000001
+        ↓
+PASSED
+And similarly:
+
+SN-2026-000002
+        ↓
+PROD-000001
+        ↓
+QA-000001
+        ↓
+PASSED
+8. Why Serial Number Is Important
+Later, suppose customer reports a problem:
+
+“The freezer with serial number SN-2026-000001 is not maintaining temperature.”
+
+The ERP should be able to trace:
+
+SN-2026-000001
+       ↓
+Production Order
+       ↓
+BOM
+       ↓
+Materials
+       ↓
+QA Result
+       ↓
+Invoice
+       ↓
+Dispatch
+       ↓
+Customer
+       ↓
+Installation
+       ↓
+Warranty
+       ↓
+Service Ticket
+That is the purpose of serial traceability.
+
+9. Finished Goods
+Only QA-passed products should enter the Finished Goods stage.
+
+PRODUCTION COMPLETED
+       ↓
+QA PASSED
+       ↓
+SERIAL ASSIGNED
+       ↓
+FINISHED GOODS
+Example:
+
+Finished Goods
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Serials:
+SN-2026-000001
+SN-2026-000002
+
+QA:
+PASSED
+
+Location:
+Finished Goods Store
+The source explicitly states that Finished Goods should contain only QA-passed goods. 
+
+10. Case B — QA FAIL
+Now consider a different situation.
+
+One freezer fails QA.
+
+Quantity:
+2
+
+Passed:
+1
+
+Failed:
+1
+The failed unit should not move to Finished Goods.
+
+QA
+ ↓
+FAIL
+ ↓
+RECTIFICATION
+11. Rectification / Rework
+Production receives the failed product for correction.
+
+QA FAIL
+   ↓
+Rectification
+   ↓
+Production / Rework
+Example:
+
+QA Failure:
+
+Unit:
+SN-2026-000002
+
+Problem:
+Failed required test
+
+Action:
+Rectification required
+The ERP records:
+
+Failure Reason
+Rectification Action
+Responsible Employee
+Date
+Remarks
+12. Retest
+After rectification:
+
+RECTIFICATION
+      ↓
+RETEST
+Now there are again two possibilities:
+
+             RETEST
+                ↓
+        ┌───────┴───────┐
+        ↓               ↓
+       PASS            FAIL
+        ↓               ↓
+   Finished Goods    Rework / Scrap
+The source explicitly defines the rectification → retest path. 
+
+13. Repeated Failure
+Suppose the product fails again.
+
+QA
+ ↓
+FAIL
+ ↓
+RECTIFICATION
+ ↓
+RETEST
+ ↓
+FAIL
+At this point, the product may require another rework cycle or scrap depending on the company's configured QA policy.
+
+FAIL
+ ├── REWORK
+ └── SCRAP
+The exact number of allowed retries and scrap approval rules should be configurable/client-confirmed rather than assumed.
+
+14. Scrap
+If the product cannot be economically or technically repaired:
+
+QA FAIL
+    ↓
+SCRAP
+Example:
+
+Serial:
+SN-2026-000002
+
+Status:
+SCRAPPED
+
+Reason:
+Failed QA after rectification
+
+Approved By:
+QA Manager
+It should not become Finished Goods.
+
+15. Partial QA Pass
+QA may evaluate multiple units separately.
+
+Example:
+
+Production:
+10 units
+
+QA:
+8 PASS
+2 FAIL
+Then:
+
+8 → Finished Goods
+2 → Rectification
+The ERP should track quantities separately.
+
+QA Quantity:
+10
+
+Passed:
+8
+
+Failed:
+2
+
+Finished Goods:
+8
+
+Rework:
+2
+16. QA Status Flow
+For an individual QA record:
+
+PENDING
+   ↓
+TESTING
+   ↓
+PASS
+or:
+
+PENDING
+   ↓
+TESTING
+   ↓
+FAIL
+   ↓
+RECTIFICATION
+   ↓
+RETEST
+   ↓
+PASS
+or:
+
+FAIL
+ ↓
+REWORK
+ ↓
+RETEST
+ ↓
+FAIL
+ ↓
+SCRAP
+17. QA Page
+The ERP should have a QA list:
+
+QA RECORDS
+
++ Create QA Record
+
+QA No.       Product             Qty    Status
+-------------------------------------------------
+QA-000001    -80°C Freezer        2     Passed
+QA-000002    Refrigerator         5     Testing
+QA-000003    Freezer              1     Rework
+QA-000004    Controller           3     Failed
+Filters:
+
+Status
+Product
+Production Order
+Date
+QA Engineer
+18. QA Details Page
+Opening QA-000001:
+
+QA-000001
+──────────────────────────────
+
+Production Order:
+PROD-000001
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Tester:
+QA Employee
+
+Status:
+PASSED
+Tabs:
+
+Overview
+Test Results
+Serial Numbers
+Failures
+Rectification
+Retest
+Certificate
+Documents
+Timeline
+19. QA Timeline
+Example:
+
+12 Oct
+Production Completed
+
+12 Oct
+QA Record Created
+
+12 Oct
+Testing Started
+
+12 Oct
+Unit SN-001 → PASS
+
+12 Oct
+Unit SN-002 → FAIL
+
+13 Oct
+Rectification Completed
+
+13 Oct
+Retest Started
+
+13 Oct
+SN-002 → PASS
+
+13 Oct
+QA Completed
+This gives a complete audit history.
+
+20. Finished Goods Movement
+After QA passes:
+
+QA PASSED
+    ↓
+Serial Number Assigned
+    ↓
+Certificate
+    ↓
+Finished Goods
+Example:
+
+Finished Goods Store
+
+FG-000001
+Product: -80°C Freezer
+Serial: SN-2026-000001
+Status: AVAILABLE
+
+FG-000002
+Product: -80°C Freezer
+Serial: SN-2026-000002
+Status: AVAILABLE
+Now the products are ready for the next business stages.
+
+21. What Happens Next?
+After QA and Finished Goods:
+
+FINISHED GOODS
+      ↓
+PACKING
+      ↓
+FINAL INVOICE
+      ↓
+DISPATCH
+      ↓
+DELIVERY
+      ↓
+POD
+      ↓
+INSTALLATION
+      ↓
+COMMISSIONING
+      ↓
+WARRANTY
+The source's overall flow places QA → Finished Goods → Packing → Final Invoice → Dispatch → Delivery/POD → Installation → Commissioning → Warranty in this sequence. 
+
+22. Complete QA Workflow
+                    PRODUCTION COMPLETED
+                            ↓
+                       QA RECORD
+                            ↓
+                       QA TESTING
+                            ↓
+                   ┌────────┴────────┐
+                   ↓                 ↓
+                 PASS              FAIL
+                   ↓                 ↓
+             QA CERTIFICATE      RECTIFICATION
+                   ↓                 ↓
+            SERIAL NUMBER          RETEST
+                   ↓                 ↓
+             FINISHED GOODS   ┌──────┴──────┐
+                              ↓             ↓
+                            PASS          FAIL
+                              ↓             ↓
+                       FINISHED GOODS   REWORK/SCRAP
+Full ERP chain now
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+NEGOTIATION / REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+ ↓
+PAYMENT
+ ↓
+PRODUCTION ORDER
+ ↓
+BOM
+ ↓
+MATERIAL REQUEST
+ ↓
+STOCK CHECK
+ ├── FULL → ISSUE
+ ├── PARTIAL → ISSUE + PROCUREMENT
+ └── NONE → PROCUREMENT
+              ↓
+          PURCHASE REQUEST
+              ↓
+             RFQ
+              ↓
+      VENDOR QUOTATIONS
+              ↓
+       VENDOR COMPARISON
+              ↓
+       VENDOR SELECTION
+              ↓
+          VENDOR PO
+              ↓
+           DELIVERY
+              ↓
+             GRN
+              ↓
+          INVENTORY
+              ↓
+        MATERIAL ISSUE
+              ↓
+          FABRICATION
+              ↓
+         REFRIGERATION
+              ↓
+           ELECTRICAL
+              ↓
+            ASSEMBLY
+              ↓
+       WIP / CONSUMPTION
+              ↓
+     PRODUCTION COMPLETED
+              ↓
+          QA TESTING
+          /        \
+       PASS        FAIL
+        ↓            ↓
+    CERTIFICATE   RECTIFICATION
+        ↓            ↓
+    SERIAL        RETEST
+        ↓          /    \
+ FINISHED        PASS   FAIL
+ GOODS            ↓       ↓
+                FG    REWORK/SCRAP
+Next workflow: FINISHED GOODS → PACKING → FINAL INVOICE → DISPATCH → SHIPMENT → DELIVERY → POD.
+
+Next workflow
+Workflow 8 — FINISHED GOODS → PACKING → FINAL INVOICE → DISPATCH → DELIVERY → POD
+Now the product has passed QA, received its serial number, and entered Finished Goods.
+
+The next workflow is the physical and commercial delivery process:
+
+FINISHED GOODS
+      ↓
+PACKING
+      ↓
+FINAL INVOICE
+      ↓
+DISPATCH
+      ↓
+SHIPMENT / TRANSPORT
+      ↓
+IN TRANSIT
+      ↓
+DELIVERY
+      ↓
+POD
+The source workflow places Finished Goods → Packing → Final Invoice → Dispatch → Delivery/POD after QA. 
+
+1. Finished Goods Ready
+From the previous workflow:
+
+Production
+   ↓
+QA Testing
+   ↓
+QA PASS
+   ↓
+Serial Number
+   ↓
+Finished Goods
+Example:
+
+FG-000001
+Product: -80°C Freezer
+Serial: SN-2026-000001
+Status: AVAILABLE
+
+FG-000002
+Product: -80°C Freezer
+Serial: SN-2026-000002
+Status: AVAILABLE
+The system now checks whether the Sales Order is ready for dispatch.
+
+2. Dispatch Readiness Check
+Before packing/dispatch, the ERP should show the order's readiness.
+
+SALES ORDER
+     ↓
+QA PASSED?
+     ↓
+FINISHED GOODS AVAILABLE?
+     ↓
+INVOICE READY?
+     ↓
+PACKING READY?
+     ↓
+DISPATCH
+Example:
+
+SO-000001
+
+Production:       ✅
+QA:               ✅
+Serial Numbers:   ✅
+Finished Goods:   ✅
+Packing:           PENDING
+Invoice:           PENDING
+Dispatch:          PENDING
+This prevents dispatching a product that is not ready.
+
+3. Create Packing Record
+Once Finished Goods are ready:
+
+Finished Goods
+      ↓
+Packing
+      ↓
+PACK-000001
+The source specifies that packing should capture product, serial, quantity, accessories, documents, weight, dimensions and packaging type. 
+
+Packing example
+PACK-000001
+
+Sales Order:
+SO-000001
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Serial Numbers:
+SN-2026-000001
+SN-2026-000002
+
+Packaging Type:
+Wooden Crate
+
+Weight:
+500 kg
+
+Dimensions:
+...
+
+Accessories:
+Controller
+Power Cable
+Required Accessories
+
+Documents:
+User Manual
+QA Certificate
+Warranty Document
+4. Packing Process
+The packing team physically prepares the goods.
+
+Finished Goods
+      ↓
+Verify Product
+      ↓
+Verify Serial Number
+      ↓
+Verify Accessories
+      ↓
+Add Documents
+      ↓
+Pack
+      ↓
+Record Weight/Dimensions
+      ↓
+Packing Completed
+Example:
+
+PACK-000001
+Status: COMPLETED
+5. Packing Verification
+Before dispatch:
+
+Product       ✅
+Quantity      ✅
+Serial        ✅
+Accessories   ✅
+Documents     ✅
+Packaging     ✅
+If something is missing:
+
+PACKING HOLD
+The ERP should not allow the shipment to proceed until the issue is resolved.
+
+6. Final Invoice
+Now the commercial invoice is generated.
+
+This is different from the earlier Proforma Invoice.
+
+PROFORMA INVOICE
+       ↓
+Customer PO
+       ↓
+Sales Order
+       ↓
+Production
+       ↓
+QA
+       ↓
+Finished Goods
+       ↓
+FINAL INVOICE
+Example:
+
+INV-000001
+
+Customer:
+ABC Hospital
+
+Sales Order:
+SO-000001
+
+Customer PO:
+CPO-000001
+
+Product:
+-80°C Deep Freezer
+
+Quantity:
+2
+
+Tax:
+...
+
+Grand Total:
+₹8,96,800
+The source includes Final Invoice in the flow before Dispatch and includes Accounts/receivables as part of the finance workflow. 
+
+7. Final Invoice vs Proforma Invoice
+This distinction is important.
+
+Proforma
+Quotation Accepted
+      ↓
+Proforma Invoice
+      ↓
+Customer PO
+Final Invoice
+Production
+ ↓
+QA
+ ↓
+Finished Goods
+ ↓
+Final Invoice
+ ↓
+Dispatch
+So they are two different documents serving different stages.
+
+8. Invoice Verification
+Before dispatch, Accounts/Sales verifies:
+
+Customer
+Product
+Quantity
+Price
+Tax
+Discount
+Payment
+PO Reference
+Sales Order
+Example:
+
+Invoice:
+INV-000001
+
+Subtotal: ₹7,60,000
+Tax:      ₹1,36,800
+Total:    ₹8,96,800
+Then:
+
+INVOICE APPROVED
+9. Create Dispatch
+Once packing and invoice requirements are satisfied:
+
+PACKING COMPLETED
+       ↓
+INVOICE READY
+       ↓
+CREATE DISPATCH
+       ↓
+DISP-000001
+Example:
+
+Dispatch No:
+DISP-000001
+
+Sales Order:
+SO-000001
+
+Invoice:
+INV-000001
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Freezer
+
+Quantity:
+2
+
+Serial:
+SN-2026-000001
+SN-2026-000002
+10. Logistics / Shipment
+Now the Logistics team arranges transportation.
+
+DISPATCH
+   ↓
+SHIPMENT
+   ↓
+TRANSPORTER
+   ↓
+TRACKING
+The source includes Logistics management for transporter, shipment, tracking and delivery status. 
+
+Example:
+
+Shipment:
+SHIP-000001
+
+Transporter:
+ABC Logistics
+
+Vehicle:
+TN-XX-1234
+
+Driver:
+...
+
+Tracking No:
+TRK-000001
+
+Expected Delivery:
+20-10-2026
+11. Dispatch Status
+The shipment can move through:
+
+READY
+  ↓
+DISPATCHED
+  ↓
+IN TRANSIT
+  ↓
+OUT FOR DELIVERY
+  ↓
+DELIVERED
+The detailed source explicitly defines:
+
+ready → dispatched → in transit → out for delivery → delivery/POD. 
+
+12. Shipment Tracking
+Example:
+
+SHIP-000001
+
+Status:
+IN TRANSIT
+
+Origin:
+Chennai Factory
+
+Destination:
+ABC Hospital
+
+Transporter:
+ABC Logistics
+
+Tracking:
+TRK-000001
+The Logistics user should be able to update:
+
+Picked Up
+In Transit
+Reached Destination City
+Out for Delivery
+Delivered
+13. Delivery
+When the transporter reaches the customer:
+
+OUT FOR DELIVERY
+       ↓
+CUSTOMER RECEIVES GOODS
+       ↓
+DELIVERED
+The system records:
+
+Delivery Date
+Delivered By
+Receiver
+Location
+Remarks
+14. POD — Proof of Delivery
+POD is the evidence that the customer received the shipment.
+
+The source specifically supports POD including signature and photos. 
+
+Example:
+
+POD-000001
+
+Delivery Date:
+20-10-2026
+
+Received By:
+Dr. Kumar
+
+Customer:
+ABC Hospital
+
+Signature:
+✓ Uploaded
+
+Delivery Photo:
+✓ Uploaded
+
+Remarks:
+Goods received in good condition.
+Then:
+
+DELIVERY
+   ↓
+POD COMPLETED
+15. Successful Delivery
+Final state:
+
+id="del001"
+DISPATCHED
+    ↓
+IN TRANSIT
+    ↓
+OUT FOR DELIVERY
+    ↓
+DELIVERED
+    ↓
+POD RECEIVED
+The Sales Order can now show:
+
+SO-000001
+
+Delivery Status:
+DELIVERED
+
+POD:
+COMPLETED
+16. Failed Delivery
+Delivery does not always succeed.
+
+Example:
+
+Customer location closed.
+
+Then:
+
+OUT FOR DELIVERY
+       ↓
+DELIVERY FAILED
+The source explicitly provides reschedule or return as the delivery failure path. 
+
+DELIVERY FAILED
+      ↓
+ ┌────┴─────┐
+ ↓          ↓
+RESCHEDULE  RETURN
+Reschedule
+Failed Delivery
+      ↓
+New Delivery Date
+      ↓
+Out for Delivery
+      ↓
+Delivered
+Return
+Failed Delivery
+      ↓
+Return to Warehouse
+      ↓
+Receive Returned Goods
+17. Complete Packing & Dispatch Workflow
+                    QA PASSED
+                       ↓
+                 SERIAL ASSIGNED
+                       ↓
+                 FINISHED GOODS
+                       ↓
+                     PACKING
+                       ↓
+              PACKING VERIFICATION
+                       ↓
+                  FINAL INVOICE
+                       ↓
+                INVOICE APPROVAL
+                       ↓
+                    DISPATCH
+                       ↓
+                   SHIPMENT
+                       ↓
+                  TRANSPORTER
+                       ↓
+                   DISPATCHED
+                       ↓
+                   IN TRANSIT
+                       ↓
+                OUT FOR DELIVERY
+                       ↓
+                  ┌────┴────┐
+                  ↓         ↓
+              DELIVERED   FAILED
+                  ↓         ↓
+                  POD    RESCHEDULE
+                  │         or
+                  │       RETURN
+                  ↓
+             DELIVERY CLOSED
+18. Complete Example
+ABC Hospital ordered:
+
+2 × -80°C Freezer
+After QA:
+
+SN-2026-000001
+SN-2026-000002
+Packing
+PACK-000001
+Qty: 2
+Status: COMPLETED
+Final Invoice
+INV-000001
+Total: ₹8,96,800
+Status: APPROVED
+Dispatch
+DISP-000001
+Status: DISPATCHED
+Shipment
+SHIP-000001
+Transporter: ABC Logistics
+Tracking: TRK-000001
+Tracking
+DISPATCHED
+ ↓
+IN TRANSIT
+ ↓
+OUT FOR DELIVERY
+Delivery
+DELIVERED
+POD
+POD-000001
+
+Received By:
+ABC Hospital
+
+Signature:
+Uploaded
+
+Photo:
+Uploaded
+Final:
+
+SO-000001
+Delivery Status = DELIVERED
+POD Status = COMPLETED
+19. Traceability
+The serial-number traceability now becomes:
+
+SN-2026-000001
+       ↓
+Production Order
+       ↓
+QA
+       ↓
+Finished Goods
+       ↓
+Packing
+       ↓
+Invoice
+       ↓
+Dispatch
+       ↓
+Shipment
+       ↓
+Delivery
+       ↓
+POD
+This is important because the same serial will later be used for Installation → Commissioning → Warranty → Service.
+
+20. Overall ERP Workflow So Far
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+NEGOTIATION / REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+ ↓
+PAYMENT
+ ↓
+PRODUCTION ORDER
+ ↓
+BOM
+ ↓
+MATERIAL REQUEST
+ ↓
+STOCK CHECK
+ ├── FULL → MATERIAL ISSUE
+ ├── PARTIAL → ISSUE + PROCUREMENT
+ └── NONE → PROCUREMENT
+              ↓
+          PURCHASE REQUEST
+              ↓
+             RFQ
+              ↓
+      VENDOR QUOTATIONS
+              ↓
+       VENDOR COMPARISON
+              ↓
+       VENDOR SELECTION
+              ↓
+          VENDOR PO
+              ↓
+           DELIVERY
+              ↓
+             GRN
+              ↓
+          INVENTORY
+              ↓
+        MATERIAL ISSUE
+              ↓
+          FABRICATION
+              ↓
+         REFRIGERATION
+              ↓
+           ELECTRICAL
+              ↓
+            ASSEMBLY
+              ↓
+       WIP / CONSUMPTION
+              ↓
+     PRODUCTION COMPLETED
+              ↓
+          QA TESTING
+          /        \
+       PASS        FAIL
+        ↓            ↓
+    CERTIFICATE   RECTIFICATION
+        ↓            ↓
+    SERIAL        RETEST
+        ↓
+ FINISHED GOODS
+        ↓
+     PACKING
+        ↓
+ FINAL INVOICE
+        ↓
+    DISPATCH
+        ↓
+    SHIPMENT
+        ↓
+   IN TRANSIT
+        ↓
+OUT FOR DELIVERY
+        ↓
+     DELIVERY
+        ↓
+       POD
+Next workflow
+DELIVERY/POD → INSTALLATION → INSTALLATION TESTING → COMMISSIONING → CUSTOMER SIGN-OFF → WARRANTY START
+
+This is where the delivered product becomes an installed and commissioned customer asset.
+
+
+
+Next workflow
+Workflow 11 — RMA / CUSTOMER RETURN → INSPECTION → REPAIR / REPLACEMENT / CREDIT NOTE / REFUND
+Now we move into the exception workflow.
+
+This workflow is used when the customer wants to return a product after delivery, rather than simply requesting normal service.
+
+The source defines the RMA flow as:
+
+Customer Complaint → Return Request → RMA Approval → Product Returned → Inspection → Repair / Replacement / Credit Note / Refund. 
+
+1. Customer Reports a Return Issue
+Example:
+
+ABC Hospital says the freezer has a serious problem and wants to return the unit.
+
+The normal Service Ticket may start first:
+
+CUSTOMER COMPLAINT
+       ↓
+SERVICE TICKET
+       ↓
+RETURN REQUIRED?
+       ↓
+YES
+Now the system starts an RMA process.
+
+RMA = Return Merchandise Authorization.
+
+2. Create Return Request
+Create:
+
+RETURN REQUEST
+
+Request No:
+RET-000001
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Deep Freezer
+
+Serial:
+SN-2026-000001
+
+Original Sales Order:
+SO-000001
+
+Original Invoice:
+INV-000001
+
+Reason:
+Product issue / return requested
+
+Status:
+PENDING
+The important point is that the returned product must be identified by its serial number where serialisation is used.
+
+3. RMA Approval
+The return request should not automatically authorize the customer to send the product back.
+
+RETURN REQUEST
+       ↓
+RMA REVIEW
+       ↓
+APPROVE / REJECT
+If approved:
+RMA APPROVED
+      ↓
+Customer Return
+If rejected:
+RMA REJECTED
+      ↓
+Reason Recorded
+      ↓
+Customer Notified
+The source specifically includes RMA approval as a stage before the product is returned. 
+
+4. RMA Number
+After approval:
+
+RMA-000001
+Example:
+
+RMA Number:
+RMA-000001
+
+Customer:
+ABC Hospital
+
+Serial:
+SN-2026-000001
+
+Reason:
+Product return
+
+Status:
+APPROVED
+This RMA becomes the main reference for the return lifecycle.
+
+5. Customer Returns Product
+The customer sends the product back.
+
+RMA APPROVED
+      ↓
+PRODUCT RETURNED
+      ↓
+FACTORY / WAREHOUSE RECEIVES
+The ERP records:
+
+Return Date
+Received By
+Transport Details
+Condition on Arrival
+Serial Number
+Attachments
+Remarks
+6. Return Receipt
+When the factory receives the product:
+
+RMA-000001
+
+Product:
+-80°C Freezer
+
+Serial:
+SN-2026-000001
+
+Return Status:
+RECEIVED
+Now the product should enter inspection.
+
+RECEIVED
+   ↓
+INSPECTION
+7. Return Inspection
+The technical team inspects the returned product.
+
+RETURNED PRODUCT
+       ↓
+INSPECTION
+       ↓
+DIAGNOSIS
+Record:
+
+Physical Condition
+Complaint
+Observed Problem
+Root Cause
+Warranty Status
+Damage
+Missing Parts
+Inspection Remarks
+Photos/Documents
+Example:
+
+Inspection:
+
+Serial:
+SN-2026-000001
+
+Problem:
+Compressor failure
+
+Condition:
+Physical condition acceptable
+
+Root Cause:
+Compressor malfunction
+
+Recommendation:
+Repair
+8. RMA Decision
+After inspection:
+
+                 INSPECTION
+                     ↓
+              RETURN DECISION
+                     ↓
+     ┌──────────┬────┼────┬──────────┐
+     ↓          ↓    ↓    ↓          ↓
+   REPAIR   REPLACE CREDIT REFUND   REJECT
+The source specifically identifies repair, replacement, credit note and refund as possible RMA outcomes. 
+
+9. Option A — Repair
+If the product can be repaired:
+
+INSPECTION
+    ↓
+REPAIR
+    ↓
+TESTING
+    ↓
+PASS
+    ↓
+REDISPATCH
+    ↓
+CUSTOMER
+This is closely related to the documented factory-return service flow:
+
+Return → Inspection → Repair → Retest → Redispatch → Sign-off → Close. 
+
+10. Repair Process
+Example:
+
+Diagnosis:
+Compressor failure
+
+Action:
+Replace compressor
+If spare is available:
+
+Stock
+ ↓
+Material Issue
+ ↓
+Repair
+If unavailable:
+
+Spare Shortage
+ ↓
+Procurement
+ ↓
+GRN
+ ↓
+Inventory
+ ↓
+Material Issue
+ ↓
+Repair
+So RMA repair can reuse the normal Procurement process.
+
+11. Repair Testing
+After repair:
+
+REPAIR
+  ↓
+TESTING
+If passed:
+
+TEST PASS
+   ↓
+REDISPATCH
+If failed:
+
+TEST FAIL
+   ↓
+REPAIR AGAIN
+   ↓
+RETEST
+12. Option B — Replacement
+Sometimes repair is not appropriate.
+
+Example:
+
+Product has a major manufacturing defect and company policy allows replacement.
+
+Then:
+
+INSPECTION
+    ↓
+REPLACEMENT APPROVED
+    ↓
+NEW PRODUCT
+    ↓
+QA
+    ↓
+PACKING
+    ↓
+DISPATCH
+    ↓
+CUSTOMER
+The replacement should have its own serial number.
+
+Example:
+
+Returned:
+SN-2026-000001
+
+Replacement:
+SN-2026-000015
+The ERP should preserve the relationship:
+
+RMA-000001
+    ↓
+Old Serial:
+SN-2026-000001
+
+Replacement:
+SN-2026-000015
+13. Replacement Traceability
+This is important.
+
+The old product should not simply disappear.
+
+OLD SERIAL
+SN-2026-000001
+      ↓
+RMA
+      ↓
+RETURNED
+      ↓
+REPLACED
+      ↓
+NEW SERIAL
+SN-2026-000015
+The new product should then have its own:
+
+QA
+ ↓
+Finished Goods
+ ↓
+Packing
+ ↓
+Dispatch
+ ↓
+Delivery
+ ↓
+Customer
+The exact replacement warranty treatment should follow the client's confirmed warranty policy.
+
+14. Option C — Credit Note
+If the company does not replace or repair the product and instead provides a commercial credit:
+
+RMA
+ ↓
+Credit Approved
+ ↓
+CREDIT NOTE
+Example:
+
+Credit Note:
+CN-000001
+
+Customer:
+ABC Hospital
+
+Reference:
+INV-000001
+
+Reason:
+Approved product return
+
+Amount:
+₹...
+This is a Finance transaction and should be linked to the original invoice.
+
+INV-000001
+      ↓
+RMA-000001
+      ↓
+CN-000001
+15. Option D — Refund
+If the company decides to refund the customer:
+
+RMA
+ ↓
+Refund Approved
+ ↓
+Refund Processing
+ ↓
+Payment
+ ↓
+Refund Completed
+Example:
+
+Original Amount:
+₹8,96,800
+
+Refund:
+₹8,96,800
+
+Status:
+REFUNDED
+The exact refund amount, deductions, taxes, freight treatment, etc. should follow the client's financial policy rather than being invented in the ERP.
+
+16. RMA Outcome Decision
+So after inspection:
+
+                     INSPECTION
+                         ↓
+                 What should happen?
+                         ↓
+       ┌─────────┬───────┼────────┬──────────┐
+       ↓         ↓       ↓        ↓          ↓
+     REPAIR  REPLACE  CREDIT   REFUND      REJECT
+       ↓         ↓       ↓        ↓
+    RETEST    NEW UNIT  CN      PAYMENT
+       ↓         ↓
+  REDISPATCH  DISPATCH
+17. RMA Repair → Redispatch
+Suppose the product is repaired successfully.
+
+RMA-000001
+     ↓
+Inspection
+     ↓
+Repair
+     ↓
+Retest
+     ↓
+PASS
+     ↓
+Packing
+     ↓
+Redispatch
+     ↓
+Customer
+     ↓
+Customer Sign-off
+     ↓
+RMA CLOSED
+18. Factory Return vs RMA
+These concepts can be related but should not be confused.
+
+Factory Return Service
+Usually:
+
+SERVICE TICKET
+ ↓
+Engineer Diagnosis
+ ↓
+Cannot Repair On-site
+ ↓
+Factory Return
+ ↓
+Repair
+ ↓
+Retest
+ ↓
+Redispatch
+RMA
+A formal customer return authorization process:
+
+Customer Return Request
+ ↓
+RMA Approval
+ ↓
+Product Return
+ ↓
+Inspection
+ ↓
+Repair / Replacement / Credit / Refund
+The ERP can connect them:
+
+SERVICE TICKET
+      ↓
+Factory Return
+      ↓
+RMA (if applicable)
+but they should not be treated as identical records.
+
+19. RMA Status
+A useful lifecycle is:
+
+REQUESTED
+   ↓
+UNDER REVIEW
+   ↓
+APPROVED
+   ↓
+AWAITING RETURN
+   ↓
+RECEIVED
+   ↓
+INSPECTION
+   ↓
+DECISION
+   ↓
+REPAIR / REPLACE / CREDIT / REFUND
+   ↓
+TESTING
+   ↓
+REDISPATCH / FINANCE CLOSURE
+   ↓
+CUSTOMER SIGN-OFF
+   ↓
+CLOSED
+Rejected path:
+
+REQUESTED
+   ↓
+REVIEW
+   ↓
+REJECTED
+   ↓
+CLOSED
+20. RMA Page
+RMA List
+RMA
+
++ Create RMA
+
+RMA No.      Customer       Serial        Status
+------------------------------------------------------
+RMA-000001   ABC Hospital   SN-000001     Repair
+RMA-000002   XYZ Lab        SN-000010     Inspection
+RMA-000003   DEF Hospital   SN-000021     Closed
+Filters:
+
+Status
+Customer
+Product
+Serial
+Reason
+Date
+Outcome
+21. RMA Details
+RMA-000001
+────────────────────────────
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Freezer
+
+Serial:
+SN-2026-000001
+
+Original SO:
+SO-000001
+
+Original Invoice:
+INV-000001
+
+Reason:
+Product failure
+
+Warranty:
+ACTIVE
+
+Current Status:
+INSPECTION
+Tabs:
+
+Overview
+Original Transaction
+Return
+Inspection
+Diagnosis
+Repair
+Replacement
+Credit/Refund
+Documents
+Timeline
+22. Complete RMA Example
+ABC Hospital purchased:
+
+SN-2026-000001
+Customer reports a serious issue.
+
+Step 1
+Customer Complaint
+Step 2
+Return Request
+RET-000001
+Step 3
+RMA Approval
+RMA-000001
+Step 4
+Product Returned
+Step 5
+Factory Receives
+Step 6
+Inspection
+Finding:
+
+Compressor failure.
+
+Step 7
+Decision:
+REPAIR
+Step 8
+Compressor
+ ↓
+Procurement/Stock
+ ↓
+Material Issue
+ ↓
+Repair
+Step 9
+Testing
+ ↓
+PASS
+Step 10
+Redispatch
+Step 11
+Customer Receives
+Step 12
+Customer Sign-off
+Final:
+RMA-000001
+Status:
+CLOSED
+
+Outcome:
+REPAIRED
+23. Complete RMA Workflow
+                 CUSTOMER COMPLAINT
+                         ↓
+                  RETURN REQUEST
+                         ↓
+                    RMA REVIEW
+                         ↓
+                  ┌──────┴──────┐
+                  ↓             ↓
+              APPROVED       REJECTED
+                  ↓             ↓
+             PRODUCT RETURN    CLOSED
+                  ↓
+                RECEIVED
+                  ↓
+              INSPECTION
+                  ↓
+          ┌───────┼────────┬─────────┐
+          ↓       ↓        ↓         ↓
+        REPAIR  REPLACE  CREDIT    REFUND
+          ↓       ↓        ↓         ↓
+       REPAIR    NEW     CREDIT    REFUND
+          ↓      UNIT     NOTE      PAYMENT
+        RETEST     ↓
+          ↓       QA
+        PASS       ↓
+          ↓     DISPATCH
+      REDISPATCH
+          ↓
+     CUSTOMER
+          ↓
+    SIGN-OFF
+          ↓
+      RMA CLOSED
+24. Overall ERP Workflow Now
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+NEGOTIATION / REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+ ↓
+PAYMENT
+ ↓
+PRODUCTION ORDER
+ ↓
+BOM
+ ↓
+MATERIAL REQUEST
+ ↓
+STOCK CHECK
+ ↓
+PROCUREMENT IF SHORTAGE
+ ↓
+MATERIAL ISSUE
+ ↓
+FABRICATION
+ ↓
+REFRIGERATION
+ ↓
+ELECTRICAL
+ ↓
+ASSEMBLY
+ ↓
+PRODUCTION COMPLETED
+ ↓
+QA
+ ↓
+SERIAL NUMBER
+ ↓
+FINISHED GOODS
+ ↓
+PACKING
+ ↓
+FINAL INVOICE
+ ↓
+DISPATCH
+ ↓
+DELIVERY
+ ↓
+POD
+ ↓
+INSTALLATION
+ ↓
+COMMISSIONING
+ ↓
+CUSTOMER SIGN-OFF
+ ↓
+WARRANTY
+ ↓
+SERVICE TICKET
+ ↓
+WARRANTY CHECK
+ ↓
+DIAGNOSIS
+ ↓
+SPARE PART
+ ↓
+REPAIR
+ ↓
+TESTING
+ ↓
+SERVICE CLOSED
+
+          EXCEPTION PATH
+                 ↓
+            RMA / RETURN
+                 ↓
+          RMA APPROVAL
+                 ↓
+          PRODUCT RETURN
+                 ↓
+             INSPECTION
+                 ↓
+       ┌─────────┼─────────┐
+       ↓         ↓         ↓
+     REPAIR   REPLACE   CREDIT/REFUND
+       ↓         ↓
+     RETEST     NEW UNIT
+       ↓         ↓
+  REDISPATCH  DISPATCH
+       ↓         ↓
+    CUSTOMER SIGN-OFF
+           ↓
+        CLOSED
+Next workflow: FINANCE / ACCOUNTS → CUSTOMER RECEIVABLES + VENDOR PAYABLES + PAYMENTS + CREDIT/DEBIT NOTES + REFUNDS + 3-WAY MATCH + TALLY SYNC.
+
+Next workflow
+Workflow 12 — FINANCE & ACCOUNTS
+Now we move into the Finance/Accounts workflow.
+
+This module does not replace the Sales, Procurement, or Service workflows. It receives financial transactions from those modules and tracks money, invoices, receivables, payables, adjustments, refunds, and accounting synchronization.
+
+The source specifically includes Final Invoice, customer receivables, vendor payables, adjustments, credit/debit notes, refunds, and vendor payment control through PO + GRN + Vendor Invoice (3-way match). 
+
+1. Finance Starts From Business Transactions
+Finance receives transactions from different modules:
+
+                 FINANCE
+                    │
+       ┌────────────┼────────────┐
+       ↓            ↓            ↓
+     SALES      PROCUREMENT     SERVICE
+       ↓            ↓            ↓
+ Customer         Vendor       Customer
+ Invoice          Invoice       Payment
+       ↓            ↓            ↓
+       └────────────┼────────────┘
+                    ↓
+             ACCOUNTS / FINANCE
+So Finance is connected to the entire ERP.
+
+2. Customer Receivable
+When the company sells a product to a customer:
+
+Sales Order
+    ↓
+Final Invoice
+    ↓
+Customer Receivable
+Example:
+
+Invoice:
+INV-000001
+
+Customer:
+ABC Hospital
+
+Invoice Amount:
+₹8,96,800
+
+Paid:
+₹2,69,040
+
+Balance:
+₹6,27,760
+The system should show:
+
+Total Invoice      ₹8,96,800
+Received           ₹2,69,040
+Outstanding        ₹6,27,760
+3. Customer Payment
+Customer makes a payment.
+
+CUSTOMER
+   ↓
+PAYMENT
+   ↓
+CUSTOMER PAYMENT RECORD
+Example:
+
+Payment No:
+CP-000001
+
+Customer:
+ABC Hospital
+
+Invoice:
+INV-000001
+
+Amount:
+₹2,69,040
+
+Payment Date:
+...
+
+Payment Mode:
+Bank Transfer
+
+Status:
+RECEIVED
+Then:
+
+Invoice
+   ↓
+Payment
+   ↓
+Outstanding Balance Updated
+4. Payment Status
+The source supports several payment conditions.
+
+PENDING
+PARTIAL
+RECEIVED
+VERIFIED
+FAILED
+REVERSED
+OVERPAYMENT
+SHORT PAYMENT
+REFUND
+
+5. Full Payment
+Example:
+
+Invoice:
+₹8,96,800
+
+Customer Paid:
+₹8,96,800
+Then:
+
+Outstanding:
+₹0
+
+Payment Status:
+PAID
+6. Partial Payment
+Example:
+
+Invoice:
+₹8,96,800
+
+Received:
+₹2,69,040
+
+Balance:
+₹6,27,760
+Status:
+
+PARTIAL
+Later another payment comes:
+
+₹6,27,760
+Then:
+
+Total Paid:
+₹8,96,800
+
+Balance:
+₹0
+
+Status:
+PAID
+7. Short Payment
+Suppose customer should pay:
+
+₹1,00,000
+but pays:
+
+₹95,000
+The system records:
+
+Invoice:
+₹1,00,000
+
+Received:
+₹95,000
+
+Short:
+₹5,000
+Status:
+
+SHORT PAYMENT
+The Accounts team can then investigate the difference.
+
+8. Overpayment
+Suppose:
+
+Invoice:
+₹1,00,000
+
+Received:
+₹1,10,000
+Then:
+
+Overpayment:
+₹10,000
+The system should not silently increase the invoice payment amount.
+
+It should record the excess separately and follow the company's configured adjustment/refund process.
+
+9. Failed Payment
+Example:
+
+Customer Payment
+      ↓
+FAILED
+The invoice remains outstanding.
+
+Invoice:
+₹1,00,000
+
+Payment Attempt:
+₹1,00,000
+
+Status:
+FAILED
+
+Outstanding:
+₹1,00,000
+10. Reversed Payment
+A payment may initially appear successful and later be reversed.
+
+RECEIVED
+   ↓
+BANK / PAYMENT REVERSAL
+   ↓
+REVERSED
+The system should maintain the original payment record and the reversal history.
+
+11. Customer Receivables
+Finance should provide an outstanding view:
+
+CUSTOMER RECEIVABLES
+
+Customer       Invoice       Total       Paid       Balance
+------------------------------------------------------------
+ABC Hospital   INV-000001    ₹8.96L      ₹2.69L     ₹6.27L
+XYZ Lab        INV-000002    ₹5.20L      ₹5.20L     ₹0
+DEF Hospital   INV-000003    ₹7.80L      ₹3.00L     ₹4.80L
+This lets Accounts know:
+
+Who owes the company money?
+
+12. Vendor Payable
+Now the opposite side.
+
+When the company purchases materials:
+
+Vendor PO
+    ↓
+GRN
+    ↓
+Vendor Invoice
+    ↓
+Vendor Payable
+Example:
+
+Vendor:
+ABC Components
+
+Vendor PO:
+VPO-000001
+
+GRN:
+GRN-000001
+
+Vendor Invoice:
+VIN-000001
+
+Amount:
+₹8,200
+Now the company owes the vendor.
+
+13. Vendor Invoice
+Vendor sends an invoice.
+
+VENDOR
+   ↓
+VENDOR INVOICE
+   ↓
+ACCOUNTS
+Example:
+
+Vendor Invoice:
+VIN-000001
+
+Vendor:
+ABC Components
+
+Amount:
+₹8,200
+
+Reference:
+VPO-000001
+14. Three-Way Match
+This is a very important Finance control.
+
+Before paying a vendor, compare:
+
+VENDOR PO
+    +
+GRN
+    +
+VENDOR INVOICE
+    ↓
+3-WAY MATCH
+The source explicitly requires this control for vendor payment. 
+
+15. Example — 3-Way Match
+Vendor PO
+VPO-000001
+
+Quantity:
+10
+
+Rate:
+₹1,000
+
+Total:
+₹10,000
+GRN
+GRN-000001
+
+Received:
+10
+
+Accepted:
+10
+Vendor Invoice
+VIN-000001
+
+Quantity:
+10
+
+Rate:
+₹1,000
+
+Total:
+₹10,000
+Everything matches:
+
+PO        ✅
+GRN       ✅
+Invoice   ✅
+
+3-WAY MATCH
+     ↓
+PAYMENT CAN PROCEED
+16. Vendor Invoice Mismatch
+Suppose vendor invoice says:
+
+Quantity:
+10
+
+Rate:
+₹1,200
+But PO says:
+
+Rate:
+₹1,000
+Then:
+
+PO        ✅
+GRN       ✅
+Invoice   ❌
+
+MISMATCH
+The payment should be held for resolution unless an authorized exception is allowed.
+
+MISMATCH
+   ↓
+HOLD PAYMENT
+   ↓
+INVESTIGATE
+   ↓
+CORRECT / APPROVE EXCEPTION
+   ↓
+3-WAY MATCH
+17. Vendor Payment
+After successful verification:
+
+3-WAY MATCH
+      ↓
+PAYMENT APPROVAL
+      ↓
+VENDOR PAYMENT
+Example:
+
+Vendor Payment:
+VP-000001
+
+Vendor:
+ABC Components
+
+Invoice:
+VIN-000001
+
+Amount:
+₹10,000
+
+Status:
+PAID
+Then:
+
+Vendor Payable
+₹10,000
+     ↓
+Paid
+₹10,000
+     ↓
+Balance
+₹0
+18. Vendor Payables Dashboard
+Finance should be able to see:
+
+VENDOR PAYABLES
+
+Vendor            Invoice       Amount       Paid      Balance
+----------------------------------------------------------------
+ABC Components    VIN-000001    ₹10,000      ₹10,000    ₹0
+XYZ Electrical    VIN-000002    ₹25,000      ₹10,000    ₹15,000
+DEF Metals        VIN-000003    ₹50,000      ₹0         ₹50,000
+19. Credit Note
+A credit note adjusts an amount owed by the customer/vendor according to the relevant business transaction.
+
+Example:
+
+Customer returns an item and company approves a credit.
+
+RMA
+ ↓
+Approved Credit
+ ↓
+CREDIT NOTE
+Example:
+
+CN-000001
+
+Customer:
+ABC Hospital
+
+Reference:
+INV-000001
+
+Reason:
+Approved product return
+
+Credit:
+₹50,000
+Then the customer outstanding is adjusted according to the credit note.
+
+20. Debit Note
+A debit note can be used where the company needs to record an additional financial adjustment according to the business case.
+
+Transaction
+   ↓
+Adjustment Required
+   ↓
+DEBIT NOTE
+The exact conditions and accounting treatment should follow the client's accounting policy.
+
+21. Refund
+Refund may occur in cases such as:
+
+Customer Overpayment
+RMA
+Order Cancellation
+Approved Refund
+Flow:
+
+REFUND REQUEST
+      ↓
+APPROVAL
+      ↓
+REFUND PAYMENT
+      ↓
+REFUND COMPLETED
+Example:
+
+Refund:
+RF-000001
+
+Customer:
+ABC Hospital
+
+Amount:
+₹25,000
+
+Reason:
+Approved RMA
+
+Status:
+COMPLETED
+The source includes refunds as a Finance transaction and as an RMA outcome. 
+
+22. Order Cancellation and Finance
+Another exception:
+
+SALES ORDER
+    ↓
+CANCELLED
+    ↓
+Already Paid?
+If no payment:
+
+Cancel
+ ↓
+No Refund Required
+If payment exists:
+
+Cancel
+ ↓
+Check Payment
+ ↓
+Refund / Adjustment
+The exact cancellation/refund policy should be configured according to the client's confirmed business rules.
+
+23. Finance and Sales Connection
+The complete Sales-to-Finance relationship is:
+
+QUOTATION
+    ↓
+PROFORMA
+    ↓
+CUSTOMER PO
+    ↓
+SALES ORDER
+    ↓
+PAYMENT
+    ↓
+PRODUCTION
+    ↓
+DELIVERY
+    ↓
+FINAL INVOICE
+    ↓
+CUSTOMER RECEIVABLE
+    ↓
+CUSTOMER PAYMENT
+    ↓
+RECEIVABLE CLOSED
+24. Finance and Procurement Connection
+PURCHASE REQUEST
+      ↓
+RFQ
+      ↓
+VENDOR PO
+      ↓
+GRN
+      ↓
+VENDOR INVOICE
+      ↓
+3-WAY MATCH
+      ↓
+VENDOR PAYABLE
+      ↓
+VENDOR PAYMENT
+      ↓
+PAYABLE CLOSED
+25. Finance and RMA Connection
+RMA
+ ↓
+Inspection
+ ↓
+Credit Note / Refund
+ ↓
+Finance
+ ↓
+Customer Account Updated
+26. Finance and Service Connection
+For chargeable service:
+
+SERVICE TICKET
+      ↓
+WARRANTY EXPIRED
+      ↓
+SERVICE QUOTATION
+      ↓
+CUSTOMER APPROVAL
+      ↓
+SERVICE PAYMENT
+      ↓
+SERVICE
+For warranty service:
+
+SERVICE TICKET
+      ↓
+WARRANTY ACTIVE
+      ↓
+FREE SERVICE
+27. Finance Dashboard
+The source includes Finance-related management information such as Outstanding Receivables/Payables. 
+
+A practical dashboard should show:
+
+FINANCE DASHBOARD
+
+Customer Receivables
+₹XX,XX,XXX
+
+Vendor Payables
+₹XX,XX,XXX
+
+Today's Collections
+₹XX,XXX
+
+Today's Payments
+₹XX,XXX
+
+Pending Customer Payments
+XX
+
+Pending Vendor Payments
+XX
+
+Overdue Receivables
+XX
+
+Overdue Payables
+XX
+28. Finance Transaction Chain
+                    FINANCE
+                       │
+        ┌──────────────┼──────────────┐
+        ↓              ↓              ↓
+   CUSTOMER        VENDOR          SERVICE
+   RECEIVABLE      PAYABLE        PAYMENT
+        ↓              ↓              ↓
+   INVOICE         PO/GRN         SERVICE
+        ↓              ↓              ↓
+   PAYMENT       3-WAY MATCH      PAYMENT
+        ↓              ↓
+   BALANCE        VENDOR PAYMENT
+        ↓              ↓
+    CLOSED          CLOSED
+29. Tally Synchronization
+The source also includes Tally Sync in the overall business workflow and Finance module. 
+
+So the ERP can have:
+
+ERP FINANCE
+     ↓
+VERIFY TRANSACTION
+     ↓
+READY FOR ACCOUNTING
+     ↓
+TALLY SYNC
+     ↓
+SYNC SUCCESS / FAILED
+Example:
+
+Invoice:
+INV-000001
+
+Tally Status:
+PENDING
+After synchronization:
+
+Tally Status:
+SYNCED
+
+Tally Reference:
+...
+If synchronization fails:
+
+SYNC FAILED
+    ↓
+ERROR DETAILS
+    ↓
+RETRY
+The exact Tally integration/API/connector behavior is a client/integration implementation detail and should not be invented until the client's actual Tally integration requirement is confirmed.
+
+30. Complete Finance Workflow
+                       BUSINESS TRANSACTION
+                               ↓
+                     ┌─────────┴─────────┐
+                     ↓                   ↓
+                   SALES             PURCHASE
+                     ↓                   ↓
+                FINAL INVOICE        VENDOR INVOICE
+                     ↓                   ↓
+              CUSTOMER RECEIVABLE   3-WAY MATCH
+                     ↓                   ↓
+              CUSTOMER PAYMENT      VENDOR PAYABLE
+                     ↓                   ↓
+                 BALANCE            VENDOR PAYMENT
+                     ↓                   ↓
+                  CLOSED               CLOSED
+Exceptions:
+
+PAYMENT
+ ├── FULL
+ ├── PARTIAL
+ ├── FAILED
+ ├── REVERSED
+ ├── SHORT
+ ├── OVERPAYMENT
+ └── REFUND
+Adjustments:
+
+CREDIT NOTE
+DEBIT NOTE
+REFUND
+ADJUSTMENT
+Accounting:
+
+FINANCE
+   ↓
+VERIFICATION
+   ↓
+TALLY SYNC
+   ↓
+SYNCED
+31. Overall ERP Workflow — Updated
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+QUOTATION
+ ↓
+NEGOTIATION / REVISION
+ ↓
+CUSTOMER ACCEPTANCE
+ ↓
+PROFORMA INVOICE
+ ↓
+CUSTOMER PO
+ ↓
+PO VERIFICATION
+ ↓
+SALES ORDER
+ ↓
+PAYMENT
+ ↓
+PRODUCTION ORDER
+ ↓
+BOM
+ ↓
+MATERIAL REQUEST
+ ↓
+STOCK CHECK
+ ├── FULL → MATERIAL ISSUE
+ ├── PARTIAL → ISSUE + PROCUREMENT
+ └── NONE → PROCUREMENT
+              ↓
+          PURCHASE REQUEST
+              ↓
+             RFQ
+              ↓
+      VENDOR QUOTATIONS
+              ↓
+       VENDOR COMPARISON
+              ↓
+       VENDOR SELECTION
+              ↓
+          VENDOR PO
+              ↓
+           DELIVERY
+              ↓
+             GRN
+              ↓
+          INVENTORY
+              ↓
+        MATERIAL ISSUE
+              ↓
+          FABRICATION
+              ↓
+         REFRIGERATION
+              ↓
+           ELECTRICAL
+              ↓
+            ASSEMBLY
+              ↓
+     PRODUCTION COMPLETED
+              ↓
+          QA TESTING
+              ↓
+       SERIAL NUMBER
+              ↓
+        FINISHED GOODS
+              ↓
+            PACKING
+              ↓
+         FINAL INVOICE
+              ↓
+           DISPATCH
+              ↓
+           DELIVERY
+              ↓
+             POD
+              ↓
+        INSTALLATION
+              ↓
+        COMMISSIONING
+              ↓
+       CUSTOMER SIGN-OFF
+              ↓
+           WARRANTY
+              ↓
+        SERVICE TICKET
+              ↓
+        WARRANTY CHECK
+              ↓
+           DIAGNOSIS
+              ↓
+       SPARE / PROCUREMENT
+              ↓
+            REPAIR
+              ↓
+           TESTING
+              ↓
+       SERVICE CLOSED
+Finance runs across this entire chain:
+CUSTOMER RECEIVABLES
+VENDOR PAYABLES
+CUSTOMER PAYMENTS
+VENDOR PAYMENTS
+FINAL INVOICES
+CREDIT NOTES
+DEBIT NOTES
+REFUNDS
+ADJUSTMENTS
+TALLY SYNC
+Next workflow: MAINTENANCE → EQUIPMENT → PREVENTIVE MAINTENANCE → BREAKDOWN → ENGINEER → REPAIR → PARTS → TESTING → MAINTENANCE HISTORY. This is a separate operational workflow explicitly present in the first client document. 
+
+Next workflow
+Workflow 13 — MAINTENANCE MANAGEMENT
+This workflow is separate from customer service/warranty service. It manages the company's own equipment, machines, assets, breakdowns, preventive maintenance, service history, and maintenance activities.
+
+The client document specifically identifies Equipment, Breakdown, Preventive Maintenance, and Service History under Maintenance. 
+
+1. Maintenance Starts With Equipment
+First, the ERP must know what equipment needs maintenance.
+
+EQUIPMENT MASTER
+       ↓
+Equipment Registered
+       ↓
+Maintenance Schedule
+       ↓
+Preventive Maintenance
+       ↓
+Breakdown Maintenance
+       ↓
+Maintenance History
+Example:
+
+Equipment:
+Cold Storage Compressor
+
+Equipment ID:
+EQ-00025
+
+Location:
+Production Floor
+
+Department:
+Production
+
+Status:
+ACTIVE
+2. Equipment Master
+The Maintenance module should maintain an equipment record.
+
+Equipment
+├── Equipment ID
+├── Equipment Name
+├── Equipment Type
+├── Department
+├── Location
+├── Manufacturer
+├── Model
+├── Serial Number
+├── Installation Date
+├── Current Status
+└── Maintenance History
+The exact fields beyond the source's stated equipment concept should be confirmed during detailed requirements; don't assume every field is mandatory.
+
+3. Two Main Maintenance Types
+Maintenance generally enters through two paths represented by the client requirement:
+
+                 MAINTENANCE
+                     │
+          ┌──────────┴──────────┐
+          ↓                     ↓
+   PREVENTIVE                 BREAKDOWN
+   MAINTENANCE                MAINTENANCE
+          ↓                     ↓
+   Planned Work             Problem Reported
+4. Preventive Maintenance
+Preventive maintenance is planned maintenance.
+
+Example:
+
+Compressor
+    ↓
+Maintenance Due
+    ↓
+Maintenance Task
+    ↓
+Engineer / Technician
+    ↓
+Maintenance
+    ↓
+Testing
+    ↓
+Completed
+The objective is to perform maintenance before a major breakdown occurs.
+
+5. Preventive Maintenance Schedule
+Example:
+
+Equipment:
+Compressor-01
+
+Maintenance:
+Routine Maintenance
+
+Frequency:
+Monthly
+
+Next Due:
+10-Nov-2026
+The ERP should show upcoming maintenance.
+
+UPCOMING MAINTENANCE
+
+Equipment       Due Date       Status
+-----------------------------------------
+Compressor-01   10-Nov-2026    Upcoming
+Machine-02      15-Nov-2026    Upcoming
+Generator-01    20-Nov-2026    Upcoming
+6. Preventive Maintenance Workflow
+EQUIPMENT
+    ↓
+MAINTENANCE SCHEDULE
+    ↓
+MAINTENANCE DUE
+    ↓
+MAINTENANCE TASK
+    ↓
+ASSIGN PERSON
+    ↓
+PERFORM MAINTENANCE
+    ↓
+TEST
+    ↓
+COMPLETED
+    ↓
+MAINTENANCE HISTORY
+7. Breakdown Maintenance
+Now consider an unexpected problem.
+
+Example:
+
+Production Machine
+       ↓
+Breakdown
+       ↓
+Breakdown Report
+       ↓
+Maintenance Team
+Example:
+
+Compressor suddenly stops working during production.
+
+The user reports the breakdown.
+
+BREAKDOWN
+ID: BD-00015
+
+Equipment:
+Compressor-01
+
+Problem:
+Compressor not starting
+
+Reported By:
+Production Department
+
+Status:
+OPEN
+8. Breakdown Workflow
+BREAKDOWN REPORTED
+       ↓
+BREAKDOWN ENTRY
+       ↓
+ASSIGN MAINTENANCE PERSON
+       ↓
+INSPECTION
+       ↓
+DIAGNOSIS
+       ↓
+REPAIR
+       ↓
+TESTING
+       ↓
+WORKING?
+   ┌───┴───┐
+   ↓       ↓
+  YES      NO
+   ↓       ↓
+CLOSE    REPAIR AGAIN
+           ↓
+         TEST
+9. Inspection
+The assigned maintenance person checks the equipment.
+
+Equipment:
+Compressor-01
+
+Complaint:
+Not starting
+
+Inspection:
+Motor issue detected
+
+Diagnosis:
+Motor component failure
+The exact diagnosis fields/process should be finalized with the client because the source only establishes the breakdown/maintenance workflow at a high level.
+
+10. Spare Material Required?
+During maintenance, the technician may discover that a part is required.
+
+DIAGNOSIS
+    ↓
+PART REQUIRED?
+   / \
+ YES  NO
+  ↓    ↓
+MATERIAL   REPAIR
+REQUEST
+If no material is required:
+
+Diagnosis
+   ↓
+Repair
+   ↓
+Testing
+11. Material Required
+If a spare part is required:
+
+MAINTENANCE
+     ↓
+MATERIAL REQUEST
+     ↓
+STORE STOCK CHECK
+Then:
+
+                STOCK CHECK
+                    │
+          ┌─────────┴─────────┐
+          ↓                   ↓
+       AVAILABLE          NOT AVAILABLE
+          ↓                   ↓
+    ISSUE MATERIAL       PROCUREMENT
+          ↓                   ↓
+        REPAIR           MATERIAL RECEIVED
+                              ↓
+                        ISSUE MATERIAL
+                              ↓
+                            REPAIR
+This connects Maintenance to the ERP's existing Store/Inventory and Procurement processes.
+
+12. Example
+Suppose:
+
+Equipment:
+Compressor-01
+
+Problem:
+Not cooling
+Technician diagnoses:
+
+Fault:
+Component damaged
+
+Required:
+Replacement component
+Stock check:
+
+Required: 1
+Available: 1
+Therefore:
+
+Material Issue
+      ↓
+Technician
+      ↓
+Replacement
+      ↓
+Testing
+13. If Spare Is Not Available
+Suppose:
+
+Required:
+1
+
+Available:
+0
+Then:
+
+Maintenance Material Request
+          ↓
+      Stock Check
+          ↓
+      NOT AVAILABLE
+          ↓
+      Procurement
+          ↓
+     Purchase Process
+          ↓
+       GRN / Stock
+          ↓
+     Material Issue
+          ↓
+        Repair
+So Maintenance does not need a completely separate purchasing system.
+
+It can reuse the ERP Procurement workflow.
+
+14. Repair
+After receiving the required material:
+
+MATERIAL
+   ↓
+ISSUE
+   ↓
+REPAIR
+   ↓
+REPLACEMENT
+   ↓
+EQUIPMENT TEST
+Maintenance status could progress through:
+
+OPEN
+ ↓
+ASSIGNED
+ ↓
+INSPECTION
+ ↓
+MATERIAL REQUIRED
+ ↓
+WAITING FOR MATERIAL
+ ↓
+REPAIR
+ ↓
+TESTING
+ ↓
+COMPLETED
+These exact statuses are implementation-level suggestions; the source itself does not prescribe this complete status list.
+
+15. Testing
+After repair:
+
+REPAIR
+  ↓
+TESTING
+  ↓
+WORKING?
+If working:
+
+PASS
+ ↓
+MAINTENANCE COMPLETED
+ ↓
+CLOSE
+If not:
+
+FAIL
+ ↓
+DIAGNOSIS AGAIN
+ ↓
+REPAIR
+ ↓
+TEST
+16. Maintenance Closure
+Once the equipment is successfully repaired:
+
+TEST PASS
+    ↓
+MAINTENANCE COMPLETED
+    ↓
+CLOSE MAINTENANCE
+    ↓
+UPDATE EQUIPMENT STATUS
+    ↓
+SAVE MAINTENANCE HISTORY
+Example:
+
+Equipment:
+Compressor-01
+
+Maintenance:
+Breakdown
+
+Problem:
+Not cooling
+
+Action:
+Component replaced
+
+Result:
+Test Passed
+
+Status:
+CLOSED
+17. Maintenance History
+Every maintenance activity should remain available as history.
+
+EQUIPMENT
+    ↓
+MAINTENANCE HISTORY
+Example:
+
+Equipment: Compressor-01
+
+Date          Type          Issue          Status
+---------------------------------------------------
+10-Jan-2026   Preventive    Routine        Completed
+15-Mar-2026   Breakdown     Motor issue    Completed
+20-Jun-2026   Preventive    Routine        Completed
+05-Oct-2026   Breakdown     Cooling issue  Completed
+This allows management to understand how frequently equipment is failing.
+
+The client requirement specifically includes service history within Maintenance. 
+
+18. Equipment Status
+The ERP can maintain an equipment status such as:
+
+ACTIVE
+UNDER MAINTENANCE
+BREAKDOWN
+AVAILABLE
+OUT OF SERVICE
+Again, the exact status master should be confirmed with the client.
+
+19. Maintenance vs Customer Service
+This distinction is very important.
+
+Maintenance
+For the company's internal equipment:
+
+Company Equipment
+      ↓
+Breakdown / Preventive Maintenance
+      ↓
+Maintenance Team
+      ↓
+Repair
+      ↓
+Testing
+      ↓
+Maintenance History
+Customer Service
+For products already sold to customers:
+
+Customer Product
+      ↓
+Service Ticket
+      ↓
+Warranty Check
+      ↓
+Engineer
+      ↓
+Repair
+      ↓
+Customer Sign-off
+      ↓
+Service Closure
+So they should not be treated as the same business workflow, even though both involve repair/service activities.
+
+20. Maintenance + Inventory
+Maintenance connects to Stores:
+
+MAINTENANCE
+     ↓
+SPARE REQUIRED
+     ↓
+MATERIAL REQUEST
+     ↓
+STORE
+     ↓
+STOCK AVAILABLE?
+   ┌───┴───┐
+  YES      NO
+   ↓        ↓
+ISSUE    PROCUREMENT
+   ↓        ↓
+REPAIR   RECEIVE
+            ↓
+          ISSUE
+            ↓
+          REPAIR
+21. Maintenance + Procurement
+When a spare is unavailable:
+
+MAINTENANCE MATERIAL REQUEST
+            ↓
+       PROCUREMENT
+            ↓
+          RFQ
+            ↓
+    VENDOR QUOTATIONS
+            ↓
+      VENDOR SELECTION
+            ↓
+        VENDOR PO
+            ↓
+           GRN
+            ↓
+        INVENTORY
+            ↓
+       MATERIAL ISSUE
+            ↓
+         MAINTENANCE
+This reuses the same procurement workflow rather than creating duplicate purchasing logic.
+
+22. Maintenance + Finance
+If maintenance requires purchasing spare parts:
+
+Maintenance
+    ↓
+Material Request
+    ↓
+Procurement
+    ↓
+Vendor PO
+    ↓
+GRN
+    ↓
+Vendor Invoice
+    ↓
+3-Way Match
+    ↓
+Vendor Payment
+So Finance automatically becomes involved when maintenance creates a procurement transaction.
+
+23. Complete Maintenance Workflow
+                         EQUIPMENT
+                            ↓
+                    MAINTENANCE PLAN
+                            ↓
+               ┌────────────┴────────────┐
+               ↓                         ↓
+         PREVENTIVE                  BREAKDOWN
+         MAINTENANCE                 REPORTED
+               ↓                         ↓
+          TASK CREATED              INSPECTION
+               ↓                         ↓
+          ASSIGN PERSON              DIAGNOSIS
+               └────────────┬────────────┘
+                            ↓
+                    MATERIAL REQUIRED?
+                       /          \
+                     YES           NO
+                      ↓             ↓
+                STOCK CHECK       REPAIR
+                  /     \
+             AVAILABLE  NOT AVAILABLE
+                ↓           ↓
+             ISSUE      PROCUREMENT
+                ↓           ↓
+                └─────┬─────┘
+                      ↓
+                    REPAIR
+                      ↓
+                   TESTING
+                      ↓
+                 TEST PASSED?
+                  /       \
+                YES        NO
+                 ↓          ↓
+              CLOSE      REPAIR AGAIN
+                 ↓          ↓
+         MAINTENANCE HISTORY
+24. Updated Overall ERP Position
+We have now covered:
+
+01. LEAD
+      ↓
+02. ENQUIRY
+      ↓
+03. QUOTATION
+      ↓
+04. PROFORMA → CUSTOMER PO → SALES ORDER → PAYMENT
+      ↓
+05. PRODUCTION ORDER → BOM → MATERIAL REQUEST
+      ↓
+06. PROCUREMENT → RFQ → VENDOR PO → GRN
+      ↓
+07. MANUFACTURING
+      ↓
+08. QA → SERIAL → FINISHED GOODS
+      ↓
+09. PACKING → INVOICE → DISPATCH → DELIVERY
+      ↓
+10. INSTALLATION → COMMISSIONING → WARRANTY
+      ↓
+11. SERVICE / RMA
+      ↓
+12. FINANCE / ACCOUNTS
+      ↓
+13. MAINTENANCE
+Next workflow: LOGISTICS → TRANSPORTER → SHIPMENT → TRACKING → DISPATCH → IN TRANSIT → OUT FOR DELIVERY → DELIVERY → POD → DELIVERY FAILURE / RETURN. The client source explicitly includes transporter, shipment, tracking, and delivery status under Logistics.
+
+Next workflow
+Workflow 14 — LOGISTICS & DELIVERY
+This workflow manages the movement of the finished product from the company to the customer.
+
+The client document specifically includes Transporter, Shipment, Tracking, and Delivery Status under Logistics. 
+
+It connects directly with the earlier Packing → Dispatch → Delivery → POD workflow.
+
+1. Logistics Starts After Dispatch Readiness
+The basic flow is:
+
+FINISHED GOODS
+      ↓
+PACKING
+      ↓
+DISPATCH READY
+      ↓
+TRANSPORTER
+      ↓
+SHIPMENT
+      ↓
+TRACKING
+      ↓
+DISPATCH
+      ↓
+IN TRANSIT
+      ↓
+OUT FOR DELIVERY
+      ↓
+DELIVERED
+      ↓
+POD
+2. Dispatch Ready
+After production and QA:
+
+Production Completed
+       ↓
+QA PASS
+       ↓
+Finished Goods
+       ↓
+Packing
+       ↓
+Dispatch Ready
+The Logistics team now needs to arrange delivery.
+
+Example:
+
+Order:
+SO-000125
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Freezer
+
+Quantity:
+2
+
+Status:
+READY FOR DISPATCH
+3. Select Transporter
+The Logistics team selects the transporter.
+
+DISPATCH READY
+      ↓
+SELECT TRANSPORTER
+      ↓
+CREATE SHIPMENT
+Example:
+
+Transporter:
+ABC Logistics
+
+Vehicle:
+TN-XX-1234
+
+Shipment:
+SHP-000125
+The exact transporter-selection criteria are not specified in the client document, so those should be confirmed rather than assumed.
+
+4. Create Shipment
+A shipment connects the customer order with the physical delivery.
+
+SALES ORDER
+    ↓
+PACKED GOODS
+    ↓
+SHIPMENT
+Example:
+
+Shipment ID:
+SHP-000125
+
+Sales Order:
+SO-000125
+
+Customer:
+ABC Hospital
+
+Packages:
+2
+
+Transporter:
+ABC Logistics
+
+Status:
+READY
+5. Shipment Tracking
+Once the shipment leaves the company, tracking becomes important.
+
+SHIPMENT
+   ↓
+TRACKING
+   ↓
+DELIVERY STATUS
+Example:
+
+Shipment:
+SHP-000125
+
+Tracking No:
+TRK-789456
+
+Current Status:
+IN TRANSIT
+The client requirement explicitly calls for tracking under Logistics. 
+
+6. Logistics Status Flow
+The detailed business document defines the delivery progression as:
+
+READY
+  ↓
+DISPATCHED
+  ↓
+IN TRANSIT
+  ↓
+OUT FOR DELIVERY
+  ↓
+DELIVERED
+
+So the ERP should preserve this progression.
+
+7. Ready
+PACKING COMPLETED
+      ↓
+READY
+Meaning:
+
+The goods are packed and ready to leave the company.
+
+8. Dispatched
+The goods physically leave the company.
+
+READY
+  ↓
+DISPATCHED
+At this stage, the ERP should record the dispatch transaction and shipment details.
+
+9. In Transit
+The shipment is travelling.
+
+DISPATCHED
+     ↓
+IN TRANSIT
+Example:
+
+Shipment:
+SHP-000125
+
+Location:
+Chennai
+
+Destination:
+Nagapattinam
+
+Status:
+IN TRANSIT
+10. Out for Delivery
+The shipment has reached the delivery stage.
+
+IN TRANSIT
+     ↓
+OUT FOR DELIVERY
+This indicates that delivery to the customer's location is being attempted.
+
+11. Delivered
+Customer receives the goods.
+
+OUT FOR DELIVERY
+       ↓
+DELIVERED
+But the ERP should not stop at simply changing the status.
+
+It should capture Proof of Delivery (POD).
+
+12. Proof of Delivery — POD
+The detailed workflow explicitly includes POD.
+
+Possible POD information includes:
+
+POD
+├── Delivery Date
+├── Receiver
+├── Signature
+├── Delivery Photos
+└── Delivery Confirmation
+The source specifically identifies POD, including signature/photos as delivery evidence. 
+
+13. Complete Successful Delivery
+PACKING
+   ↓
+READY
+   ↓
+TRANSPORTER
+   ↓
+SHIPMENT CREATED
+   ↓
+DISPATCHED
+   ↓
+IN TRANSIT
+   ↓
+OUT FOR DELIVERY
+   ↓
+DELIVERED
+   ↓
+POD
+   ↓
+DELIVERY COMPLETED
+14. Delivery Failure
+Not every delivery succeeds.
+
+The business workflow explicitly includes delivery failure handling. 
+
+So:
+
+OUT FOR DELIVERY
+       ↓
+DELIVERY ATTEMPT
+       ↓
+SUCCESS?
+     /   \
+   YES    NO
+    ↓      ↓
+DELIVERED  DELIVERY FAILED
+15. Delivery Failure → Reschedule
+One possible outcome is rescheduling.
+
+DELIVERY FAILED
+      ↓
+REASON RECORDED
+      ↓
+RESCHEDULE
+      ↓
+OUT FOR DELIVERY
+      ↓
+DELIVERED
+Example:
+
+Failure Reason:
+Customer unavailable
+
+Action:
+Reschedule delivery
+
+New Delivery Date:
+...
+16. Delivery Failure → Return
+Another possible outcome is return.
+
+DELIVERY FAILED
+      ↓
+RETURN
+      ↓
+PRODUCT BACK TO COMPANY
+The detailed workflow identifies reschedule or return as delivery-failure outcomes. 
+
+17. Delivery Return
+If goods are returned:
+
+DELIVERY FAILURE
+      ↓
+RETURN SHIPMENT
+      ↓
+RECEIVE PRODUCT
+      ↓
+INSPECTION
+From there, the business may need to decide whether the product is:
+
+GOOD
+ ↓
+STOCK / RE-DISPATCH
+or:
+
+DAMAGED
+ ↓
+INSPECTION / REPAIR / RMA PROCESS
+The exact post-return handling should follow the client's confirmed RMA/return policy.
+
+18. Logistics and Sales
+Logistics receives its source transaction from Sales.
+
+CUSTOMER
+   ↓
+LEAD
+   ↓
+QUOTATION
+   ↓
+SALES ORDER
+   ↓
+PRODUCTION
+   ↓
+QA
+   ↓
+FINISHED GOODS
+   ↓
+PACKING
+   ↓
+LOGISTICS
+19. Logistics and Production
+Production tells Logistics:
+
+The product is ready to dispatch.
+
+PRODUCTION
+    ↓
+COMPLETED
+    ↓
+QA PASS
+    ↓
+FINISHED GOODS
+    ↓
+PACKING
+    ↓
+DISPATCH READY
+    ↓
+LOGISTICS
+20. Logistics and Inventory
+Before dispatch:
+
+FINISHED GOODS
+      ↓
+PACKING
+      ↓
+DISPATCH
+      ↓
+STOCK MOVEMENT
+The ERP should maintain the appropriate inventory movement so that the physical stock and system stock remain consistent.
+
+The exact accounting treatment of stock movement is not specified in the source and should be confirmed during implementation.
+
+21. Logistics and Finance
+Logistics also connects to Finance.
+
+The overall business workflow contains:
+
+PACKING
+   ↓
+FINAL INVOICE
+   ↓
+DISPATCH
+
+So:
+
+LOGISTICS
+    ↓
+DISPATCH
+    ↓
+DELIVERY
+    ↓
+POD
+while Finance handles:
+
+FINAL INVOICE
+    ↓
+CUSTOMER RECEIVABLE
+    ↓
+PAYMENT
+The exact timing of final invoicing versus dispatch must follow the client's confirmed finance policy.
+
+22. Logistics and Installation
+For products requiring installation:
+
+DELIVERY
+   ↓
+POD
+   ↓
+INSTALLATION
+   ↓
+COMMISSIONING
+   ↓
+CUSTOMER SIGN-OFF
+   ↓
+WARRANTY
+Therefore Logistics is not necessarily the final stage.
+
+Delivery can trigger the next operational process.
+
+23. Logistics Dashboard
+The Logistics page can show:
+
+LOGISTICS DASHBOARD
+
+Ready for Dispatch       XX
+Dispatched               XX
+In Transit               XX
+Out for Delivery         XX
+Delivered                XX
+Delivery Failed          XX
+Pending POD              XX
+These are practical dashboard views derived from the workflow; the client source confirms the Logistics module and delivery statuses, but does not prescribe this exact dashboard layout.
+
+24. Shipment Details
+A shipment record can conceptually contain:
+
+SHIPMENT
+
+Shipment ID
+Sales Order
+Customer
+Destination
+Transporter
+Tracking Number
+Packages
+Dispatch Date
+Expected Delivery
+Current Status
+POD
+Remarks
+The exact mandatory fields should be finalized with the client.
+
+25. Complete Logistics Workflow
+                 FINISHED GOODS
+                       ↓
+                    PACKING
+                       ↓
+                 DISPATCH READY
+                       ↓
+                SELECT TRANSPORTER
+                       ↓
+                 CREATE SHIPMENT
+                       ↓
+                    TRACKING
+                       ↓
+                   DISPATCHED
+                       ↓
+                   IN TRANSIT
+                       ↓
+                OUT FOR DELIVERY
+                       ↓
+                DELIVERY ATTEMPT
+                       ↓
+                  ┌────┴────┐
+                  ↓         ↓
+                SUCCESS    FAILED
+                  ↓         ↓
+              DELIVERED   RESCHEDULE
+                  ↓         ↓
+                  ↓    OUT FOR DELIVERY
+                  ↓
+                 POD
+                  ↓
+          DELIVERY COMPLETED
+Failure can also go:
+
+DELIVERY FAILED
+      ↓
+    RETURN
+      ↓
+PRODUCT RECEIVED
+      ↓
+INSPECTION
+      ↓
+RMA / REPAIR / RE-DISPATCH
+26. Updated ERP Workflow
+We have now covered:
+
+01  LEAD
+ ↓
+02  FOLLOW-UP / ENQUIRY
+ ↓
+03  QUOTATION / NEGOTIATION
+ ↓
+04  PROFORMA / CUSTOMER PO / SALES ORDER / PAYMENT
+ ↓
+05  PRODUCTION ORDER / BOM / MATERIAL REQUEST
+ ↓
+06  PROCUREMENT / RFQ / VENDOR PO / GRN
+ ↓
+07  MANUFACTURING
+ ↓
+08  QA / SERIAL / FINISHED GOODS
+ ↓
+09  PACKING / FINAL INVOICE
+ ↓
+10  DISPATCH / DELIVERY
+ ↓
+11  INSTALLATION / COMMISSIONING / WARRANTY
+ ↓
+12  SERVICE / RMA
+ ↓
+13  FINANCE / ACCOUNTS
+ ↓
+14  MAINTENANCE
+ ↓
+15  LOGISTICS / TRACKING / POD
+One important point: Logistics is operationally connected to Dispatch and Delivery, so in the actual ERP architecture it may be positioned around Workflow 9–10 rather than strictly after Maintenance. The numbering here is only the sequence we are using to explain each module one by one.
+
+Next workflow: SUPPLIER & CUSTOMER MASTER → CUSTOMER MASTER → VENDOR MASTER → PRODUCT MASTER → EMPLOYEE/USER → WAREHOUSE → TAX → PAYMENT TERMS → DELIVERY TERMS → WARRANTY TERMS. These master-data areas are explicitly identified in the detailed client workflow. 
+
+Next
+
+Worked for a few seconds
+Workflow 15 — MASTER DATA MANAGEMENT
+This workflow is different from the previous workflows.
+
+Master Data is not a sequential process like Lead → Quotation → Production.
+Instead, these are central reusable records that support multiple ERP transactions throughout the system. The client document explicitly defines Master Data as one of the four ERP layers. 
+
+The client's master-data list is:
+
+Customer
+Product
+Vendor
+Employee / User
+Warehouse
+Work Center
+Tax
+Payment Terms
+Delivery Terms
+Warranty Terms
+
+1. Overall Master Data Structure
+                    MASTER DATA
+                        │
+       ┌────────────────┼────────────────┐
+       ↓                ↓                ↓
+   CUSTOMER          PRODUCT           VENDOR
+       │                │                │
+       ├────────────┐   │   ┌────────────┤
+       ↓            ↓   ↓   ↓            ↓
+    SALES        SERVICE BOM          PROCUREMENT
+       │                │                │
+       └────────────────┼────────────────┘
+                        ↓
+              ALL ERP TRANSACTIONS
+Additional supporting masters:
+
+Employee / User
+Warehouse
+Work Center
+Tax
+Payment Terms
+Delivery Terms
+Warranty Terms
+2. Customer Master
+Purpose
+The Customer Master is the central customer record used across:
+
+Sales
+Accounts
+Delivery
+Service
+The source explicitly defines these purposes. 
+
+Example
+Customer ID:
+CUS-000001
+
+Company:
+ABC Hospital
+
+Customer Type:
+Hospital
+
+Contact:
+Dr. Kumar
+
+Phone:
+XXXXXXXXXX
+
+Email:
+...
+
+GST/PAN:
+...
+
+Billing Address:
+...
+
+Shipping Address:
+...
+
+Payment Terms:
+30% Advance / 70% Before Dispatch
+
+Credit Limit:
+₹10,00,000
+
+Status:
+ACTIVE
+The source specifically lists Customer ID, company, contacts, GST, addresses, payment terms, credit limit, documents and status. 
+
+3. Customer Creation Flow
+LEAD / ENQUIRY
+      ↓
+EXISTING CUSTOMER?
+    /       \
+  YES        NO
+   ↓          ↓
+SELECT      CREATE
+CUSTOMER    CUSTOMER
+   \          /
+    └────┬───┘
+         ↓
+   CUSTOMER MASTER
+         ↓
+Available to:
+Quotation
+Sales Order
+Invoice
+Payment
+Delivery
+Service
+The workflow specifically says the system should avoid creating a duplicate customer when the customer already exists. 
+
+4. Customer Status
+The source specifies:
+
+PROSPECT
+   ↓
+ACTIVE
+   ↓
+INACTIVE
+A customer can then be reused across the ERP rather than recreated for every transaction. 
+
+5. Product Master
+The Product Master defines products that the company sells or manufactures.
+
+PRODUCT MASTER
+      ↓
+QUOTATION
+      ↓
+SALES ORDER
+      ↓
+BOM
+      ↓
+PRODUCTION
+      ↓
+QA
+      ↓
+INVOICE
+      ↓
+SERVICE
+The source lists:
+
+Product Code
+Name
+Category
+Model
+Specification
+Unit
+Selling Price
+Tax
+Warranty
+Serial Requirement
+BOM
+Status
+
+6. Example Product
+Product Code:
+PRD-000001
+
+Product:
+-80°C Deep Freezer
+
+Category:
+Freezer
+
+Model:
+CSS-80F
+
+Specification:
+...
+
+Unit:
+Nos
+
+Selling Price:
+₹4,00,000
+
+Tax:
+Configured Tax
+
+Warranty:
+Configured Warranty
+
+Serial Requirement:
+YES
+
+BOM:
+BOM-000001
+
+Status:
+ACTIVE
+7. Product → BOM Connection
+The important relationship is:
+
+PRODUCT
+   ↓
+BOM
+   ↓
+REQUIRED MATERIALS
+   ↓
+PRODUCTION
+For example:
+
+-80°C Freezer
+      ↓
+BOM
+ ├── Compressor
+ ├── Controller
+ ├── Insulation
+ ├── Electrical Components
+ └── Other Materials
+The detailed workflow requires BOM version control so production uses the correct active BOM. 
+
+8. Vendor Master
+Vendor Master stores supplier information.
+
+VENDOR MASTER
+      ↓
+PURCHASE REQUEST
+      ↓
+RFQ
+      ↓
+VENDOR QUOTATION
+      ↓
+VENDOR PO
+The source specifies:
+
+Vendor ID
+Vendor Name
+Contact
+GST
+Address
+Bank
+Materials
+Payment Terms
+Rating
+
+9. Example Vendor
+Vendor ID:
+VEN-000001
+
+Vendor Name:
+ABC Components
+
+Contact:
+...
+
+GST:
+...
+
+Address:
+...
+
+Bank:
+...
+
+Materials:
+Electrical Components
+
+Payment Terms:
+30 Days
+
+Rating:
+...
+10. Vendor → Procurement Connection
+MATERIAL SHORTAGE
+       ↓
+PURCHASE REQUEST
+       ↓
+RFQ
+       ↓
+VENDOR MASTER
+       ↓
+VENDOR QUOTATION
+       ↓
+COMPARISON
+       ↓
+VENDOR SELECTION
+       ↓
+VENDOR PO
+Vendor selection should not depend only on price. The business rules identify:
+
+Price
+Quality
+Delivery
+Warranty
+Payment Terms
+Vendor Rating
+
+11. Employee / User Master
+This master represents employees and organizational identities used by operational modules.
+
+The source lists:
+
+Employee ID
+Name
+Department
+Designation
+Manager
+Email
+Phone
+Role
+Status
+
+Example:
+
+Employee ID:
+EMP-000025
+
+Name:
+Ravi
+
+Department:
+Production
+
+Designation:
+Production Engineer
+
+Manager:
+...
+
+Email:
+...
+
+Role:
+Production
+
+Status:
+ACTIVE
+12. Employee → ERP Workflow
+Employees are used throughout the ERP.
+
+EMPLOYEE
+   │
+   ├── SALES
+   ├── PURCHASE
+   ├── STORE
+   ├── PRODUCTION
+   ├── QA
+   ├── DISPATCH
+   └── SERVICE
+For example, Production operations need to know which employee performed a particular operation.
+
+13. User vs Employee
+Conceptually:
+
+EMPLOYEE
+   ↓
+ORGANIZATIONAL IDENTITY
+
+USER
+   ↓
+SYSTEM LOGIN / ACCESS
+The client document combines these concepts under Employee / User Master.
+
+So the implementation should not automatically assume that every employee must have login access; the client's role/access policy should determine that.
+
+14. Warehouse Master
+Warehouse Master defines where stock is stored.
+
+The source specifies:
+
+Warehouse ID
+Warehouse Name
+Location
+Manager
+Address
+Status
+
+Example:
+
+Warehouse ID:
+WH-0001
+
+Warehouse:
+Main Store
+
+Location:
+Chennai
+
+Manager:
+Store Manager
+
+Status:
+ACTIVE
+15. Warehouse Connection
+PURCHASE
+   ↓
+GRN
+   ↓
+WAREHOUSE
+   ↓
+STOCK
+
+PRODUCTION
+   ↓
+MATERIAL REQUEST
+   ↓
+WAREHOUSE
+   ↓
+MATERIAL ISSUE
+Warehouse is therefore used by both Procurement and Production.
+
+16. Work Center Master
+Work Center defines production locations/capabilities.
+
+The source specifies:
+
+Work Center
+Department
+Machine
+Capacity
+Supervisor
+Location
+
+Example:
+
+Work Center:
+Refrigeration Section
+
+Department:
+Production
+
+Machine:
+Refrigeration Test Bench
+
+Capacity:
+...
+
+Supervisor:
+...
+
+Location:
+Factory Floor
+17. Work Center → Production
+PRODUCTION ORDER
+       ↓
+PRODUCTION OPERATION
+       ↓
+WORK CENTER
+       ↓
+EMPLOYEE
+       ↓
+MACHINE
+       ↓
+PRODUCTION RESULT
+This allows production activity to be associated with the appropriate work location/capability.
+
+18. Tax Master
+Tax is maintained centrally so relevant transactions can reuse the configured tax information.
+
+TAX MASTER
+    ↓
+QUOTATION
+    ↓
+PROFORMA
+    ↓
+CUSTOMER PO VERIFICATION
+    ↓
+FINAL INVOICE
+The source defines Tax Master as reusable tax configuration and specifies tax type/rate/configuration. 
+
+The actual tax rates and rules are specifically a client confirmation point. 
+
+19. Payment Terms Master
+Payment Terms define reusable payment conditions.
+
+The source gives an example:
+
+30% Advance
+70% Before Dispatch
+
+So:
+
+PAYMENT TERMS
+       ↓
+QUOTATION
+       ↓
+PROFORMA
+       ↓
+CUSTOMER PO
+       ↓
+SALES ORDER
+20. Delivery Terms Master
+Delivery Terms are reusable conditions selected in quotations/orders.
+
+DELIVERY TERMS
+      ↓
+QUOTATION
+      ↓
+PROFORMA
+      ↓
+CUSTOMER PO
+      ↓
+SALES ORDER
+      ↓
+DISPATCH / DELIVERY
+The source explicitly defines Delivery Terms as reusable delivery conditions selected in quotations/orders. 
+
+21. Warranty Terms Master
+Warranty Terms define reusable warranty rules.
+
+The source specifies:
+
+Duration
+Coverage
+Exclusions
+
+Flow:
+
+WARRANTY TERMS
+      ↓
+PRODUCT
+      ↓
+SERIAL NUMBER
+      ↓
+DELIVERY
+      ↓
+INSTALLATION / COMMISSIONING
+      ↓
+WARRANTY
+      ↓
+SERVICE
+The exact warranty-start event is a client confirmation point: it could be delivery, commissioning, or another defined event. 
+
+22. All Master Data Connected Together
+                         MASTER DATA
+                              │
+        ┌─────────────┬───────┼────────┬─────────────┐
+        ↓             ↓       ↓        ↓             ↓
+    CUSTOMER       PRODUCT   VENDOR  EMPLOYEE     WAREHOUSE
+        │             │       │        │             │
+        │             │       │        │             │
+        └─────────────┴───────┴────────┴─────────────┘
+                              │
+                    SUPPORTING MASTERS
+                              │
+          ┌───────────┬───────┼────────┬────────────┐
+          ↓           ↓       ↓        ↓            ↓
+        TAX     PAYMENT    DELIVERY  WARRANTY   WORK CENTER
+                TERMS      TERMS     TERMS
+23. Master Data Is NOT a Workflow
+This is the most important concept.
+
+Do not implement it like:
+
+Customer
+ ↓
+Product
+ ↓
+Vendor
+ ↓
+Warehouse
+That is incorrect.
+
+Instead:
+
+                 MASTER DATA
+                     │
+     ┌───────────────┼────────────────┐
+     ↓               ↓                ↓
+   SALES         PROCUREMENT       PRODUCTION
+     │               │                │
+     ↓               ↓                ↓
+ CUSTOMER          VENDOR           PRODUCT
+     │               │                │
+     └───────────────┼────────────────┘
+                     ↓
+                 TRANSACTIONS
+The source explicitly states:
+
+Master data is not a sequential customer lifecycle. These records support multiple transactions throughout the ERP. 
+
+24. Example — One Customer Used Everywhere
+CUSTOMER: ABC HOSPITAL
+       │
+       ├── Lead
+       ├── Quotation
+       ├── Proforma
+       ├── Customer PO
+       ├── Sales Order
+       ├── Invoice
+       ├── Payment
+       ├── Delivery
+       ├── Installation
+       ├── Warranty
+       └── Service
+So the ERP should maintain one central Customer Master rather than creating a separate customer record in every module.
+
+25. Example — One Product Used Everywhere
+PRODUCT: -80°C FREEZER
+       │
+       ├── Quotation
+       ├── Sales Order
+       ├── BOM
+       ├── Production Order
+       ├── QA
+       ├── Serial Number
+       ├── Finished Goods
+       ├── Invoice
+       ├── Dispatch
+       ├── Installation
+       ├── Warranty
+       └── Service
+This is why Product Master is foundational to the ERP.
+
+26. Master Data Creation / Maintenance
+A practical lifecycle is:
+
+CREATE
+  ↓
+VALIDATE
+  ↓
+APPROVE (if applicable)
+  ↓
+ACTIVE
+  ↓
+USED BY TRANSACTIONS
+  ↓
+UPDATE
+  ↓
+DEACTIVATE
+The source specifically gives PROSPECT / ACTIVE / INACTIVE for customers, while exact approval/status rules for every master are not specified. So those should be configured based on client decisions rather than assumed. 
+
+27. Important Rule — Don't Delete Historical Masters
+Suppose a vendor was used in old purchase transactions.
+
+You should not simply delete the vendor and destroy historical references.
+
+Instead:
+
+VENDOR
+   ↓
+INACTIVE
+Historical transactions remain linked.
+
+This fits the broader ERP audit principle that critical transactions should not simply disappear and should use cancellation/voiding with reasons and audit history. 
+
+28. Final Master Data Architecture
+                         ERP
+                          │
+                    MASTER DATA
+                          │
+ ┌────────┬────────┬──────┼──────┬────────┬─────────┐
+ ↓        ↓        ↓      ↓      ↓        ↓         ↓
+Customer Product Vendor Employee Warehouse Work   Tax
+                                      Center
+   │        │        │       │       │       │       │
+   └────────┴────────┴───────┴───────┴───────┴───────┘
+                          │
+                SUPPORTING TERMS
+                          │
+              ┌───────────┼───────────┐
+              ↓           ↓           ↓
+        Payment Terms Delivery Terms Warranty Terms
+                          │
+                          ↓
+                 BUSINESS TRANSACTIONS
+The key idea:
+Master Data = reusable foundation.
+
+It feeds:
+
+Sales
+Procurement
+Inventory
+Production
+QA
+Finance
+Logistics
+Installation
+Warranty
+Service
+So when we build the MERN ERP, these should generally be treated as central modules/data entities, not as steps in the customer lifecycle.
+
+Next workflow: INVENTORY / STORE → STOCK IN → STOCK OUT → MATERIAL REQUEST → MATERIAL ISSUE → STOCK TRANSFER → STOCK ADJUSTMENT → MINIMUM STOCK → LOW STOCK → STOCK BALANCE → INVENTORY HISTORY. The client documents specifically include Stores/Inventory and the controls for material shortage, stock adjustment, and warehouse transfer. 
+
+Next
+Workflow 16 — INVENTORY / STORE MANAGEMENT
+This workflow manages physical materials and stock inside the company. It connects Production, Procurement, Service, Maintenance, and Warehouse operations.
+
+The client workflow defines Inventory/Store as a core business area, and specifically requires support for full stock, partial stock, no stock, material issue, stock adjustment, and warehouse transfer. 
+
+1. Main Inventory Flow
+                    INVENTORY / STORE
+                           │
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+       STOCK IN         STOCK OUT        TRANSFER
+          ↓                ↓                ↓
+       RECEIVING       MATERIAL ISSUE   WH → WH
+          │                │                │
+          └────────────────┼────────────────┘
+                           ↓
+                    CURRENT STOCK
+                           ↓
+                  STOCK BALANCE / HISTORY
+2. Stock Comes Into Inventory
+The main stock-in source is Procurement.
+
+VENDOR PO
+    ↓
+SUPPLIER DELIVERY
+    ↓
+GRN
+    ↓
+RECEIVED / ACCEPTED
+    ↓
+STOCK IN
+    ↓
+WAREHOUSE
+Example:
+
+Vendor PO:
+VPO-001
+
+Ordered:
+100 Compressor Units
+
+Received:
+100
+
+Accepted:
+98
+
+Rejected:
+2
+Only the appropriate accepted quantity should become available stock.
+
+The client workflow specifically requires GRN to record received, accepted, rejected, and damaged quantities. 
+
+3. Stock-In Example
+Before GRN:
+
+Compressor Stock = 20
+Supplier delivers 50 acceptable units.
+
+GRN
++
+50 Accepted
+      ↓
+STOCK IN
+      ↓
+New Stock = 70
+So:
+
+20 + 50 = 70
+4. Rejected / Damaged Material
+Suppose:
+
+Ordered       100
+Received       100
+Accepted        95
+Rejected         3
+Damaged         2
+The system should not simply add 100 to available stock.
+
+Instead:
+
+Available Stock
+      ↓
+95
+
+Rejected
+      ↓
+3
+
+Damaged
+      ↓
+2
+The exact handling after rejection/damage—such as vendor return or replacement—belongs to the relevant procurement/vendor-return workflow.
+
+5. Material Request
+Production or another department needs material.
+
+PRODUCTION ORDER
+      ↓
+BOM
+      ↓
+MATERIAL REQUEST
+      ↓
+STORE
+Example:
+
+Production:
+PO-00025
+
+Required:
+Copper Pipe — 20 meters
+Store receives:
+
+Material Request:
+MR-00025
+
+Required:
+20 meters
+6. Store Checks Stock
+This is one of the most important Inventory decisions.
+
+MATERIAL REQUEST
+       ↓
+    STOCK CHECK
+       ↓
+ ┌─────┼─────┐
+ ↓     ↓     ↓
+FULL PARTIAL NONE
+The detailed business workflow explicitly defines these three cases. 
+
+7. Full Stock Available
+Example:
+
+Required:
+20
+
+Available:
+50
+Then:
+
+STOCK CHECK
+    ↓
+FULL
+    ↓
+MATERIAL ISSUE
+    ↓
+PRODUCTION
+Stock becomes:
+
+Before = 50
+Issued = 20
+After  = 30
+8. Partial Stock Available
+Example:
+
+Required:
+20
+
+Available:
+12
+Then the ERP should not simply reject the entire request.
+
+The client business rule explicitly supports:
+
+PARTIAL STOCK
+     ↓
+ISSUE AVAILABLE
+     +
+PROCURE SHORTAGE
+
+So:
+
+Required = 20
+
+Available = 12
+       ↓
+Issue 12
+       ↓
+Shortage = 8
+       ↓
+Procurement for 8
+9. No Stock Available
+Example:
+
+Required:
+20
+
+Available:
+0
+Then:
+
+STOCK CHECK
+     ↓
+NONE
+     ↓
+PROCUREMENT
+     ↓
+MATERIAL RECEIVED
+     ↓
+STOCK IN
+     ↓
+MATERIAL ISSUE
+10. Complete Stock Decision
+                 MATERIAL REQUEST
+                        ↓
+                   STOCK CHECK
+                        ↓
+              ┌─────────┼─────────┐
+              ↓         ↓         ↓
+            FULL      PARTIAL     NONE
+              ↓         ↓         ↓
+            ISSUE    ISSUE       PROCUREMENT
+                       AVAILABLE      ↓
+                          ↓       RECEIVE
+                     SHORTAGE         ↓
+                          ↓        STOCK IN
+                     PROCUREMENT      ↓
+                          ↓        ISSUE
+                          └────┬──────┘
+                               ↓
+                         MATERIAL READY
+This is one of the most important Inventory workflows in the ERP.
+
+11. Material Issue
+When Store gives material to Production:
+
+MATERIAL REQUEST
+      ↓
+APPROVED
+      ↓
+STORE
+      ↓
+MATERIAL ISSUE
+      ↓
+PRODUCTION
+Example:
+
+Material:
+Copper Pipe
+
+Requested:
+20 m
+
+Issued:
+20 m
+
+Warehouse:
+Main Store
+
+Issued To:
+Production Order PO-00025
+12. Material Issue → Stock Reduction
+Before issue:
+
+Copper Pipe:
+100 m
+Issue:
+
+20 m
+After issue:
+
+80 m
+So the ERP must record the inventory movement.
+
+13. Issued ≠ Consumed
+This is a very important production control.
+
+The client workflow specifically says:
+
+Issued material and consumed material must be tracked separately where required. 
+
+Example:
+
+Material Issued:
+20 units
+But production actually consumes:
+
+18 units
+Then:
+
+Issued = 20
+Consumed = 18
+Returned = 2
+The ERP should preserve these quantities separately.
+
+14. Material Consumption
+Production uses the issued material.
+
+MATERIAL ISSUE
+      ↓
+PRODUCTION
+      ↓
+MATERIAL CONSUMPTION
+Example:
+
+Issued:
+20
+
+Consumed:
+18
+
+Remaining:
+2
+The remaining 2 may be returned to Store according to the applicable process.
+
+15. Material Return
+PRODUCTION
+     ↓
+UNUSED MATERIAL
+     ↓
+RETURN TO STORE
+     ↓
+STOCK IN / RETURN MOVEMENT
+Example:
+
+Issued:
+20
+
+Consumed:
+18
+
+Returned:
+2
+Then the Store inventory reflects the returned quantity.
+
+16. Warehouse Transfer
+The client workflow explicitly includes:
+
+Warehouse A
+     ↓
+Transfer Request
+     ↓
+Warehouse B
+     ↓
+Received
+
+Example:
+
+MAIN STORE
+    ↓
+TRANSFER 10
+    ↓
+PRODUCTION STORE
+17. Warehouse Transfer Flow
+WAREHOUSE A
+     ↓
+TRANSFER REQUEST
+     ↓
+APPROVAL / PROCESS
+     ↓
+TRANSFER OUT
+     ↓
+IN TRANSIT
+     ↓
+WAREHOUSE B
+     ↓
+RECEIVED
+The exact approval requirement is configurable; the source confirms that transfer and receiving history must be maintained.
+
+18. Stock Adjustment
+Sometimes physical stock and system stock don't match.
+
+Example:
+
+System Stock:
+100
+
+Physical Count:
+98
+You should not directly edit the quantity.
+
+The client rule specifically says stock adjustments require:
+
+Reason
+Approval
+Audit Trail
+
+So:
+
+STOCK DIFFERENCE
+      ↓
+ADJUSTMENT REQUEST
+      ↓
+REASON
+      ↓
+APPROVAL
+      ↓
+STOCK ADJUSTMENT
+      ↓
+AUDIT TRAIL
+19. Example Stock Adjustment
+System:
+100 units
+
+Physical:
+98 units
+
+Difference:
+-2
+User creates:
+
+Adjustment:
+-2
+
+Reason:
+Physical stock variance
+Then:
+
+Approval
+   ↓
+Approved
+   ↓
+Stock = 98
+The original adjustment remains in the audit history.
+
+20. Minimum Stock / Low Stock
+The first client document specifically includes minimum stock and low stock as Store/Inventory concerns. 
+
+Example:
+
+Product:
+Compressor
+
+Current:
+8
+
+Minimum:
+10
+Therefore:
+
+8 < 10
+ ↓
+LOW STOCK
+The ERP can then alert the responsible team and, depending on business policy, initiate a purchase request.
+
+21. Low Stock → Procurement
+CURRENT STOCK
+      ↓
+COMPARE MINIMUM STOCK
+      ↓
+BELOW MINIMUM?
+     /    \
+   YES     NO
+    ↓       ↓
+LOW STOCK  NORMAL
+    ↓
+ALERT / PURCHASE REQUEST
+    ↓
+PROCUREMENT
+Whether low-stock detection automatically creates a Purchase Request or only creates an alert should be confirmed with the client; the source establishes minimum/low-stock functionality, not automatic PR creation.
+
+22. Stock Balance
+The Store should always be able to answer:
+
+How much material do we currently have?
+
+Example:
+
+STOCK BALANCE
+
+Material          Available
+--------------------------------
+Compressor        25
+Copper Pipe       180 m
+Controller        12
+Insulation        65
+Electrical Kit    30
+23. Stock Movement History
+Every stock movement should be traceable.
+
+STOCK MOVEMENT
+      │
+      ├── STOCK IN
+      ├── MATERIAL ISSUE
+      ├── RETURN
+      ├── TRANSFER OUT
+      ├── TRANSFER IN
+      └── ADJUSTMENT
+Example:
+
+Date       Movement       Qty
+--------------------------------
+01-Oct     Stock In       +50
+03-Oct     Issue          -10
+05-Oct     Issue          -15
+06-Oct     Return          +2
+07-Oct     Transfer       -5
+08-Oct     Adjustment     -1
+This gives the complete history instead of only showing the current quantity.
+
+24. Inventory + Procurement
+                INVENTORY
+                    ↓
+              STOCK CHECK
+             /     |      \
+           FULL  PARTIAL   NONE
+            ↓      ↓        ↓
+          ISSUE  ISSUE    PURCHASE
+                 +          ↓
+              SHORTAGE     RFQ
+                 ↓          ↓
+             PURCHASE    VENDOR PO
+                            ↓
+                           GRN
+                            ↓
+                         STOCK IN
+                            ↓
+                           ISSUE
+25. Inventory + Production
+PRODUCTION ORDER
+       ↓
+BOM
+       ↓
+MATERIAL REQUEST
+       ↓
+INVENTORY CHECK
+       ↓
+MATERIAL ISSUE
+       ↓
+PRODUCTION
+       ↓
+CONSUMPTION
+       ↓
+RETURN UNUSED
+26. Inventory + Service
+Service may also need spare materials.
+
+SERVICE TICKET
+      ↓
+DIAGNOSIS
+      ↓
+SPARE REQUIRED?
+      ↓
+MATERIAL REQUEST
+      ↓
+STORE STOCK CHECK
+Then:
+
+AVAILABLE
+   ↓
+ISSUE SPARE
+   ↓
+SERVICE REPAIR
+or:
+
+NOT AVAILABLE
+   ↓
+PROCUREMENT
+   ↓
+RECEIVE
+   ↓
+ISSUE
+   ↓
+SERVICE REPAIR
+The client business rule explicitly says service spare shortages should reuse the normal procurement workflow. 
+
+27. Inventory + Maintenance
+The same principle applies to internal equipment maintenance:
+
+BREAKDOWN
+   ↓
+DIAGNOSIS
+   ↓
+SPARE REQUIRED
+   ↓
+STORE CHECK
+   ├── AVAILABLE → ISSUE
+   └── NOT AVAILABLE → PROCUREMENT
+So Inventory becomes a shared service for Production, Service, and Maintenance.
+
+28. Inventory Dashboard
+A practical Store dashboard can show:
+
+INVENTORY DASHBOARD
+
+Total Stock Items
+Low Stock Items
+Pending Material Requests
+Pending Issues
+Stock Transfers
+Today's Stock In
+Today's Stock Out
+Stock Adjustments
+The first client document also identifies stock balance, low stock, stock movement, and stock value as management information. 
+
+29. Complete Inventory Workflow
+                         INVENTORY / STORE
+                                │
+                    ┌───────────┴───────────┐
+                    ↓                       ↓
+                STOCK IN                 STOCK OUT
+                    ↓                       ↓
+                   GRN                 MATERIAL REQUEST
+                    ↓                       ↓
+              ACCEPTED STOCK          STOCK CHECK
+                                            │
+                                  ┌─────────┼─────────┐
+                                  ↓         ↓         ↓
+                                FULL     PARTIAL     NONE
+                                  ↓         ↓         ↓
+                                ISSUE    ISSUE +   PROCUREMENT
+                                          SHORTAGE      ↓
+                                             ↓        GRN
+                                          PROCUREMENT   ↓
+                                             ↓       STOCK IN
+                                             └───────┬──┘
+                                                     ↓
+                                                  ISSUE
+                                                     ↓
+                                                 PRODUCTION
+                                                     ↓
+                                                CONSUMPTION
+                                                     ↓
+                                               RETURN UNUSED
+Parallel inventory operations:
+
+WAREHOUSE A
+    ↓
+TRANSFER
+    ↓
+WAREHOUSE B
+and:
+
+STOCK VARIANCE
+    ↓
+ADJUSTMENT REQUEST
+    ↓
+REASON
+    ↓
+APPROVAL
+    ↓
+ADJUST STOCK
+    ↓
+AUDIT TRAIL
+30. The Important Business Rules
+For your ERP implementation, these are the key Inventory rules from the client workflow:
+
+Full stock → issue material.
+Partial stock → issue available material and procure shortage where permitted.
+No stock → procurement.
+GRN must distinguish received / accepted / rejected / damaged quantities.
+Issued material and consumed material should be separately tracked where required.
+Stock adjustment requires reason + approval + audit trail.
+Warehouse transfers must maintain transfer and receiving history.
+Minimum-stock/low-stock monitoring must be available.
+Service spare shortages should reuse the normal procurement workflow.
+Updated Module Map
+We have now covered:
+
+01  Lead / Enquiry
+02  Quotation / Negotiation
+03  Proforma / Customer PO / Sales Order / Payment
+04  Production Order / BOM / Material Request
+05  Procurement / RFQ / Vendor PO / GRN
+06  Manufacturing
+07  QA / Serial / Finished Goods
+08  Packing / Invoice / Dispatch / Delivery
+09  Installation / Commissioning / Warranty
+10  Service
+11  RMA / Customer Return
+12  Finance / Accounts
+13  Maintenance
+14  Logistics
+15  Master Data
+16  Inventory / Store
+Next workflow: CROSS-FUNCTIONAL CONTROLS → ROLES & PERMISSIONS → APPROVALS → NOTIFICATIONS → AUDIT TRAIL → DOCUMENT MANAGEMENT → REPORTS & ANALYTICS. These controls apply across the entire ERP rather than representing another sequential customer step. 
+
+Next
+Workflow 17 — CROSS-FUNCTIONAL CONTROLS
+This is the final major supporting layer of the ERP.
+
+Unlike Lead → Quotation → Production, these are not sequential business transactions. They operate across many modules.
+
+The client document defines this layer as:
+
+Dashboard
+Accounts
+Approvals
+Roles
+Notifications
+Audit Trail
+Documents
+Reports
+and specifically identifies Roles & Permissions, Approvals, Notifications, Audit Trail, Documents, and Reports/Analytics as cross-functional controls. 
+
+1. Overall Control Layer
+Think of it like this:
+
+                    ERP
+                     │
+       ┌─────────────┼─────────────┐
+       ↓             ↓             ↓
+   SALES         PRODUCTION    PROCUREMENT
+       ↓             ↓             ↓
+   INVENTORY        QA          FINANCE
+       ↓             ↓             ↓
+   LOGISTICS      SERVICE      MAINTENANCE
+       │             │             │
+       └─────────────┼─────────────┘
+                     ↓
+            CROSS-FUNCTIONAL
+                CONTROLS
+                     │
+      ┌──────────────┼──────────────┐
+      ↓              ↓              ↓
+    ROLES        APPROVALS     NOTIFICATIONS
+      ↓              ↓              ↓
+ AUDIT TRAIL      DOCUMENTS      REPORTS
+2. Roles & Permissions
+The first control is:
+
+Who is allowed to do what?
+
+The client document specifically says roles and permissions control who can view, create, edit, delete, approve, reject, send, export, or cancel records. 
+
+3. ERP Roles
+The source defines these roles:
+
+Admin
+Sales
+Sales Manager
+Accounts
+Purchase
+Store
+Production
+QA
+Dispatch
+Service Manager
+Service Engineer
+Management
+
+4. Example — Sales User
+A Sales user might work with:
+
+Lead
+ ↓
+Enquiry
+ ↓
+Quotation
+ ↓
+Negotiation
+ ↓
+Customer
+But they should not automatically have permission to:
+
+Approve their own high-value quotation
+Change financial records
+Approve refunds
+Modify stock
+The exact permission matrix must be configured according to the client's approval policy.
+
+5. Example — Production User
+Production User
+     │
+     ├── View Production Orders
+     ├── Update Production Operations
+     ├── Record WIP
+     ├── Record Consumption
+     └── Update Production Status
+But Production should not automatically be able to:
+
+Approve Vendor PO
+Approve Refund
+Modify Customer Payment
+Change Tax Master
+6. Example — Accounts
+Accounts
+   │
+   ├── View Invoices
+   ├── Record Payments
+   ├── Verify Payments
+   ├── Reconcile
+   ├── Credit Notes
+   ├── Debit Notes
+   └── Refund Processing
+The detailed source specifically gives Accounts responsibility for financial transactions and the vendor 3-way match control. 
+
+7. Permissions Structure
+Conceptually:
+
+USER
+ ↓
+ROLE
+ ↓
+PERMISSIONS
+ ↓
+MODULE
+ ↓
+ACTION
+Example:
+
+Sales Manager
+      ↓
+Quotation
+      ↓
+Approve
+      ↓
+ALLOWED
+Another:
+
+Sales User
+      ↓
+Quotation
+      ↓
+Approve High Discount
+      ↓
+REQUIRES MANAGER
+8. Approval Workflow
+Approval is the second major control.
+
+The source says approvals prevent important transactions from proceeding without authorization. Examples include:
+
+Quotation discount
+Vendor PO
+Stock Adjustment
+Refund
+
+9. Quotation Approval
+SALES
+   ↓
+CREATE QUOTATION
+   ↓
+SUBMIT
+   ↓
+MANAGER APPROVAL
+   ↓
+APPROVED?
+   ├── YES → SEND CUSTOMER
+   └── NO → RETURN / CORRECTION
+10. Discount Approval
+Example:
+
+Quotation
+Amount: ₹10,00,000
+
+Discount:
+15%
+If the configured approval threshold is exceeded:
+
+Quotation
+   ↓
+Discount exceeds threshold
+   ↓
+Manager Approval
+   ↓
+Approved
+   ↓
+Customer
+The exact percentage/amount threshold is not defined in the source and must be confirmed with the client.
+
+11. Vendor PO Approval
+Purchase
+   ↓
+Vendor PO
+   ↓
+Approval
+   ↓
+Approved
+   ↓
+Send Vendor
+The client specifically lists Vendor PO Purchase Approval as a recommended approval example. 
+
+12. Stock Adjustment Approval
+Stock should never be silently changed.
+
+Stock Difference
+      ↓
+Adjustment Request
+      ↓
+Reason
+      ↓
+Approval
+      ↓
+Stock Adjustment
+      ↓
+Audit Trail
+This is explicitly required in the client workflow. 
+
+13. Refund Approval
+Refund:
+
+Refund Request
+      ↓
+Accounts Approval
+      ↓
+Approved
+      ↓
+Refund
+      ↓
+Customer Balance Updated
+The source specifically states that refund should be controlled by Accounts approval. 
+
+14. Notifications
+The third control is notification.
+
+The client source gives examples such as:
+
+Quotation Approval
+Material Shortage
+Payment Received
+QA Failure
+Service Assignment
+PO Mismatch
+
+15. Example — Quotation Notification
+Sales
+  ↓
+Quotation Submitted
+  ↓
+Notification
+  ↓
+Sales Manager
+  ↓
+"Quotation QT-001 requires approval"
+Manager opens it:
+
+APPROVE
+or
+REJECT / SEND BACK
+16. Material Shortage Notification
+Production
+    ↓
+Material Request
+    ↓
+Stock Check
+    ↓
+Shortage
+    ↓
+Notification
+    ↓
+Purchase / Store
+Example:
+
+Material shortage for Production Order PO-001.
+
+This prevents the shortage from remaining unnoticed.
+
+17. Payment Notification
+Customer Payment Received
+        ↓
+Accounts
+        ↓
+Notification
+        ↓
+Verify Payment
+18. QA Failure Notification
+QA
+ ↓
+TEST FAILED
+ ↓
+Notification
+ ↓
+Production / QA Manager
+ ↓
+Rectification
+ ↓
+Retest
+19. Service Assignment Notification
+Service Ticket
+      ↓
+Engineer Assigned
+      ↓
+Notification
+      ↓
+Service Engineer
+The engineer can then open the assigned service ticket.
+
+20. PO Mismatch Notification
+Customer PO
+     ↓
+PO Verification
+     ↓
+Mismatch
+     ↓
+Notification
+     ↓
+Sales / Accounts
+     ↓
+Correction
+     ↓
+Reverify
+21. Audit Trail
+This is one of the most important ERP controls.
+
+The source says the Audit Trail should record:
+
+WHO
+WHAT
+WHEN
+WHY
+and examples include:
+
+CREATE
+UPDATE
+APPROVE
+REJECT
+SEND
+CANCEL
+VOID
+ADJUST
+
+22. Example Audit Trail
+Suppose a quotation was changed.
+
+Quotation:
+QT-0001
+
+Action:
+UPDATE
+
+Changed By:
+Sales User
+
+Date:
+...
+
+Changed Field:
+Discount
+
+Old:
+5%
+
+New:
+8%
+The ERP retains the history.
+
+23. Why Audit Trail Matters
+Imagine someone changes:
+
+Quantity:
+100 → 50
+Without audit:
+
+Nobody knows who changed it.
+
+With audit:
+
+User:
+Kumar
+
+Action:
+UPDATE
+
+Old:
+100
+
+New:
+50
+
+Date:
+...
+
+Reason:
+...
+This provides traceability.
+
+24. No Silent Delete
+The client explicitly states:
+
+Critical transactions should not simply disappear.
+
+Instead:
+
+CANCEL / VOID
+      +
+REASON
+      +
+AUDIT HISTORY
+rather than:
+
+DELETE
+   ↓
+Record disappears
+
+This is especially important for:
+
+Sales Orders
+Purchase Orders
+Payments
+Invoices
+Stock Adjustments
+Refunds
+Service Tickets
+QA records
+25. Document Management
+The ERP also needs centralized document handling.
+
+The source gives examples including:
+
+Quotation PDF
+Customer PO
+Vendor Quote
+Vendor PO
+GRN
+Payment Proof
+QA Report
+Certificate
+Invoice
+LR
+POD
+Installation Report
+Commissioning Certificate
+Service Report
+
+26. Document Connection
+Example:
+
+SALES ORDER
+     │
+     ├── Quotation PDF
+     ├── Customer PO
+     ├── Proforma Invoice
+     └── Payment Proof
+Production:
+
+PRODUCTION ORDER
+     │
+     ├── BOM
+     ├── Material Documents
+     ├── Production Records
+     └── QA Report
+Delivery:
+
+DISPATCH
+    │
+    ├── Invoice
+    ├── LR / Tracking
+    └── POD
+Installation:
+
+INSTALLATION
+     │
+     ├── Installation Report
+     └── Commissioning Certificate
+Service:
+
+SERVICE
+   │
+   └── Service Report
+27. Document Versioning
+For documents where versions matter:
+
+Quotation R1
+     ↓
+Quotation R2
+     ↓
+Quotation R3
+Previous versions must remain available.
+
+The client specifically requires quotation revisions to preserve previous versions rather than overwrite historical commercial values. 
+
+28. Reports & Analytics
+The final cross-functional control is reporting.
+
+The source describes Reports/Analytics as providing management visibility into:
+
+Sales
+Finance
+Production
+Inventory
+Procurement
+Quality
+Service
+
+29. Sales Reports
+SALES REPORTS
+
+Lead Conversion
+Quotation Report
+Quotation Pending
+Sales Order Report
+Sales Value
+Customer-wise Sales
+Pending Orders
+30. Finance Reports
+FINANCE
+
+Customer Receivables
+Vendor Payables
+Collection Report
+Payment Report
+Outstanding Report
+Credit Notes
+Debit Notes
+Refunds
+31. Production Reports
+PRODUCTION
+
+Production Orders
+Production Status
+WIP
+Material Consumption
+Completed Production
+Pending Production
+32. Inventory Reports
+INVENTORY
+
+Current Stock
+Stock Movement
+Low Stock
+Material Issue
+Material Receipt
+Warehouse Transfer
+Stock Adjustment
+33. Procurement Reports
+PROCUREMENT
+
+Purchase Requests
+RFQs
+Vendor Quotations
+Vendor Comparison
+Vendor POs
+GRN
+Pending Purchases
+Vendor Performance
+34. Quality Reports
+QUALITY
+
+QA Pending
+QA Passed
+QA Failed
+Rework
+Scrap
+Certificates
+35. Service Reports
+SERVICE
+
+Open Tickets
+Engineer Jobs
+Completed Services
+Pending Services
+Warranty Services
+Chargeable Services
+Spare Usage
+Service History
+36. Management Dashboard
+The first client document also defines management-level indicators such as:
+
+Total Sales
+Pending Sales Orders
+Purchase Value
+Pending POs
+Current Stock Value
+Low Stock
+Production Status
+Service Pending
+Receivables
+Payables
+R&D Projects Pending Approval
+
+So the dashboard acts as a control center, not another mandatory transaction step.
+
+37. Complete Cross-Functional Control Flow
+                         ERP TRANSACTION
+                               ↓
+                         USER / ROLE
+                               ↓
+                         PERMISSION CHECK
+                               ↓
+                     ACTION PERMITTED?
+                       /             \
+                     YES              NO
+                      ↓                ↓
+                  TRANSACTION       ACCESS DENIED
+                      ↓
+                APPROVAL REQUIRED?
+                   /        \
+                 YES         NO
+                  ↓           ↓
+              APPROVAL      CONTINUE
+                  ↓
+             APPROVED?
+              /      \
+            YES       NO
+             ↓         ↓
+          CONTINUE    REJECT / RETURN
+             ↓
+         TRANSACTION
+             ↓
+       AUDIT TRAIL
+             ↓
+        NOTIFICATION
+             ↓
+         DOCUMENTS
+             ↓
+          REPORTS
+38. The Entire ERP Now Has 4 Layers
+This is the most important architecture concept from the client's document.
+
+Layer A — Master Data
+Customer
+Product
+Vendor
+Employee
+Warehouse
+Work Center
+Tax
+Payment Terms
+Delivery Terms
+Warranty Terms
+Layer B — Main Business Workflow
+Lead
+ ↓
+Quotation
+ ↓
+Order
+ ↓
+Production
+ ↓
+QA
+ ↓
+Delivery
+ ↓
+Installation
+ ↓
+Warranty
+ ↓
+Service
+Layer C — Exception Workflows
+PO Mismatch
+Payment Failure
+Material Shortage
+QA Failure
+Delivery Failure
+RMA
+Refund
+Replacement
+Credit Note
+Stock Adjustment
+Warehouse Transfer
+Vendor Return
+The client explicitly categorizes these as exception workflows. 
+
+Layer D — Cross-Functional Controls
+Roles
+Permissions
+Approvals
+Notifications
+Audit Trail
+Documents
+Reports
+Dashboard
+Accounts
+39. Final ERP Architecture Picture
+                         ┌───────────────────┐
+                         │    MASTER DATA    │
+                         │ Customer / Product│
+                         │ Vendor / Employee │
+                         │ Warehouse / Tax   │
+                         │ Terms / Warranty  │
+                         └─────────┬─────────┘
+                                   │
+                                   ↓
+┌──────────────────────────────────────────────────────────────┐
+│                    MAIN BUSINESS WORKFLOW                    │
+│                                                              │
+│ Lead → Quotation → PO → Sales Order → Payment → Production  │
+│                                      ↓                       │
+│                 BOM → Material → Procurement                │
+│                                      ↓                       │
+│             Manufacturing → QA → Finished Goods             │
+│                                      ↓                       │
+│             Packing → Invoice → Dispatch → Delivery         │
+│                                      ↓                       │
+│             Installation → Commissioning → Warranty         │
+│                                      ↓                       │
+│                       Service / RMA                         │
+└──────────────────────────────────────────────────────────────┘
+                                   │
+                                   ↓
+              ┌────────────────────────────────┐
+              │       CROSS-FUNCTIONAL         │
+              │            CONTROLS            │
+              │                                │
+              │ Roles & Permissions            │
+              │ Approvals                      │
+              │ Notifications                  │
+              │ Audit Trail                    │
+              │ Documents                      │
+              │ Reports & Analytics            │
+              │ Dashboard                      │
+              └────────────────────────────────┘
+The key understanding
+The ERP is not 17 independent workflows.
+
+It is one connected business system:
+
+MASTER DATA
+     ↓
+BUSINESS TRANSACTIONS
+     ↓
+EXCEPTIONS WHEN SOMETHING CHANGES
+     ↓
+CONTROLS ACROSS EVERYTHING
+     ↓
+REPORTING / MANAGEMENT VISIBILITY
+That matches the client's stated core principle that the ERP should be understood as one connected business journey rather than a collection of unrelated pages. 
+
+Next workflow: R&D / PROJECT MANAGEMENT → R&D PROJECT → PROJECT REQUIREMENT → MATERIAL REQUEST → APPROVAL → PROCUREMENT / INVENTORY → R&D WORK → TESTING → RESULT → PROJECT STATUS → MANAGEMENT APPROVAL. The first client document specifically shows R&D Projects Pending Approvals on the Management Dashboard and includes R&D in the Supply Chain material-request flow. 
+
+Next
+Workflow 18 — R&D / PROJECT MANAGEMENT
+Now we move to the R&D workflow.
+
+Important: the client documents do not provide the same level of detailed step-by-step R&D workflow as Sales, Production, Procurement, or Service. What the source clearly establishes is that R&D is an operational area that can request materials through the Supply Chain process, and R&D Projects Pending Approvals appear in the Management Dashboard. 
+
+So below I will keep the workflow source-grounded and clearly identify where the exact client rule is still to be confirmed.
+
+1. Where R&D Fits in the ERP
+R&D is connected to the common ERP infrastructure:
+
+                         R&D
+                          │
+              ┌───────────┴───────────┐
+              ↓                       ↓
+         R&D PROJECT             MATERIAL NEED
+              │                       │
+              ↓                       ↓
+       PROJECT APPROVAL        MATERIAL REQUEST
+                                      ↓
+                                  SUPPLY CHAIN
+                                      ↓
+                            INVENTORY / PROCUREMENT
+The client's Supply Chain workflow specifically includes:
+
+Supply Chain
+     ↓
+Production / Service / R&D
+     ↓
+Material Request
+
+2. R&D Project
+An R&D activity should begin with an R&D project/requirement.
+
+Conceptually:
+
+R&D REQUIREMENT
+      ↓
+R&D PROJECT
+      ↓
+PROJECT APPROVAL
+      ↓
+R&D WORK
+However, the source does not define the exact R&D project creation fields or detailed status sequence.
+
+Therefore, don't assume fields such as budget, project manager, start date, end date, etc. are client-approved requirements unless the client confirms them.
+
+3. R&D Project Approval
+The first client document specifically identifies:
+
+R&D Projects Pending Approvals
+
+as a Management Dashboard indicator. 
+
+So there is clearly an approval concept.
+
+Basic flow:
+
+R&D PROJECT
+     ↓
+SUBMIT FOR APPROVAL
+     ↓
+PENDING APPROVAL
+     ↓
+MANAGEMENT REVIEW
+     ↓
+     ┌───────────────┐
+     ↓               ↓
+  APPROVED         REJECTED
+     ↓               ↓
+R&D WORK       CORRECTION / REVIEW
+The exact approval hierarchy is not specified in the source.
+
+4. R&D Material Requirement
+Once an R&D activity requires materials:
+
+R&D PROJECT
+      ↓
+MATERIAL REQUIRED
+      ↓
+MATERIAL REQUEST
+      ↓
+SUPPLY CHAIN
+This is directly supported by the client's Supply Chain workflow, which connects:
+
+Production / Service / R&D
+          ↓
+Material Request
+          ↓
+Department Approval
+
+5. Material Request
+Example:
+
+R&D Project:
+New Freezer Controller Prototype
+
+Required Material:
+Electronic Controller
+
+Quantity:
+2
+The R&D team creates a:
+
+MATERIAL REQUEST
+Then it moves into the common Supply Chain process.
+
+6. R&D Material Approval
+The client source explicitly includes:
+
+MATERIAL REQUEST
+       ↓
+DEPARTMENT APPROVAL
+So:
+
+R&D
+ ↓
+Material Request
+ ↓
+Approval
+ ↓
+Approved?
+ /      \
+YES      NO
+ ↓        ↓
+Stock    Return / Correction
+Check
+
+7. Inventory Check
+After approval:
+
+R&D MATERIAL REQUEST
+          ↓
+      STORE CHECK
+          ↓
+    MATERIAL AVAILABLE?
+There are three important possibilities from the broader ERP inventory workflow:
+
+FULL
+PARTIAL
+NONE
+8. Full Stock
+If the required material is available:
+
+R&D REQUEST
+    ↓
+STOCK AVAILABLE
+    ↓
+MATERIAL ISSUE
+    ↓
+R&D
+Example:
+
+Required:
+5
+
+Available:
+20
+
+Issue:
+5
+9. Partial Stock
+If only part of the material is available:
+
+Required:
+10
+
+Available:
+6
+Then:
+
+Issue 6
+   +
+Procure shortage 4
+This follows the ERP-wide inventory rule that partial shortages can allow available stock to be issued while the shortage is procured, where business policy permits. 
+
+10. No Stock
+If there is no stock:
+
+R&D MATERIAL REQUEST
+          ↓
+       NO STOCK
+          ↓
+      PROCUREMENT
+Then the common procurement process applies:
+
+Purchase Request
+      ↓
+RFQ
+      ↓
+Vendor Quotations
+      ↓
+Vendor Selection
+      ↓
+Vendor PO
+      ↓
+GRN
+      ↓
+Inventory
+      ↓
+Material Issue
+      ↓
+R&D
+This avoids creating a separate purchasing system just for R&D.
+
+11. R&D + Inventory
+The complete connection is:
+
+                  R&D
+                   ↓
+             MATERIAL REQUEST
+                   ↓
+              DEPARTMENT
+               APPROVAL
+                   ↓
+              STOCK CHECK
+             /     |      \
+           FULL  PARTIAL   NONE
+            ↓      ↓        ↓
+          ISSUE   ISSUE    PROCUREMENT
+                   ↓          ↓
+                SHORTAGE     GRN
+                   ↓          ↓
+              PROCUREMENT   STOCK
+                   ↓          ↓
+                 ISSUE      R&D
+                   └────┬─────┘
+                        ↓
+                       R&D
+12. R&D Work
+Once required materials are available:
+
+R&D PROJECT
+     ↓
+MATERIALS AVAILABLE
+     ↓
+R&D ACTIVITY
+     ↓
+TEST / EXPERIMENT
+     ↓
+RESULT
+The source does not define the detailed R&D activity/test/result fields, so these should be treated as a proposed conceptual flow rather than confirmed client requirements.
+
+13. R&D Result
+At the end of an R&D activity, the project would need an outcome.
+
+Conceptually:
+
+R&D WORK
+   ↓
+TESTING
+   ↓
+RESULT
+Possible implementation statuses might be:
+
+Successful
+Needs Further Testing
+Needs Modification
+Completed
+But these exact statuses are not specified by the supplied client documentation and therefore should be confirmed before implementation.
+
+14. R&D Material Consumption
+If R&D receives materials, the ERP should connect them to the relevant material transaction.
+
+Conceptually:
+
+R&D MATERIAL REQUEST
+        ↓
+MATERIAL ISSUE
+        ↓
+R&D PROJECT
+        ↓
+MATERIAL USED
+This provides traceability between:
+
+R&D Project
+     ↓
+Material Request
+     ↓
+Inventory Issue
+The exact R&D consumption/return process is not separately defined in the source.
+
+15. Unused Material
+If R&D does not use all issued material, the broader Inventory controls can support:
+
+R&D
+ ↓
+Unused Material
+ ↓
+Return to Store
+ ↓
+Inventory Updated
+Again, this follows the general inventory mechanism; the client document does not specify a separate R&D-specific return process.
+
+16. R&D and Procurement
+The relationship is:
+
+R&D
+ ↓
+Material Request
+ ↓
+Stock Check
+ ↓
+Shortage
+ ↓
+Procurement
+ ↓
+Vendor
+ ↓
+GRN
+ ↓
+Inventory
+ ↓
+R&D
+This is important because R&D should use the same centralized Supply Chain/Procurement process rather than bypassing ERP purchasing controls.
+
+17. R&D and Finance
+If R&D requires procurement:
+
+R&D
+ ↓
+Material Request
+ ↓
+Procurement
+ ↓
+Vendor PO
+ ↓
+GRN
+ ↓
+Vendor Invoice
+ ↓
+3-Way Match
+ ↓
+Vendor Payment
+So Finance does not need a separate R&D payment process.
+
+It uses the common Accounts workflow.
+
+18. R&D Dashboard
+The clearest R&D-related dashboard requirement in the supplied source is:
+
+R&D PROJECTS
+     ↓
+PENDING APPROVALS
+The Management Dashboard specifically includes R&D Projects Pending Approvals. 
+
+A practical dashboard could therefore expose:
+
+R&D DASHBOARD
+
+Projects
+Pending Approvals
+Material Requests
+Material Shortages
+Active Projects
+Completed Projects
+However, only R&D Projects Pending Approvals is explicitly established by the client document. The remaining dashboard metrics should be confirmed.
+
+19. R&D Approval + Material Flow
+The most defensible client-based flow is:
+
+R&D PROJECT
+      ↓
+PROJECT APPROVAL
+      ↓
+APPROVED
+      ↓
+MATERIAL REQUIRED
+      ↓
+MATERIAL REQUEST
+      ↓
+DEPARTMENT APPROVAL
+      ↓
+STOCK CHECK
+Then:
+
+                STOCK CHECK
+                    │
+          ┌─────────┼─────────┐
+          ↓         ↓         ↓
+        FULL      PARTIAL     NONE
+          ↓         ↓         ↓
+        ISSUE     ISSUE     PROCUREMENT
+                    ↓           ↓
+                 SHORTAGE      GRN
+                    ↓           ↓
+                PROCUREMENT  INVENTORY
+                    ↓           ↓
+                   ISSUE ←─────┘
+                    ↓
+                   R&D
+20. R&D Complete Conceptual Workflow
+                  R&D REQUIREMENT
+                         ↓
+                    R&D PROJECT
+                         ↓
+                  PROJECT APPROVAL
+                         ↓
+                   APPROVED?
+                    /       \
+                  YES        NO
+                   ↓          ↓
+            MATERIAL NEED    REVIEW
+                   ↓
+             MATERIAL REQUEST
+                   ↓
+            DEPARTMENT APPROVAL
+                   ↓
+              INVENTORY CHECK
+             /       |        \
+           FULL    PARTIAL     NONE
+            ↓        ↓          ↓
+          ISSUE    ISSUE      PROCUREMENT
+                     ↓            ↓
+                  SHORTAGE       RFQ
+                     ↓            ↓
+                 PROCUREMENT   VENDOR PO
+                                  ↓
+                                 GRN
+                                  ↓
+                              INVENTORY
+                                  ↓
+                                ISSUE
+                     └──────┬─────┘
+                            ↓
+                       R&D ACTIVITY
+                            ↓
+                         TESTING
+                            ↓
+                          RESULT
+                            ↓
+                     PROJECT STATUS
+                            ↓
+                    MANAGEMENT VIEW
+The R&D project → approval → material request → Supply Chain portion is supported by the client materials; the detailed R&D execution/testing/result portion needs additional client clarification.
+
+21. Important Difference: R&D vs Production
+Don't mix these two.
+
+Production
+CUSTOMER ORDER
+      ↓
+SALES ORDER
+      ↓
+PRODUCTION ORDER
+      ↓
+BOM
+      ↓
+MANUFACTURING
+      ↓
+QA
+      ↓
+FINISHED PRODUCT
+R&D
+R&D REQUIREMENT
+      ↓
+R&D PROJECT
+      ↓
+APPROVAL
+      ↓
+MATERIAL REQUEST
+      ↓
+R&D ACTIVITY
+      ↓
+TEST / RESULT
+Production is part of the main customer order lifecycle.
+
+R&D is a supporting/organizational workflow that can use the same Inventory, Procurement, Approval, Finance, and reporting infrastructure.
+
+22. Where R&D Fits in the Full ERP
+                       ERP
+                        │
+       ┌────────────────┼────────────────┐
+       ↓                ↓                ↓
+ CUSTOMER BUSINESS    INTERNAL        SUPPORT
+    WORKFLOW          OPERATIONS       CONTROLS
+       │                │                │
+       ↓                ↓                ↓
+ Lead → Service       R&D           Approvals
+ Order → Delivery     Maintenance   Roles
+ Production           Inventory     Audit
+                       Procurement   Reports
+So R&D should not be inserted into the middle of the customer order lifecycle unless a specific business case requires it.
+
+23. Current Complete ERP Module Map
+We have now covered:
+
+01. Lead / Enquiry
+02. Quotation / Negotiation / Revision
+03. Proforma / Customer PO / PO Verification
+04. Sales Order / Payment
+05. Production Order / BOM / Material Request
+06. Procurement / RFQ / Vendor PO / GRN
+07. Manufacturing / WIP / Consumption
+08. QA / Serial / Finished Goods
+09. Packing / Final Invoice / Dispatch
+10. Delivery / POD
+11. Installation / Commissioning / Warranty
+12. Service
+13. RMA / Customer Return
+14. Finance / Accounts
+15. Maintenance
+16. Logistics
+17. Master Data
+18. Inventory / Store
+19. Cross-Functional Controls
+20. R&D
+One correction to our numbering: the numbering above is the order we've explained the topics, not the client's official module numbering. The client source treats Master Data and Cross-functional Controls as architectural layers rather than ordinary sequential business steps.
+
+The next major area to explain is DASHBOARD / MANAGEMENT REPORTING → SALES DASHBOARD → PRODUCTION DASHBOARD → INVENTORY DASHBOARD → PROCUREMENT → FINANCE → SERVICE → MANAGEMENT KPIs. This is especially useful now because it shows how management sees the status of the entire ERP rather than creating another transaction workflow.
+
+Next
+Workflow 19 — DASHBOARD & MANAGEMENT REPORTING
+This is different from the transaction workflows we covered earlier.
+
+Dashboard is a control center, not a mandatory transaction step. The client document explicitly describes the Dashboard this way. 
+
+Its purpose is to answer:
+
+“What is happening in the company right now, and what requires attention?”
+
+1. Overall Dashboard Structure
+                         ERP DASHBOARD
+                              │
+       ┌──────────┬───────────┼───────────┬──────────┐
+       ↓          ↓           ↓           ↓          ↓
+     SALES     PURCHASE    PRODUCTION  INVENTORY   FINANCE
+       │          │           │           │          │
+       └──────────┴───────────┼───────────┴──────────┘
+                              ↓
+                         MANAGEMENT
+                              │
+                 ┌────────────┼────────────┐
+                 ↓            ↓            ↓
+              QUALITY      LOGISTICS     SERVICE
+                              │
+                              ↓
+                       DECISION MAKING
+2. Main Dashboard
+The detailed client workflow identifies these important dashboard indicators:
+
+Total Leads
+Open Quotations
+Pending Approvals
+Open Orders
+Payment Pending
+Production In Progress
+Material Shortage
+QA Pending
+Ready for Dispatch
+Deliveries
+Open Service Tickets
+
+So the first screen can provide a high-level company pulse.
+
+3. Dashboard Is Not a Transaction
+This is important.
+
+The user should not be forced to:
+
+Dashboard
+ ↓
+Lead
+ ↓
+Quotation
+Instead:
+
+DASHBOARD
+   │
+   ├── View Sales
+   ├── View Production
+   ├── View Inventory
+   ├── View Finance
+   ├── View Service
+   └── Open Required Transaction
+The source explicitly states that Dashboard is a control center, not a mandatory transaction step. 
+
+4. Sales Dashboard
+The client documentation gives a Marketing/Sales dashboard concept.
+
+Important indicators include:
+
+Total Leads
+New Leads
+Follow-up Due
+Follow-up Overdue
+Converted Leads
+Lost Leads
+Enquiry Value
+Lead Conversion %
+The high-level Sales flow is:
+
+LEAD
+ ↓
+FOLLOW-UP
+ ↓
+ENQUIRY
+ ↓
+SALES
+ ↓
+WON / LOST
+
+5. Sales Dashboard → Action
+Example:
+
+Follow-up Overdue: 12
+The user clicks it:
+
+Dashboard
+   ↓
+Follow-up Overdue
+   ↓
+Lead List
+   ↓
+Select Lead
+   ↓
+Contact Customer
+   ↓
+Update Follow-up
+So dashboard numbers should ideally be actionable, not just decorative.
+
+6. Quotation Dashboard
+The dashboard can show:
+
+Open Quotations
+Pending Approval
+Sent to Customer
+Negotiation
+Accepted
+Rejected
+Expired
+Then:
+
+Pending Approval: 5
+       ↓
+Click
+       ↓
+Quotation List
+       ↓
+Review / Approve
+The source explicitly identifies open quotations and pending approvals as dashboard indicators. 
+
+7. Sales Order Dashboard
+Management needs to know:
+
+Open Orders
+Payment Pending
+Production Pending
+Production In Progress
+Ready for Dispatch
+Example:
+
+Open Orders:
+18
+
+Payment Pending:
+5
+
+Production:
+8
+
+Ready for Dispatch:
+5
+8. Procurement Dashboard
+Procurement management can monitor:
+
+Purchase Requests
+Pending RFQs
+Vendor Quotations
+Pending Vendor PO
+Pending GRN
+Material Shortages
+The purpose is to identify where procurement is blocked.
+
+Example:
+
+Material Shortage:
+7
+Click:
+
+Material Shortage
+       ↓
+Shortage List
+       ↓
+Purchase Request
+       ↓
+RFQ / Procurement
+9. Production Dashboard
+Production management needs visibility into:
+
+Production Orders
+Production In Progress
+Material Waiting
+WIP
+QA Pending
+Completed Production
+The main customer workflow connects:
+
+Sales Order
+ ↓
+Production Order
+ ↓
+BOM / Material
+ ↓
+Manufacturing
+ ↓
+QA
+
+10. Example Production Dashboard
+PRODUCTION
+
+Total Production Orders     25
+Ready to Start               5
+In Progress                  8
+Material Waiting             4
+QA Pending                   5
+Completed                    3
+Click:
+
+Material Waiting: 4
+       ↓
+Production Orders
+       ↓
+Material Requests
+       ↓
+Inventory / Procurement
+11. Inventory Dashboard
+The client document includes inventory visibility such as:
+
+Current Stock Value
+Low Stock
+Stock Movement
+
+A practical Store dashboard can therefore show:
+
+Total Stock
+Low Stock
+Pending Material Requests
+Stock In
+Stock Out
+Transfers
+Adjustments
+12. Low Stock Action
+Example:
+
+LOW STOCK
+   ↓
+Compressor
+Current: 5
+Minimum: 10
+Click:
+
+Compressor
+   ↓
+Stock Details
+   ↓
+Purchase / Material Requirement
+Whether the system automatically creates a Purchase Request is a client configuration decision; the source establishes low-stock monitoring, not automatic purchasing.
+
+13. Finance Dashboard
+Management needs to see:
+
+Customer Receivables
+Vendor Payables
+Payment Pending
+Collections
+Outstanding Amount
+The first client document explicitly includes:
+
+Outstanding Receivables
+Outstanding Payables
+in management reporting. 
+
+14. Finance Example
+CUSTOMER RECEIVABLES
+
+ABC Hospital       ₹6.27L
+XYZ Laboratory     ₹2.15L
+DEF Hospital       ₹4.80L
+Click:
+
+ABC Hospital
+   ↓
+Invoice
+   ↓
+Payment History
+   ↓
+Outstanding
+15. Quality Dashboard
+QA management needs to know:
+
+QA Pending
+QA Passed
+QA Failed
+Rework
+Scrap
+Main flow:
+
+PRODUCTION
+    ↓
+QA
+ ┌──┴──┐
+ ↓     ↓
+PASS  FAIL
+ ↓     ↓
+FG    RECTIFICATION
+       ↓
+      RETEST
+The source explicitly requires QA failure → rectification → retest, with rework or scrap where required. 
+
+16. Logistics Dashboard
+Logistics can monitor:
+
+Ready for Dispatch
+Dispatched
+In Transit
+Out for Delivery
+Delivered
+Pending POD
+Delivery Failed
+The client workflow defines the delivery progression:
+
+READY
+ ↓
+DISPATCHED
+ ↓
+IN TRANSIT
+ ↓
+OUT FOR DELIVERY
+ ↓
+DELIVERED
+ ↓
+POD
+
+17. Service Dashboard
+The Service dashboard can show the service status described by the client:
+
+New Service Requests
+Pending Service Requests
+Today's Visits
+Engineer-wise Jobs
+Open Service Entries
+Completed Services
+Materials Requested
+Materials Issued
+Service Invoice Pending
+Customer Complaints
+The first client document specifically defines these Service dashboard indicators. 
+
+18. Service Dashboard → Engineer
+Example:
+
+Today's Visits: 8
+Click:
+
+Today's Visits
+      ↓
+Engineer Job List
+      ↓
+Service Ticket
+      ↓
+Customer
+      ↓
+Diagnosis / Repair
+19. Management Dashboard
+This is the highest-level view.
+
+The client document identifies:
+
+Total Sales
+Pending Sales Orders
+Purchase Value
+Pending POs
+Current Stock Value
+Low Stock
+Production Status
+Service Pending
+Outstanding Receivables
+Outstanding Payables
+R&D Projects Pending Approvals
+
+So management can understand the company without opening every module.
+
+20. Management Charts
+The client document also identifies management charts such as:
+
+Monthly Sales
+Purchase vs Sales
+Department-wise Pending Work
+Stock Movement
+Receivables / Payables
+
+Conceptually:
+
+MONTHLY SALES
+
+Jan   ███████
+Feb   █████████
+Mar   █████
+Apr   ███████████
+and:
+
+PURCHASE vs SALES
+
+Month      Purchase      Sales
+--------------------------------
+Jan        ...           ...
+Feb        ...           ...
+Mar        ...           ...
+21. Department-wise Pending Work
+This is particularly useful for management.
+
+DEPARTMENT PENDING
+
+Sales          12
+Purchase        8
+Store           5
+Production      7
+QA              4
+Dispatch        3
+Service         9
+Accounts        6
+Then management can identify where work is accumulating.
+
+22. End-to-End Order Tracking
+One of the most useful dashboard capabilities is viewing a particular order's journey.
+
+Example:
+
+SO-000125
+    ↓
+Payment              ✅
+    ↓
+Production           ✅
+    ↓
+Material             ✅
+    ↓
+Manufacturing        🔄
+    ↓
+QA                   ⏳
+    ↓
+Packing              ⏳
+    ↓
+Dispatch             ⏳
+    ↓
+Delivery             ⏳
+    ↓
+Installation         ⏳
+    ↓
+Warranty             ⏳
+This reflects the client's core principle that a transaction created in one module becomes the source for the next relevant transaction. 
+
+23. Dashboard Drill-Down
+The dashboard should not just display numbers.
+
+Example:
+
+QA Pending: 5
+User clicks:
+
+QA Pending
+    ↓
+QA List
+    ↓
+Select Product
+    ↓
+Production Order
+    ↓
+QA Test
+Similarly:
+
+Low Stock: 8
+    ↓
+Inventory
+Payment Pending: 10
+    ↓
+Accounts
+Service Pending: 7
+    ↓
+Service Tickets
+24. Dashboard Notification Connection
+Dashboard and notifications work together.
+
+EVENT
+ ↓
+NOTIFICATION
+ ↓
+DASHBOARD COUNT
+ ↓
+USER ACTION
+Example:
+
+Material Shortage
+       ↓
+Notification
+       +
+Dashboard
+       ↓
+Purchase Team
+       ↓
+Procurement
+25. Dashboard + Approval
+Similarly:
+
+TRANSACTION
+     ↓
+APPROVAL REQUIRED
+     ↓
+PENDING APPROVAL
+     ↓
+DASHBOARD
+     ↓
+MANAGER
+     ↓
+APPROVE / REJECT
+Examples from the source include:
+
+Quotation Discount
+Vendor PO
+Stock Adjustment
+Refund
+
+26. Dashboard + Audit
+When an important dashboard action leads to a transaction change:
+
+USER
+ ↓
+DASHBOARD
+ ↓
+OPEN TRANSACTION
+ ↓
+APPROVE / UPDATE
+ ↓
+AUDIT TRAIL
+The audit trail records who changed what, when, and why. 
+
+27. Complete Dashboard Architecture
+                         DASHBOARD
+                             │
+       ┌─────────┬───────────┼───────────┬─────────┐
+       ↓         ↓           ↓           ↓         ↓
+     SALES   PROCUREMENT  PRODUCTION  INVENTORY  FINANCE
+       │         │           │           │         │
+       ↓         ↓           ↓           ↓         ↓
+    LEADS      RFQ         WIP        STOCK     RECEIVABLE
+    QUOTES     PO          QA         LOW       PAYABLE
+    ORDERS     GRN         OUTPUT     STOCK     PAYMENT
+       │         │           │           │         │
+       └─────────┴───────────┼───────────┴─────────┘
+                             ↓
+                    MANAGEMENT DASHBOARD
+                             │
+             ┌───────────────┼──────────────┐
+             ↓               ↓              ↓
+          QUALITY         LOGISTICS       SERVICE
+             │               │              │
+             └───────────────┼──────────────┘
+                             ↓
+                    DECISION / ACTION
+28. Final ERP Architecture
+Now the whole system can be understood in four major layers:
+
+Layer 1 — Master Data
+Customer
+Product
+Vendor
+Employee/User
+Warehouse
+Work Center
+Tax
+Payment Terms
+Delivery Terms
+Warranty Terms
+Layer 2 — Main Business Workflow
+Lead
+ ↓
+Quotation
+ ↓
+Acceptance
+ ↓
+Proforma
+ ↓
+Customer PO
+ ↓
+PO Verification
+ ↓
+Sales Order
+ ↓
+Payment
+ ↓
+Production
+ ↓
+Materials / Procurement
+ ↓
+Manufacturing
+ ↓
+QA
+ ↓
+Finished Goods
+ ↓
+Packing
+ ↓
+Invoice
+ ↓
+Dispatch
+ ↓
+Delivery / POD
+ ↓
+Installation
+ ↓
+Commissioning
+ ↓
+Warranty
+ ↓
+Service
+Layer 3 — Exceptions
+PO Mismatch
+Payment Failure
+Material Shortage
+QA Failure
+Delivery Failure
+Installation Failure
+RMA
+Replacement
+Credit Note
+Refund
+Stock Adjustment
+Warehouse Transfer
+Vendor Return
+Layer 4 — Cross-Functional Controls
+Roles
+Permissions
+Approvals
+Notifications
+Audit Trail
+Documents
+Dashboard
+Reports
+Analytics
+This four-layer structure is directly aligned with the client documentation.
+
+
+
+
+⚠️ 5 things I would correct
+1. Payment should be a gate, not always a fixed step
+Your document already correctly says the production-release payment rule should be configurable. Keep that.
+So:
+SALES ORDER
+    ↓
+PAYMENT REQUIREMENT
+    ↓
+PAYMENT RECEIVED / VERIFIED
+    ↓
+PRODUCTION RELEASE
+
+But the actual rule should be configurable:
+30% Advance
+OR
+100% Advance
+OR
+Credit Customer
+OR
+Management Override
+
+Don't hard-code 30%.
+2. Procurement should be a branch, not a single mandatory linear step
+Your workflow currently shows:
+STOCK CHECK
+   ↓
+PROCUREMENT
+   ↓
+MATERIAL ISSUE
+
+Better:
+                 STOCK CHECK
+                /     |      \
+               /      |       \
+           FULL     PARTIAL     NONE
+            ↓          ↓          ↓
+       ISSUE ALL   ISSUE      PROCUREMENT
+                   AVAILABLE       ↓
+                      ↓       MATERIAL RECEIVED
+                      └───────────┘
+                           ↓
+                     MATERIAL ISSUE
+                           ↓
+                    MATERIALS READY
+
+Your document already contains this logic; this should be reflected in the actual application state machine, not just documentation.    final
+3. QA failure needs an explicit branch
+Production should not simply go:
+PRODUCTION COMPLETED
+       ↓
+      QA
+       ↓
+     PASS
+
+Use:
+PRODUCTION COMPLETED
+        ↓
+      QA TEST
+     /       \
+   PASS      FAIL
+    ↓          ↓
+SERIAL      REWORK
+NUMBER        ↓
+    ↓       RE-TEST
+FINISHED      ↓
+ GOODS      PASS / FAIL
+
+Your later workflow already includes QA failure/rework as an exception, so this should be visible in the main workflow too.    final
+4. Logistics should sit with Dispatch/Delivery
+The document itself recognizes that Logistics is operationally connected to Dispatch and Delivery rather than being a strictly later sequential module.    final
+So architecturally:
+PACKING
+ ↓
+DISPATCH READY
+ ↓
+LOGISTICS
+ ↓
+TRANSPORTER
+ ↓
+SHIPMENT
+ ↓
+TRACKING
+ ↓
+DISPATCH
+ ↓
+IN TRANSIT
+ ↓
+OUT FOR DELIVERY
+ ↓
+DELIVERED
+ ↓
+POD
+
+That's cleaner.
+5. Cross-functional modules should NOT be forced into the transaction chain
+This is very important.
+Don't build:
+Lead
+ ↓
+Quotation
+ ↓
+Roles
+ ↓
+Approval
+ ↓
+Notifications
+ ↓
+Production
+
+Instead:
+                 ERP
+                  │
+     ┌────────────┼────────────┐
+     ↓            ↓            ↓
+   SALES      PRODUCTION   PROCUREMENT
+     ↓            ↓            ↓
+ INVENTORY       QA         FINANCE
+     ↓            ↓            ↓
+ SERVICE      LOGISTICS   MAINTENANCE
+     └────────────┼────────────┘
+                  ↓
+       CROSS-FUNCTIONAL CONTROLS
+                  │
+      ┌───────────┼───────────┐
+      ↓           ↓           ↓
+    ROLES      APPROVALS   NOTIFICATIONS
+      ↓           ↓           ↓
+ AUDIT TRAIL   DOCUMENTS   REPORTS
+
+Your document already has this architecture correctly.

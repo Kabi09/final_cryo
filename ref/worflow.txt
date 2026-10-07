@@ -1,0 +1,3247 @@
+ERP — FINAL COMPLETE BUSINESS WORKFLOW
+1. First understand the ERP in one picture
+Think of the ERP as the complete journey of one customer order.
+
+                         ┌─────────────────┐
+                         │    DASHBOARD    │
+                         └────────┬────────┘
+                                  │
+                                  ▼
+                         01. LEAD / ENQUIRY
+                                  │
+                           Contact Customer
+                                  │
+                             Qualify Lead
+                                  │
+                    ┌─────────────┴─────────────┐
+                    │                           │
+                 QUALIFIED                    LOST
+                    │
+                    ▼
+             EXISTING CUSTOMER?
+              ┌─────┴─────┐
+              │           │
+             YES          NO
+              │           │
+              │       CREATE CUSTOMER
+              │           │
+              └─────┬─────┘
+                    │
+                    ▼
+              02. QUOTATION
+                    │
+             Internal Approval
+                    │
+                    ▼
+             SEND TO CUSTOMER
+                    │
+                    ▼
+             03. NEGOTIATION
+              ┌─────┴──────┐
+              │            │
+           ACCEPT        CHANGE
+              │            │
+              │            ▼
+              │      04. QUOTATION
+              │          REVISION
+              │            │
+              │         APPROVAL
+              │            │
+              │           SEND
+              │            │
+              └───────◄────┘
+                    │
+                    ▼
+              05. ACCEPTANCE
+                    │
+                    ▼
+           06. PROFORMA INVOICE
+                    │
+                    ▼
+             07. CUSTOMER PO
+                    │
+                    ▼
+             08. PO VERIFICATION
+              ┌─────┴─────────┐
+              │               │
+            MATCH          MISMATCH
+              │               │
+              ▼               ▼
+        09. SALES ORDER    HOLD / CORRECT
+              │
+              ▼
+          10. PAYMENT
+              │
+       Payment Verification
+              │
+              ▼
+       11. PRODUCTION ORDER
+              │
+              ▼
+           12. BOM
+              │
+              ▼
+       13. MATERIAL REQUEST
+              │
+              ▼
+       14. INVENTORY CHECK
+        ┌─────┼──────────────┐
+        │     │              │
+       FULL PARTIAL         NONE
+        │     │              │
+        ▼     ▼              ▼
+      ISSUE  ISSUE       PROCUREMENT
+        │   AVAILABLE         │
+        │   + BUY             │
+        │   SHORTAGE           │
+        └──────┬───────────────┘
+               │
+               ▼
+          MATERIAL READY
+               │
+               ▼
+        15. PRODUCTION
+               │
+        ┌──────┼─────────┐
+        ▼      ▼         ▼
+   FABRICATION REFRIG. ELECTRICAL
+        │
+        ▼
+      WIP / OPERATIONS
+        │
+        ▼
+   MATERIAL CONSUMPTION
+        │
+        ▼
+   FINISHED PRODUCT
+        │
+        ▼
+       16. QA
+      ┌───┴──────────┐
+      │              │
+     PASS           FAIL
+      │              │
+      ▼              ▼
+   CERTIFICATE    RECTIFICATION
+      │              │
+      │           RETEST
+      │              │
+      │        ┌─────┴─────┐
+      │       PASS        FAIL
+      │        │            │
+      │        │       REWORK / SCRAP
+      │        │
+      └────┬───┘
+           │
+           ▼
+    17. FINISHED GOODS
+        INVENTORY
+           │
+           ▼
+       18. PACKING
+           │
+           ▼
+      19. FINAL INVOICE
+           │
+           ▼
+       20. DISPATCH
+           │
+           ▼
+       21. DELIVERY
+           │
+       ┌───┴──────────┐
+       │              │
+   DELIVERED       FAILED
+       │              │
+       ▼              ▼
+      POD        RESCHEDULE /
+       │           RETURN
+       ▼
+22. INSTALLATION
+       │
+       ▼
+   COMMISSIONING
+    ┌──┴──────┐
+   PASS     FAIL
+    │          │
+    ▼          ▼
+WARRANTY    REVISIT /
+ ACTIVE     RECTIFICATION
+    │
+    ▼
+23. SERVICE
+    │
+ WARRANTY CHECK
+ ┌──┴─────────────┐
+ │                │
+VALID          EXPIRED
+ │                │
+FREE SERVICE   SERVICE QUOTE
+ │                │
+ │            CUSTOMER APPROVAL
+ │                │
+ └───────┬────────┘
+         │
+      DIAGNOSIS
+         │
+   SPARE PART REQUIRED?
+      ┌──┴──────┐
+     NO        YES
+     │          │
+  REPAIR    STOCK CHECK
+     │       ┌──┴────┐
+     │    AVAILABLE  NONE
+     │       │         │
+     │      ISSUE   PROCUREMENT
+     │       └──┬──────┘
+     │          │
+     └────┬─────┘
+          ▼
+        TEST
+          │
+          ▼
+   CUSTOMER SIGN-OFF
+          │
+          ▼
+      SERVICE CLOSED
+This expands the original core chain in your document, which currently runs through Lead → Customer → Quotation → Negotiation → Revision → Acceptance → Proforma → Customer PO → Verification → Sales Order → Payment → Production → QA → Packing → Invoice → Dispatch → Delivery → Installation → Warranty → Service. Pasted markdown
+
+2. Understand the ERP using four layers
+This is important because not everything is actually a sequential page.
+
+Layer A — Master Data
+These are records that are created once and reused.
+
+Customer Master
+Product Master
+Vendor Master
+Employee/User
+Warehouse
+Work Center
+Tax
+Payment Terms
+Warranty Terms
+Layer B — Main Business Workflow
+This is the actual customer/order journey.
+
+Lead
+ ↓
+Quotation
+ ↓
+Negotiation
+ ↓
+Revision
+ ↓
+Acceptance
+ ↓
+Proforma
+ ↓
+Customer PO
+ ↓
+Sales Order
+ ↓
+Payment
+ ↓
+Production
+ ↓
+QA
+ ↓
+Packing
+ ↓
+Invoice
+ ↓
+Dispatch
+ ↓
+Delivery
+ ↓
+Installation
+ ↓
+Warranty
+ ↓
+Service
+Layer C — Exception Workflows
+These happen only when something goes wrong or changes.
+
+Quotation Rejected
+Quotation Expired
+Order Cancelled
+PO Mismatch
+Payment Failed
+Material Shortage
+Production Delay
+QA Failed
+Rework
+Scrap
+Delivery Failed
+Installation Failed
+Service Spare Shortage
+RMA / Return
+Replacement
+Refund
+Credit Note
+Layer D — Cross-functional Controls
+These operate across all modules.
+
+Dashboard
+Accounts
+Approvals
+Roles & Permissions
+Notifications
+Audit Trail
+Documents
+Reports
+Your original document already treats Dashboard and the supporting modules separately from the main business chain. Pasted markdown
+
+PART 1 — SALES WORKFLOW
+01. DASHBOARD
+Purpose
+The Dashboard is the first screen after login.
+
+It should not create the transaction itself. It tells the user:
+
+"What is happening in the business and what do I need to do?"
+
+Who uses it?
+Different users see different information.
+
+Salesperson
+
+New Leads
+Follow-ups
+Pending Quotations
+Negotiations
+Orders
+Payments
+Production
+
+Production Orders
+Material Shortage
+WIP
+Pending QA
+Purchase
+
+Material Requests
+RFQs
+Vendor POs
+Pending GRNs
+Management
+
+Sales
+Revenue
+Orders
+Production
+Inventory
+Payments
+Pending Approvals
+Main fields/widgets
+Total Leads
+Open Quotations
+Pending Approvals
+Open Orders
+Payment Pending
+Production In Progress
+Material Shortage
+QA Pending
+Ready for Dispatch
+Deliveries
+Open Service Tickets
+Main actions
+View
+Filter
+Open
+Search
+View Details
+Status
+Dashboard itself doesn't have a normal transaction status.
+
+LIVE BUSINESS STATUS
+What happens next?
+User clicks a pending item and enters the actual module.
+
+Important point
+The Dashboard is a control center, not a mandatory transaction step.
+
+02. LEAD / ENQUIRY
+Your source defines Lead as the starting point for capturing a customer enquiry and qualifying it. Pasted markdown
+
+Real-world example
+ABC Hospital contacts the company:
+
+"We need two -80°C freezers."
+
+Sales creates:
+
+LEAD-001
+Purpose
+Capture a potential customer's requirement.
+
+Main fields
+Lead Number
+Company Name
+Contact Person
+Phone
+Email
+Source
+Product
+Quantity
+Requirement
+Expected Purchase Date
+Assigned Salesperson
+Budget
+Notes
+Follow-up Date
+Main actions
+Create Lead
+Edit
+Contact Customer
+Add Activity
+Schedule Follow-up
+Qualify
+Convert
+Mark Lost
+Status
+NEW
+ ↓
+CONTACTED
+ ↓
+FOLLOW-UP
+ ↓
+QUALIFIED
+Alternative:
+
+NEW
+ ↓
+CONTACTED
+ ↓
+LOST
+What happens next?
+If qualified:
+
+Lead
+ ↓
+Check Customer
+Important branch
+If the customer is already registered:
+
+QUALIFIED
+ ↓
+SELECT EXISTING CUSTOMER
+If new:
+
+QUALIFIED
+ ↓
+CREATE CUSTOMER
+This is better than forcing every lead to create a duplicate customer.
+
+03. CUSTOMER
+Purpose
+Create or select the customer who will participate in the transaction.
+
+Main fields
+Customer ID
+Company Name
+Customer Type
+Contact Person
+Phone
+Email
+GST/PAN
+Billing Address
+Shipping Address
+Payment Terms
+Credit Limit
+Tax Details
+Documents
+Actions
+Create
+Edit
+Add Contact
+View History
+Attach Documents
+Deactivate
+Status
+PROSPECT
+ ↓
+ACTIVE
+ ↓
+INACTIVE
+What happens next?
+Customer becomes available for:
+
+Quotation
+Sales Order
+Invoice
+Payment
+Delivery
+Service
+Important branch
+Never create duplicate customers.
+
+Example:
+
+ABC Hospital
+
+Already exists?
+     ↓
+    YES
+     ↓
+Use existing customer
+The customer record is therefore really a master record used across the entire ERP, not simply a one-time step. Your source also identifies Customer Master separately as a supporting module. Pasted markdown
+
+04. QUOTATION
+This is one of the most important pages.
+
+Purpose
+Tell the customer:
+
+"This is what we will supply and this is how much it will cost."
+
+Main fields
+Quotation Number
+Customer
+Lead Reference
+Product
+Quantity
+Unit Price
+Discount
+Tax
+Subtotal
+Total
+Validity
+Payment Terms
+Delivery Terms
+Warranty Terms
+Expected Delivery
+Notes
+Example
+QT-001
+
+Customer:
+ABC Hospital
+
+Product:
+-80°C Freezer
+
+Quantity:
+2
+
+Total:
+₹22,00,000
+
+Payment:
+30% Advance
+
+Delivery:
+15 Days
+
+Validity:
+30 Days
+Actions
+Save Draft
+Submit
+Approve
+Edit
+Send
+Print
+Generate PDF
+Cancel
+Status
+DRAFT
+ ↓
+PENDING APPROVAL
+ ↓
+APPROVED
+ ↓
+SENT
+Customer response:
+
+SENT
+ ├── ACCEPTED
+ ├── NEGOTIATION
+ ├── REJECTED
+ └── EXPIRED
+Recommended addition: quotation expiry should be explicit because the quotation has a validity period.
+
+What happens next?
+SENT
+ ↓
+Customer Response
+05. NEGOTIATION
+Purpose
+Handle customer requests to change the quotation.
+
+Example:
+
+"₹22 lakh is too high. Can you give ₹20 lakh?"
+
+Main fields
+Quotation
+Customer
+Requested Price
+Requested Quantity
+Requested Discount
+Requested Terms
+Customer Message
+Sales Response
+Negotiation Date
+Actions
+Record Negotiation
+Accept
+Request Revision
+Reject
+Add Note
+Resend
+Status
+SENT
+ ↓
+AWAITING CUSTOMER
+ ↓
+NEGOTIATION
+Then:
+
+ACCEPTED
+or
+
+REVISION REQUIRED
+or
+
+REJECTED
+What happens next?
+Customer accepts
+       ↓
+Acceptance
+or:
+
+Customer requests change
+       ↓
+Quotation Revision
+06. QUOTATION REVISION
+Your updated document correctly establishes that revisions should preserve previous quotation history. Pasted markdown
+
+Purpose
+Create a new version without destroying the old quotation.
+
+Example:
+
+QT-001 Rev 0
+₹22,00,000
+     ↓
+Negotiation
+     ↓
+QT-001 Rev 1
+₹20,00,000
+     ↓
+Negotiation
+     ↓
+QT-001 Rev 2
+₹19,00,000
+Important
+Don't overwrite:
+
+QT-001 = ₹22 lakh
+with:
+
+₹19 lakh
+Instead preserve history.
+
+Fields
+Original Quotation
+Revision Number
+Previous Amount
+New Amount
+Changed Items
+Reason
+New Price
+New Terms
+Validity
+Actions
+Create Revision
+Edit
+Submit
+Approve
+Send
+View History
+Status
+REVISION DRAFT
+ ↓
+PENDING APPROVAL
+ ↓
+APPROVED
+ ↓
+SENT
+What happens next?
+Customer accepts
+       ↓
+Acceptance
+or:
+
+Customer asks another change
+       ↓
+New Revision
+07. ACCEPTANCE
+Purpose
+Record the final customer acceptance.
+
+Example:
+
+Customer:
+ABC Hospital
+
+Accepted:
+QT-001 Rev 2
+
+Amount:
+₹19,00,000
+Fields
+Quotation
+Revision
+Accepted Amount
+Customer Confirmation
+Acceptance Date
+Customer Reference
+Acceptance Document
+Actions
+Accept
+Upload Confirmation
+View History
+Status
+SENT
+ ↓
+ACCEPTED
+What happens next?
+Accepted Quotation
+       ↓
+Proforma Invoice
+Important rule
+Only the final accepted revision should move forward.
+
+08. PROFORMA INVOICE
+Purpose
+Create the commercial document used before the final invoice/order execution.
+
+Fields
+PI Number
+Customer
+Quotation
+Product
+Quantity
+Price
+Tax
+Discount
+Total
+Advance %
+Advance Amount
+Payment Terms
+Delivery Terms
+Actions
+Create
+Edit
+Approve
+Send
+Print
+Generate PDF
+Status
+DRAFT
+ ↓
+APPROVED
+ ↓
+SENT
+What happens next?
+Customer
+ ↓
+Customer PO
+Important
+The PI should automatically inherit:
+
+Customer
+Product
+Quantity
+Price
+Tax
+Terms
+from the accepted quotation.
+
+09. CUSTOMER PO
+Purpose
+The customer officially tells the company:
+
+"We are purchasing this."
+
+Fields
+Customer PO Number
+Customer
+PO Date
+Quotation
+PI
+Product
+Quantity
+Price
+Total
+Delivery Date
+Payment Terms
+PO Document
+Actions
+Record PO
+Upload PO
+View
+Verify
+Put on Hold
+Status
+RECEIVED
+ ↓
+PENDING VERIFICATION
+ ↓
+VERIFIED
+What happens next?
+Customer PO
+ ↓
+PO Verification
+10. PO VERIFICATION
+This is a control point.
+
+Purpose
+Check:
+
+"Does the customer's PO actually match what we agreed?"
+
+Compare
+Quotation
+     ↕
+Proforma
+     ↕
+Customer PO
+Check:
+
+Product
+Quantity
+Price
+Tax
+Delivery
+Payment Terms
+Warranty
+Customer Details
+Actions
+Verify
+Approve
+Hold
+Request Correction
+Reject
+Status
+PENDING
+ ↓
+VERIFIED
+or:
+
+PENDING
+ ↓
+MISMATCH
+ ↓
+HOLD
+ ↓
+CORRECTION
+ ↓
+REVERIFY
+What happens next?
+VERIFIED
+ ↓
+Sales Order
+11. SALES ORDER
+Purpose
+Convert the verified customer commitment into the company's internal order.
+
+Fields
+Sales Order Number
+Customer
+Customer PO
+Quotation
+Product
+Quantity
+Amount
+Delivery Date
+Payment Terms
+Priority
+Actions
+Create
+Edit
+Confirm
+Hold
+Cancel
+View Documents
+Status
+DRAFT
+ ↓
+CONFIRMED
+Possible:
+
+CONFIRMED
+ ↓
+IN PROGRESS
+ ↓
+COMPLETED
+What happens next?
+Sales Order
+ ↓
+Payment
+ ↓
+Production Planning
+Recommended exception
+Order cancellation should exist:
+
+Sales Order
+ ↓
+Cancellation Request
+ ↓
+Approval
+ ↓
+CANCELLED
+If production has already started, cancellation may require:
+
+Cancellation Charges
+Material Cost
+Refund Calculation
+12. PAYMENT
+Purpose
+Track money received from the customer.
+
+Fields
+Payment ID
+Customer
+Sales Order
+Invoice/PI
+Expected Amount
+Paid Amount
+Payment Date
+Payment Method
+Bank
+UTR/Reference
+Proof
+Actions
+Record Payment
+Upload Proof
+Verify
+Approve
+Adjust
+Refund
+Status
+PENDING
+ ↓
+RECEIVED
+ ↓
+VERIFIED
+Payment branches
+FULL PAYMENT
+PARTIAL PAYMENT
+PAYMENT PENDING
+PAYMENT FAILED
+PAYMENT REVERSED
+OVERPAYMENT
+SHORT PAYMENT
+Important business decision
+The ERP should know:
+
+"Can production start with partial payment?"
+
+For example:
+
+30% Advance Required
+
+Expected:
+₹5,70,000
+
+Received:
+₹5,70,000
+
+Payment:
+VERIFIED
+
+Production:
+RELEASE
+If only ₹3,00,000 arrives:
+
+PARTIAL PAYMENT
+       ↓
+Business Rule
+       ↓
+ALLOW / HOLD PRODUCTION
+This is a company policy that should be configurable.
+
+PART 2 — PRODUCTION & MATERIAL WORKFLOW
+13. PRODUCTION ORDER
+Purpose
+Turn a confirmed Sales Order into a manufacturing job.
+
+Fields
+Production Order No
+Sales Order
+Customer
+Product
+Quantity
+Target Date
+Priority
+Assigned Team
+Work Center
+Actions
+Create
+Plan
+Release
+Start
+Hold
+Cancel
+Complete
+Status
+PLANNED
+ ↓
+RELEASED
+ ↓
+IN PROGRESS
+ ↓
+COMPLETED
+What happens next?
+Production Order
+ ↓
+BOM
+ ↓
+Material Planning
+14. BOM — BILL OF MATERIAL
+Purpose
+Define exactly what is required to manufacture one product.
+
+Example:
+
+Product:
+-80°C Freezer
+
+Required:
+
+Compressor × 1
+Controller × 1
+Sensor × 2
+Copper Pipe × 5m
+Electrical Components
+Insulation
+Cabinet
+etc.
+Fields
+BOM Number
+Product
+Version
+Component
+Quantity
+Unit
+Scrap %
+Alternative Material
+Effective Date
+Actions
+Create BOM
+Edit
+Submit
+Approve
+Set Active
+View Components
+Generate Material Request
+Status
+DRAFT
+ ↓
+APPROVED
+ ↓
+ACTIVE
+Important
+BOM versioning matters.
+
+BOM V1
+ ↓
+BOM V2
+ ↓
+BOM V3
+Production should use the correct active BOM version.
+
+15. MATERIAL REQUEST
+Purpose
+Production tells Stores:
+
+"I need these materials."
+
+Fields
+Material Request No
+Production Order
+Material
+Required Quantity
+Requested Date
+Warehouse
+Priority
+Requested By
+Actions
+Create
+Submit
+Approve
+Check Stock
+Issue
+Cancel
+Status
+DRAFT
+ ↓
+SUBMITTED
+ ↓
+APPROVED
+ ↓
+STOCK CHECK
+What happens next?
+Material Request
+ ↓
+Inventory Check
+16. INVENTORY CHECK
+This is a critical branch.
+
+Check each material
+Example:
+
+Required: 10
+
+Available: 10
+Result:
+
+FULL AVAILABLE
+Case 2 — Partial
+Required: 10
+Available: 6
+Shortage: 4
+Result:
+
+PARTIAL
+ ↓
+Issue 6
+ ↓
+Procure 4
+This partial shortage path is specifically important in the revised workflow. Pasted markdown
+
+Case 3 — Nothing available
+Required: 10
+Available: 0
+Result:
+
+NONE AVAILABLE
+ ↓
+PROCUREMENT
+Inventory actions
+Reserve
+Issue
+Return
+Transfer
+Adjust
+Status
+REQUESTED
+ ↓
+STOCK CHECK
+Then:
+
+FULL → RESERVED → ISSUED
+or:
+
+PARTIAL → PARTIAL ISSUE → PROCUREMENT
+or:
+
+NONE → PROCUREMENT
+17. PROCUREMENT
+Purpose
+Buy materials that are unavailable or insufficient in stock.
+
+Example
+Material Required: Compressor
+
+Required: 10
+Stock: 6
+Shortage: 4
+Procurement buys 4.
+
+Main fields
+RFQ
+Material
+Quantity
+Vendor
+Vendor Quotation
+Price
+Delivery Date
+Terms
+Vendor PO
+Workflow
+Material Shortage
+ ↓
+RFQ
+ ↓
+Vendor Quotations
+ ↓
+Compare
+ ↓
+Vendor Selection
+ ↓
+Vendor PO
+ ↓
+Vendor Delivery
+ ↓
+GRN
+ ↓
+Inventory
+Actions
+Create RFQ
+Send RFQ
+Receive Vendor Quote
+Compare
+Select Vendor
+Create Vendor PO
+Receive
+Create GRN
+Important
+Vendor selection isn't necessarily just the cheapest.
+
+Consider:
+
+Price
+Quality
+Delivery
+Warranty
+Payment Terms
+Vendor Rating
+18. VENDOR PO
+Purpose
+Officially order material from the selected supplier.
+
+Fields
+Vendor PO Number
+Vendor
+RFQ
+Vendor Quotation
+Material
+Quantity
+Price
+Tax
+Delivery Date
+Payment Terms
+Shipping Address
+Actions
+Create
+Approve
+Send Vendor
+Edit
+Cancel
+Track
+Status
+DRAFT
+ ↓
+APPROVED
+ ↓
+SENT
+ ↓
+PARTIALLY RECEIVED
+ ↓
+FULLY RECEIVED
+What happens next?
+Vendor
+ ↓
+Delivery
+ ↓
+GRN
+19. GRN — GOODS RECEIPT NOTE
+Purpose
+Record what was actually received from the vendor.
+
+Example:
+
+Vendor PO:
+10 compressors
+
+Received:
+8
+
+Damaged:
+1
+
+Accepted:
+7
+Fields
+GRN Number
+Vendor
+Vendor PO
+Received Date
+Material
+Ordered Quantity
+Received Quantity
+Accepted Quantity
+Rejected Quantity
+Damaged Quantity
+Warehouse
+Inspection
+Actions
+Receive
+Inspect
+Accept
+Reject
+Create GRN
+Partial Receive
+Return
+Status
+EXPECTED
+ ↓
+PARTIALLY RECEIVED
+ ↓
+FULLY RECEIVED
+Important branches
+Correct Quantity
+Short Quantity
+Excess Quantity
+Damaged
+Rejected
+Example
+PO = 10
+Received = 8
+Remaining:
+
+2 PENDING
+This should not falsely mark the PO as fully received.
+
+20. PRODUCTION
+Purpose
+Manufacture the product.
+
+Example workflow
+Production Order
+      ↓
+Fabrication
+      ↓
+Refrigeration
+      ↓
+Electrical
+      ↓
+Assembly
+      ↓
+Testing Preparation
+Fields
+Production Order
+Operation
+Work Center
+Employee
+Start Time
+End Time
+Quantity
+Rejected Quantity
+Machine
+Remarks
+Actions
+Start
+Pause
+Resume
+Complete
+Hold
+Record Output
+Record Rejection
+Status
+READY
+ ↓
+FABRICATION
+ ↓
+REFRIGERATION
+ ↓
+ELECTRICAL
+ ↓
+ASSEMBLY
+ ↓
+COMPLETED
+Important
+Operations should follow the correct sequence.
+
+21. MATERIAL CONSUMPTION / WIP
+Purpose
+Track what actually happened to materials during manufacturing.
+
+There is a difference between:
+
+Material Issued
+and:
+
+Material Consumed
+Example:
+
+Issued:
+10 sensors
+
+Consumed:
+8
+
+Returned:
+2
+Fields
+Production Order
+Material
+Issued Quantity
+Consumed Quantity
+Returned Quantity
+WIP Quantity
+Operation
+Actions
+Record Consumption
+Return Material
+Update WIP
+Complete Operation
+Status
+ISSUED
+ ↓
+IN PRODUCTION
+ ↓
+CONSUMED
+ ↓
+WIP
+ ↓
+COMPLETED
+Important concept
+WIP is a production state, not necessarily a completely separate business transaction.
+
+It means:
+
+"The product is currently being manufactured and is not yet a finished product."
+
+PART 3 — QUALITY & FINISHED PRODUCT
+22. QA / TESTING
+Purpose
+Check whether the finished product meets required specifications.
+
+Example:
+
+Required Temperature:
+-80°C
+
+Actual:
+-82°C
+
+Result:
+PASS
+Fields
+Production Order
+Product
+Serial Number
+Test Name
+Required Value
+Actual Value
+Tester
+Test Date
+Result
+Remarks
+Actions
+Start Test
+Record Result
+Pass
+Fail
+Retest
+Generate Certificate
+Status
+PENDING
+ ↓
+TESTING
+ ↓
+PASS
+or:
+
+TESTING
+ ↓
+FAIL
+ ↓
+RECTIFICATION
+ ↓
+RETEST
+Your source explicitly includes the QA fail → rectification → retest loop. Pasted markdown
+
+If still failing
+Recommended:
+
+RETEST
+ ↓
+FAIL
+ ↓
+REWORK
+ ↓
+RETEST
+If the product cannot be economically repaired:
+
+SCRAP
+23. SERIAL NUMBER / UNIT TRACEABILITY
+Purpose
+For products requiring individual tracking, each machine/unit receives a unique serial number.
+
+Example:
+
+Product:
+-80°C Freezer
+
+Serial:
+FREEZER-2026-0001
+Why important?
+Later, Service can search:
+
+Serial Number
+      ↓
+Production Order
+      ↓
+QA
+      ↓
+Invoice
+      ↓
+Dispatch
+      ↓
+Delivery
+      ↓
+Warranty
+      ↓
+Service
+Recommended status
+CREATED
+ ↓
+IN PRODUCTION
+ ↓
+QA PASSED
+ ↓
+PACKED
+ ↓
+DISPATCHED
+ ↓
+DELIVERED
+ ↓
+WARRANTY
+ ↓
+SERVICE
+This gives the company complete product history.
+
+24. FINISHED GOODS INVENTORY
+Purpose
+After QA passes, the product becomes a finished good.
+
+QA PASS
+ ↓
+Finished Goods Inventory
+Example
+Finished Product:
+Freezer
+
+Serial:
+FRZ-001
+
+Status:
+READY FOR DISPATCH
+Actions
+Receive
+Reserve
+Move
+Pack
+Dispatch
+Important
+Only approved/QA-passed goods should enter available finished-goods stock.
+
+25. PACKING
+Purpose
+Prepare the product for transportation.
+
+Fields
+Packing Number
+Product
+Serial Number
+Quantity
+Accessories
+Documents
+Weight
+Dimensions
+Packaging Type
+Actions
+Create Packing
+Checklist
+Pack
+Attach Documents
+Mark Ready
+Status
+PENDING
+ ↓
+PACKING
+ ↓
+PACKED
+ ↓
+READY FOR DISPATCH
+What happens next?
+Final Invoice
+ ↓
+Dispatch
+Important
+Only QA-passed products should be packed.
+
+PART 4 — FINANCE & DELIVERY
+26. FINAL INVOICE
+Purpose
+Create the final legally/commercially relevant customer invoice.
+
+Fields
+Invoice Number
+Customer
+Sales Order
+PO
+Product
+Quantity
+Tax
+Discount
+Subtotal
+Total
+Payment Details
+Due Date
+Actions
+Create
+Approve
+Generate PDF
+Send
+Post
+Sync to Accounting/Tally
+Status
+DRAFT
+ ↓
+APPROVED
+ ↓
+ISSUED
+ ↓
+POSTED
+What happens next?
+Invoice
+ ↓
+Dispatch
+The exact timing of final invoicing can vary by company policy, so the workflow should allow the business to confirm whether invoice issuance occurs before packing, before dispatch, or at another defined point.
+
+27. ACCOUNTS
+Purpose
+Manage the financial side of the ERP.
+
+Customer side
+Quotation
+ ↓
+PI
+ ↓
+Invoice
+ ↓
+Payment
+ ↓
+Outstanding
+Vendor side
+Vendor PO
+ ↓
+GRN
+ ↓
+Vendor Invoice
+ ↓
+3-Way Match
+ ↓
+Vendor Payment
+Fields
+Invoice
+Payment
+Tax
+Customer Balance
+Vendor Balance
+Credit Note
+Debit Note
+Refund
+Adjustment
+Important procurement control
+Recommended:
+
+Vendor PO
+     +
+GRN
+     +
+Vendor Invoice
+     ↓
+3-WAY MATCH
+     ↓
+Payment
+Example:
+
+PO says: 10
+GRN says: 8
+Invoice says: 10
+System should flag:
+
+MISMATCH
+and hold payment for review.
+
+28. DISPATCH
+Purpose
+Send the finished product to the customer.
+
+Fields
+Dispatch Number
+Invoice
+Customer
+Product
+Serial Number
+Quantity
+Transporter
+Vehicle
+LR / Tracking
+Dispatch Date
+Shipping Address
+Actions
+Create Dispatch
+Verify Packing
+Add Tracking
+Dispatch
+Print Documents
+Status
+READY
+ ↓
+DISPATCHED
+ ↓
+IN TRANSIT
+ ↓
+OUT FOR DELIVERY
+What happens next?
+Delivery
+29. DELIVERY / POD
+Purpose
+Confirm that the customer actually received the product.
+
+Fields
+Delivery Number
+Customer
+Dispatch
+Delivery Date
+Received By
+Signature
+POD
+Photos
+Remarks
+Actions
+Mark Delivered
+Upload POD
+Upload Signature
+Upload Photos
+Close Delivery
+Status
+IN TRANSIT
+ ↓
+OUT FOR DELIVERY
+ ↓
+DELIVERED
+ ↓
+POD RECEIVED
+ ↓
+CLOSED
+Failed delivery branch
+OUT FOR DELIVERY
+       ↓
+DELIVERY FAILED
+       ↓
+RESCHEDULE
+or:
+
+DELIVERY FAILED
+       ↓
+RETURN TO COMPANY
+30. INSTALLATION / COMMISSIONING
+Purpose
+Install the equipment at the customer's site and confirm it works.
+
+Fields
+Installation Number
+Customer
+Serial Number
+Engineer
+Installation Date
+Checklist
+Test Results
+Remarks
+Customer Sign-off
+Actions
+Assign Engineer
+Start Installation
+Complete Installation
+Run Test
+Commission
+Customer Sign-off
+Status
+PENDING
+ ↓
+ASSIGNED
+ ↓
+INSTALLATION
+ ↓
+TESTING
+ ↓
+COMMISSIONED
+Failure branch
+TESTING
+ ↓
+FAIL
+ ↓
+RECTIFICATION / REVISIT
+ ↓
+TEST AGAIN
+ ↓
+PASS
+31. WARRANTY
+This is an important conceptual correction.
+
+Warranty is not simply another transaction that happens once.
+
+It is a coverage state attached to the delivered/commissioned product.
+
+Example
+Machine:
+FRZ-001
+
+Delivery:
+10 Oct 2026
+
+Warranty:
+12 Months
+
+Warranty End:
+09 Oct 2027
+Warranty information
+Serial Number
+Customer
+Product
+Delivery Date
+Commissioning Date
+Warranty Start
+Warranty End
+Warranty Terms
+Covered Parts
+Excluded Parts
+Status
+NOT STARTED
+ ↓
+ACTIVE
+ ↓
+EXPIRED
+What happens later?
+Customer reports:
+
+"Freezer is not reaching -80°C."
+
+System checks:
+
+Serial Number
+      ↓
+Warranty
+      ↓
+ACTIVE?
+If yes:
+
+WARRANTY SERVICE
+If no:
+
+CHARGEABLE SERVICE
+PART 5 — SERVICE WORKFLOW
+32. SERVICE TICKET
+Your source already establishes the connection between service tickets and the original machine/order history. Pasted markdown
+
+Purpose
+Record customer complaints or service requests.
+
+Example
+SRV-001
+
+Customer:
+ABC Hospital
+
+Machine:
+FRZ-001
+
+Problem:
+Temperature not reaching -80°C
+Fields
+Service Ticket
+Customer
+Serial Number
+Product
+Complaint
+Priority
+Warranty Status
+Location
+Created Date
+Assigned Engineer
+Actions
+Create
+Assign
+Start
+Add Diagnosis
+Add Parts
+Resolve
+Close
+Status
+OPEN
+ ↓
+ASSIGNED
+ ↓
+IN PROGRESS
+ ↓
+RESOLVED
+ ↓
+CUSTOMER SIGN-OFF
+ ↓
+CLOSED
+33. WARRANTY CHECK
+Purpose
+Determine whether service is free or chargeable.
+
+Service Ticket
+      ↓
+Warranty Check
+      ↓
+ ┌────┴────┐
+VALID     EXPIRED
+ │           │
+ ▼           ▼
+FREE       SERVICE
+SERVICE    QUOTATION
+Important
+The system should automatically check:
+
+Serial Number
+Warranty Start
+Warranty End
+Product
+Warranty Terms
+34. SERVICE QUOTATION
+This is needed when warranty has expired or the issue is not covered.
+
+Example
+Repair Cost:
+₹15,000
+
+Sensor:
+₹5,000
+
+Labour:
+₹7,000
+
+Travel:
+₹3,000
+
+Total:
+₹15,000
+Workflow
+Service Ticket
+ ↓
+Warranty Expired
+ ↓
+Diagnosis
+ ↓
+Service Quotation
+ ↓
+Customer Approval
+Customer decision
+ACCEPT
+ ↓
+Payment
+ ↓
+Repair
+or:
+
+REJECT
+ ↓
+CLOSE / NO REPAIR
+35. ENGINEER ASSIGNMENT
+Purpose
+Assign a service engineer.
+
+Fields
+Ticket
+Engineer
+Priority
+Visit Date
+Location
+Customer
+Actions
+Assign
+Reassign
+Schedule
+Check In
+Status
+UNASSIGNED
+ ↓
+ASSIGNED
+ ↓
+SCHEDULED
+36. SERVICE DIAGNOSIS
+Purpose
+Find the actual problem.
+
+Example
+Complaint:
+Temperature issue
+
+Diagnosis:
+Sensor failure
+Fields
+Problem
+Diagnosis
+Root Cause
+Parts Required
+Labour
+Travel
+Photos
+Remarks
+Actions
+Start Diagnosis
+Add Finding
+Add Part
+Create Quote
+Repair
+Escalate
+Important decision
+Can repair be completed on-site?
+37. ON-SITE SERVICE
+If yes:
+
+Service Ticket
+ ↓
+Engineer Visit
+ ↓
+Diagnosis
+ ↓
+Repair
+ ↓
+Testing
+ ↓
+Customer Sign-off
+ ↓
+Close
+Example:
+
+Part:
+Temperature Sensor × 1
+
+Action:
+Sensor replaced
+
+Test:
+Passed
+38. FACTORY RETURN SERVICE
+If the equipment cannot be repaired at customer location:
+
+Service Ticket
+ ↓
+Factory Return
+ ↓
+Return Received
+ ↓
+Inspection
+ ↓
+Repair
+ ↓
+Retest
+ ↓
+Redispatch
+ ↓
+Customer
+ ↓
+Sign-off
+ ↓
+Close
+This follows the on-site/factory-return service structure already present in the reference. Pasted markdown
+
+39. SERVICE SPARE PART
+A very important branch.
+
+Example:
+
+Diagnosis:
+Compressor damaged
+Service needs:
+
+Compressor × 1
+System checks:
+
+Spare Stock
+Available
+Available
+ ↓
+Issue Spare
+ ↓
+Repair
+Not available
+Not Available
+ ↓
+Procurement
+ ↓
+Vendor PO
+ ↓
+GRN
+ ↓
+Spare Received
+ ↓
+Repair
+This reuses the same procurement workflow instead of creating a completely separate purchasing system.
+
+40. SERVICE TESTING & CUSTOMER SIGN-OFF
+After repair:
+
+Repair
+ ↓
+Testing
+Example:
+
+Required:
+-80°C
+
+Actual:
+-81°C
+
+Result:
+PASS
+Then:
+
+Customer Sign-off
+ ↓
+SERVICE CLOSED
+If test fails:
+
+FAIL
+ ↓
+REPAIR AGAIN
+ ↓
+RETEST
+PART 6 — RETURNS & EXCEPTIONS
+These are important because a real ERP cannot assume everything always goes perfectly.
+
+41. ORDER CANCELLATION
+Recommended exception workflow:
+
+Sales Order
+ ↓
+Cancellation Request
+ ↓
+Approval
+ ↓
+Cancelled
+If production already started:
+
+Check Materials
+Check Production
+Check Costs
+Check Refund
+Check Cancellation Charges
+42. CUSTOMER RETURN / RMA
+Recommended.
+
+RMA = Return Material Authorization.
+
+Workflow
+Customer Complaint
+ ↓
+Return Request
+ ↓
+RMA Approval
+ ↓
+Customer Returns Product
+ ↓
+Return Received
+ ↓
+Inspection
+Then:
+
+Repair
+or:
+
+Replacement
+or:
+
+Credit Note
+or:
+
+Refund
+43. REPLACEMENT
+Example:
+
+Customer:
+Product defective
+
+Decision:
+Replacement required
+Workflow:
+
+Service / QA
+ ↓
+Replacement Approval
+ ↓
+New Product
+ ↓
+QA
+ ↓
+Packing
+ ↓
+Dispatch
+ ↓
+Customer
+Old product:
+
+Return
+ ↓
+Inspection
+ ↓
+Repair / Scrap / Analysis
+44. CREDIT NOTE / REFUND
+Recommended financial exception.
+
+Example:
+
+Invoice:
+₹1,00,000
+
+Customer eligible refund:
+₹20,000
+Workflow:
+
+Return / Cancellation
+ ↓
+Financial Approval
+ ↓
+Credit Note
+ ↓
+Refund / Adjustment
+Accounts should support:
+
+Payment
+Refund
+Credit Note
+Debit Note
+Adjustment
+45. STOCK ADJUSTMENT
+Inventory quantities sometimes need correction.
+
+Example:
+
+System:
+100
+
+Physical:
+98
+Don't allow random editing.
+
+Recommended:
+
+Adjustment Request
+ ↓
+Reason
+ ↓
+Approval
+ ↓
+Stock Adjustment
+ ↓
+Audit Trail
+46. WAREHOUSE TRANSFER
+If there are multiple warehouses:
+
+Warehouse A
+ ↓
+Transfer Request
+ ↓
+Transfer
+ ↓
+Warehouse B
+ ↓
+Received
+Example:
+
+Chennai Warehouse
+       ↓
+     10 pcs
+       ↓
+Nagapattinam Warehouse
+PART 7 — MASTER DATA
+These are not sequential customer lifecycle pages. They support the entire ERP.
+
+47. CUSTOMER MASTER
+Central customer information.
+
+Customer ID
+Company
+Contacts
+GST
+Addresses
+Payment Terms
+Credit Limit
+Documents
+Status
+Used by:
+
+Sales
+Accounts
+Delivery
+Service
+Your source already defines Customer Master separately from the core transaction chain. Pasted markdown
+
+48. PRODUCT MASTER
+Purpose
+Central definition of what the company sells/manufactures.
+
+Fields
+Product Code
+Product Name
+Category
+Model
+Specification
+Unit
+Selling Price
+Tax
+Warranty
+Serial Requirement
+BOM
+Status
+DRAFT
+ ↓
+ACTIVE
+ ↓
+INACTIVE
+Used by
+Quotation
+Sales Order
+BOM
+Production
+Inventory
+QA
+Invoice
+Service
+49. VENDOR MASTER
+Fields
+Vendor ID
+Vendor Name
+Contact
+GST
+Address
+Bank
+Materials
+Payment Terms
+Rating
+Used by
+RFQ
+Vendor Quotation
+Vendor PO
+GRN
+Vendor Invoice
+Payment
+50. EMPLOYEE / USER MASTER
+Recommended addition.
+
+This should contain:
+
+Employee ID
+Name
+Department
+Designation
+Manager
+Email
+Phone
+Role
+Status
+Example:
+
+Raj
+Department: Service
+Role: Service Engineer
+Manager: Service Manager
+This is different from Roles & Permissions.
+
+51. WAREHOUSE MASTER
+Recommended addition.
+
+Warehouse ID
+Warehouse Name
+Location
+Manager
+Address
+Status
+Example:
+
+WH-001
+Chennai Main Warehouse
+52. WORK CENTER MASTER
+Recommended addition.
+
+Defines where production work happens.
+
+Work Center
+Department
+Machine
+Capacity
+Supervisor
+Location
+Examples:
+
+Fabrication
+Refrigeration
+Electrical
+Assembly
+QA
+Packing
+53. TAX / PAYMENT / DELIVERY / WARRANTY TERMS
+Recommended configuration masters.
+
+Instead of manually typing terms every time:
+
+Tax Master
+Payment Terms
+Delivery Terms
+Warranty Terms
+Example:
+
+Payment:
+30% Advance
+70% Before Dispatch
+These can then be selected in quotations/orders.
+
+PART 8 — ACCOUNTS & CONTROLS
+54. ACCOUNTS
+Accounts manages:
+
+Customer Receivables
+Vendor Payables
+Invoices
+Payments
+Tax
+Refunds
+Credit Notes
+Debit Notes
+Adjustments
+Customer flow
+Invoice
+ ↓
+Payment
+ ↓
+Outstanding
+ ↓
+Settlement
+Vendor flow
+Vendor PO
+ ↓
+GRN
+ ↓
+Vendor Invoice
+ ↓
+3-Way Match
+ ↓
+Payment
+55. ROLES & PERMISSIONS
+Your source already includes role-based access as a supporting control. Pasted markdown
+
+Example roles
+Admin
+Sales
+Sales Manager
+Accounts
+Purchase
+Store
+Production
+QA
+Dispatch
+Service Manager
+Service Engineer
+Management
+Permissions
+Each action should be separately controlled:
+
+View
+Create
+Edit
+Delete
+Approve
+Reject
+Send
+Export
+Cancel
+Example:
+
+Salesperson
+→ Create quotation
+
+Sales Manager
+→ Approve quotation
+
+Accounts
+→ Verify payment
+
+Production
+→ Start production
+56. APPROVALS
+Purpose
+Prevent important transactions from proceeding without authorization.
+
+Examples
+Quotation Discount
+        ↓
+Manager Approval
+Vendor PO
+        ↓
+Purchase Approval
+Stock Adjustment
+        ↓
+Manager Approval
+Refund
+        ↓
+Accounts Approval
+Status
+DRAFT
+ ↓
+PENDING APPROVAL
+ ↓
+APPROVED
+or:
+
+REJECTED
+57. NOTIFICATIONS
+Your source includes notifications for items such as quotation approval, material shortage, payment receipt, QA failure, service assignment, and PO mismatch.
+
+Examples
+"Quotation QT-001 requires approval."
+
+"Material shortage detected."
+
+"Payment received."
+
+"QA failed for Production Order PO-001."
+
+"Service ticket assigned to Raj."
+
+"Customer PO mismatch."
+Status
+UNREAD
+ ↓
+READ
+58. AUDIT TRAIL
+Purpose
+Record who changed what.
+
+Example:
+
+User:
+Kabilan
+
+Module:
+Quotation
+
+Action:
+Changed Discount
+
+Old:
+5%
+
+New:
+10%
+
+Date:
+05 Oct 2026
+
+Reason:
+Customer negotiation
+Records
+CREATE
+UPDATE
+APPROVE
+REJECT
+SEND
+CANCEL
+VOID
+ADJUST
+Important rule
+Critical transactions should not simply disappear.
+
+Instead of:
+
+DELETE
+prefer:
+
+VOID / CANCEL
++
+REASON
++
+AUDIT HISTORY
+59. DOCUMENTS
+Your source already defines a centralized document area with versioning and transaction linkage.
+
+Purpose
+Store documents against the relevant ERP record.
+
+Examples
+Quotation PDF
+Customer PO
+Vendor Quotation
+Vendor PO
+GRN
+Payment Proof
+QA Report
+QA Certificate
+Invoice
+Transport Document
+LR
+POD
+Installation Report
+Commissioning Certificate
+Service Report
+Fields
+Document Name
+Document Type
+Related Module
+Related Record
+Uploaded By
+Upload Date
+Version
+Status
+UPLOADED
+ ↓
+ACTIVE
+ ↓
+ARCHIVED
+PART 9 — REPORTS
+60. REPORTS / ANALYTICS
+Recommended addition.
+
+A complete ERP should not only store transactions; management needs to understand them.
+
+Sales reports
+Lead Report
+Quotation Report
+Quotation Conversion
+Negotiation Report
+Sales Order Report
+Salesperson Performance
+Finance
+Receivables
+Payables
+Payment Pending
+Invoice Report
+Tax Report
+Refund Report
+Production
+Production Status
+Production Delay
+WIP
+Material Consumption
+Production Efficiency
+Rework
+Scrap
+Inventory
+Current Stock
+Low Stock
+Stock Movement
+Material Shortage
+Warehouse Stock
+Stock Adjustment
+Procurement
+Purchase Spend
+Vendor Performance
+Pending PO
+GRN Pending
+Vendor Invoice
+Vendor Payment
+Quality
+QA Pass
+QA Fail
+Rework
+Scrap
+Failure Reasons
+Service
+Open Tickets
+Engineer Performance
+Warranty Service
+Chargeable Service
+SLA
+Spare Usage
+61. THE COMPLETE REAL-LIFE EXAMPLE
+Now let's connect everything using one customer example.
+
+Step 1 — Customer enquiry
+ABC Hospital says:
+
+"We need two -80°C freezers."
+
+LEAD-001
+Status:
+
+NEW
+ ↓
+CONTACTED
+ ↓
+QUALIFIED
+Step 2 — Customer
+System finds:
+
+ABC Hospital
+Already exists.
+
+So don't create duplicate.
+
+Step 3 — Quotation
+Sales creates:
+
+QT-001 Rev 0
+
+2 Freezers
+₹22,00,000
+Manager approves.
+
+APPROVED
+ ↓
+SENT
+Step 4 — Negotiation
+Customer says:
+
+"Give ₹20 lakh."
+
+NEGOTIATION
+Step 5 — Revision
+Sales creates:
+
+QT-001 Rev 1
+
+₹20,00,000
+Customer asks:
+
+"Can you make ₹19 lakh?"
+
+Create:
+
+QT-001 Rev 2
+
+₹19,00,000
+Previous versions remain.
+
+Step 6 — Acceptance
+Customer accepts:
+
+QT-001 Rev 2
+₹19,00,000
+Step 7 — Proforma
+PI-001
+₹19,00,000
+30% Advance
+Step 8 — Customer PO
+Customer sends:
+
+PO:
+ABC/2026/001
+₹19,00,000
+Step 9 — Verification
+ERP compares:
+
+Quotation = ₹19L
+PI        = ₹19L
+Customer PO = ₹19L
+Everything matches.
+
+VERIFIED
+Step 10 — Sales Order
+SO-001
+Step 11 — Payment
+Required:
+
+30%
+Customer pays:
+
+₹5,70,000
+Payment verified.
+
+Step 12 — Production Order
+PO-001
+2 Freezers
+Step 13 — BOM
+System identifies:
+
+Compressors
+Sensors
+Controller
+Copper Pipe
+Cabinet
+Insulation
+Electrical Parts
+etc.
+Step 14 — Material Request
+Production requests:
+
+Compressor × 2
+Sensor × 4
+Controller × 2
+...
+Step 15 — Inventory
+System checks stock.
+
+Example:
+
+Compressor
+Required: 2
+Available: 2
+Issue.
+
+Another material:
+
+Sensor
+Required: 4
+Available: 2
+Partial shortage.
+
+Issue 2
++
+Procure 2
+Step 16 — Procurement
+RFQ
+ ↓
+Vendor A ₹4,000
+Vendor B ₹3,700
+Vendor C ₹3,900
+Select Vendor B.
+
+Vendor PO
+ ↓
+Delivery
+ ↓
+GRN
+ ↓
+Inventory
+Step 17 — Production
+Fabrication
+ ↓
+Refrigeration
+ ↓
+Electrical
+ ↓
+Assembly
+Step 18 — WIP / Consumption
+Issued:
+4 Sensors
+
+Consumed:
+4
+
+Returned:
+0
+Product becomes finished.
+
+Step 19 — QA
+Machine:
+
+Serial:
+FRZ-001
+Testing:
+
+Required: -80°C
+Actual: -82°C
+PASS.
+
+Certificate generated.
+
+Step 20 — Finished Goods
+FRZ-001
+FRZ-002
+
+Status:
+READY FOR PACKING
+Step 21 — Packing
+Packing
+ ↓
+Accessories
+ ↓
+Documents
+ ↓
+Ready
+Step 22 — Final Invoice
+INV-001
+₹19,00,000
+Step 23 — Dispatch
+DISP-001
+Transporter:
+ABC Logistics
+
+Tracking/LR:
+LR12345
+Step 24 — Delivery
+IN TRANSIT
+ ↓
+OUT FOR DELIVERY
+ ↓
+DELIVERED
+ ↓
+POD
+Step 25 — Installation
+Engineer:
+
+Raj
+Installs machine.
+
+Step 26 — Commissioning
+Testing:
+
+Temperature
+Power
+Safety
+Alarm
+Controller
+PASS.
+
+Customer signs.
+
+COMMISSIONED
+Step 27 — Warranty
+Warranty:
+12 Months
+
+Status:
+ACTIVE
+Step 28 — Service after 3 months
+Customer says:
+
+"Machine is not reaching -80°C."
+
+Create:
+
+SRV-001
+Step 29 — Warranty Check
+Warranty:
+ACTIVE
+Therefore:
+
+FREE SERVICE
+Step 30 — Engineer
+Raj is assigned.
+
+Diagnosis:
+
+Temperature sensor failure.
+Step 31 — Spare Check
+Sensor
+Required: 1
+Stock: 0
+Therefore:
+
+Procurement
+ ↓
+Vendor PO
+ ↓
+GRN
+ ↓
+Spare Inventory
+Step 32 — Repair
+Sensor replaced
+Step 33 — Testing
+Required: -80°C
+Actual: -81°C
+PASS.
+
+Step 34 — Customer Sign-off
+Customer confirms:
+
+Issue Resolved
+Service:
+
+CLOSED
+Now the ERP has the complete history of the machine.
+
+Customer
+   ↓
+Lead
+   ↓
+Quotation
+   ↓
+Revision
+   ↓
+Acceptance
+   ↓
+PO
+   ↓
+Sales Order
+   ↓
+Payment
+   ↓
+Production
+   ↓
+BOM
+   ↓
+Materials
+   ↓
+Procurement
+   ↓
+Production
+   ↓
+QA
+   ↓
+Serial Number
+   ↓
+Invoice
+   ↓
+Dispatch
+   ↓
+Delivery
+   ↓
+Installation
+   ↓
+Warranty
+   ↓
+Service
+FINAL ERP MODULE STRUCTURE
+I recommend thinking of the finished ERP as this structure rather than simply "38 pages."
+
+A. SALES
+1. Dashboard
+2. Lead / Enquiry
+3. Customer
+4. Quotation
+5. Negotiation
+6. Quotation Revision
+7. Acceptance
+8. Proforma Invoice
+9. Customer PO
+10. PO Verification
+11. Sales Order
+12. Payment
+B. PRODUCTION
+13. Production Order
+14. BOM
+15. Material Request
+16. Inventory Check
+17. Procurement
+18. Vendor PO
+19. GRN
+20. Production
+21. Material Consumption
+22. WIP
+23. QA
+24. Finished Goods
+25. Packing
+C. FINANCE & LOGISTICS
+26. Final Invoice
+27. Accounts
+28. Dispatch
+29. Delivery / POD
+D. INSTALLATION & SERVICE
+30. Installation
+31. Commissioning
+32. Warranty
+33. Service Ticket
+34. Warranty Check
+35. Service Quotation
+36. Engineer Assignment
+37. Diagnosis
+38. Spare Parts
+39. On-site Repair
+40. Factory Return
+41. Service Testing
+42. Customer Sign-off
+E. MASTER DATA
+43. Customer Master
+44. Product Master
+45. Vendor Master
+46. Employee/User Master
+47. Warehouse Master
+48. Work Center Master
+49. Tax Master
+50. Payment Terms
+51. Delivery Terms
+52. Warranty Terms
+F. CONTROLS
+53. Roles & Permissions
+54. Approvals
+55. Notifications
+56. Audit Trail
+57. Documents
+58. Reports / Analytics
+G. EXCEPTION WORKFLOWS
+59. Order Cancellation
+60. Payment Failure/Reversal
+61. Material Shortage
+62. QA Rework
+63. QA Scrap
+64. Delivery Failure
+65. Installation Failure
+66. RMA / Customer Return
+67. Replacement
+68. Credit Note
+69. Refund
+70. Stock Adjustment
+71. Warehouse Transfer
+72. Vendor Return
+THE MOST IMPORTANT MASTER FLOW TO REMEMBER
+If someone asks you:
+
+"Explain this ERP in simple words."
+
+You can explain it like this:
+
+CUSTOMER WANTS SOMETHING
+        ↓
+LEAD
+        ↓
+UNDERSTAND REQUIREMENT
+        ↓
+QUOTATION
+        ↓
+CUSTOMER NEGOTIATES
+        ↓
+REVISION
+        ↓
+CUSTOMER ACCEPTS
+        ↓
+PROFORMA
+        ↓
+CUSTOMER PO
+        ↓
+VERIFY PO
+        ↓
+SALES ORDER
+        ↓
+RECEIVE ADVANCE/PAYMENT
+        ↓
+CREATE PRODUCTION ORDER
+        ↓
+CHECK BOM
+        ↓
+REQUEST MATERIAL
+        ↓
+CHECK STOCK
+   ┌────┴─────┐
+   ↓          ↓
+STOCK       SHORTAGE
+   ↓          ↓
+ISSUE      PROCUREMENT
+   └────┬─────┘
+        ↓
+MANUFACTURE
+        ↓
+CONSUME MATERIAL
+        ↓
+WIP
+        ↓
+FINISHED PRODUCT
+        ↓
+QA
+   ┌────┴────┐
+   ↓         ↓
+ PASS       FAIL
+   ↓         ↓
+CERTIFICATE RECTIFY
+   ↓         ↓
+PACKING    RETEST
+   ↓
+INVOICE
+   ↓
+DISPATCH
+   ↓
+DELIVERY
+   ↓
+POD
+   ↓
+INSTALLATION
+   ↓
+COMMISSIONING
+   ↓
+WARRANTY
+   ↓
+CUSTOMER HAS PROBLEM?
+   ┌────┴─────┐
+   │          │
+  NO         YES
+   │          │
+CLOSE     SERVICE
+              ↓
+        WARRANTY CHECK
+          ┌───┴────┐
+          ↓        ↓
+        VALID    EXPIRED
+          ↓        ↓
+      FREE       SERVICE
+      SERVICE    QUOTATION
+          └───┬────┘
+              ↓
+          DIAGNOSIS
+              ↓
+        SPARE REQUIRED?
+          ┌───┴────┐
+          ↓        ↓
+         NO       YES
+          │        │
+        REPAIR   STOCK CHECK
+                   ↓
+              PROCUREMENT
+                   ↓
+                 REPAIR
+                   ↓
+                 TEST
+                   ↓
+           CUSTOMER SIGN-OFF
+                   ↓
+             SERVICE CLOSED
+The five things you should never forget
+1. Every transaction has a source.
+
+Quotation ← Lead
+Sales Order ← Customer PO
+Production Order ← Sales Order
+Material Request ← BOM/Production Order
+Invoice ← Sales Order/Delivery
+Service ← Delivered Product/Serial Number
+2. Every important transaction has a status.
+
+Draft
+Pending
+Approved
+Sent
+In Progress
+Completed
+Rejected
+Cancelled
+3. Every important transaction has a next step.
+
+For example:
+
+Quotation Approved
+        ↓
+Send Customer
+
+Customer PO Verified
+        ↓
+Sales Order
+
+Material Shortage
+        ↓
+Procurement
+
+QA Failed
+        ↓
+Rectification
+
+Warranty Complaint
+        ↓
+Service
+4. Every failure needs an exception path.
+
+PO mismatch
+Payment failure
+Material shortage
+QA failure
+Production rework
+Delivery failure
+Installation failure
+Service spare shortage
+Customer return
+5. Every physical product should be traceable.
+
+For a serialised product:
+
+Serial Number
+     ↓
+Production
+     ↓
+Material
+     ↓
+QA
+     ↓
+Packing
+     ↓
+Invoice
+     ↓
+Dispatch
+     ↓
+Delivery
+     ↓
+Installation
+     ↓
+Warranty
+     ↓
+Service
