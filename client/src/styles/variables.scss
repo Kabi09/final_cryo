@@ -1,0 +1,48 @@
+// Cryo Scientific Systems Design System Tokens
+$color-brand-primary: #0F2C59;
+$color-brand-dark: #071933;
+$color-brand-light: #1E3A8A;
+$color-brand-accent: #2563EB;
+
+$color-bg-app: #F8FAFC;
+$color-bg-surface: #FFFFFF;
+$color-bg-sidebar: #0B192C;
+$color-bg-sidebar-hover: #1E293B;
+$color-bg-sidebar-active: #1E40AF;
+
+$color-text-main: #0F172A;
+$color-text-muted: #64748B;
+$color-text-subtle: #94A3B8;
+$color-text-inverse: #FFFFFF;
+
+$color-border: #E2E8F0;
+$color-border-dark: #CBD5E1;
+
+// Semantic Status Colors
+$color-status-success: #059669;
+$color-status-success-bg: #ECFDF5;
+$color-status-success-border: #A7F3D0;
+
+$color-status-warning: #D97706;
+$color-status-warning-bg: #FFFBEB;
+$color-status-warning-border: #FDE68A;
+
+$color-status-danger: #DC2626;
+$color-status-danger-bg: #FEF2F2;
+$color-status-danger-border: #FECACA;
+
+$color-status-info: #0284C7;
+$color-status-info-bg: #F0F9FF;
+$color-status-info-border: #BAE6FD;
+
+// Typography & Geometry
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 8px;
+
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+
+$transition-fast: 150ms ease-in-out;

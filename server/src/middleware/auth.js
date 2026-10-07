@@ -1,0 +1,25 @@
+import jwt from 'jsonwebtoken';
+import { User } from '../models/User.js';
+
+export const protect = async (req, res, next) => {
+  let token;
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: 'Not authorized, no token provided' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'cryo_production_secret_key_2026_enterprise_jwt');
+    const user = await User.findById(decoded.id).select('-password');
+    if (!user || !user.active) {
+      return res.status(401).json({ message: 'User account not active or does not exist' });
+    }
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Token invalid or expired', error: error.message });
+  }
+};

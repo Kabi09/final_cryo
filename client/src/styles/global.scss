@@ -1,0 +1,312 @@
+@use './variables.scss' as *;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font-family;
+  background-color: $color-bg-app;
+  color: $color-text-main;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: $color-brand-accent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color $transition-fast;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Enterprise Table Styles
+.table-container {
+  background: $color-bg-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.erp-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+
+  th {
+    background-color: #F8FAFC;
+    color: #475569;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-bottom: 1px solid $color-border;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #1E293B;
+    vertical-align: middle;
+  }
+
+  tr:hover td {
+    background-color: #F8FAFC;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all $transition-fast;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  background-color: $color-brand-primary;
+  color: #FFFFFF;
+
+  &:hover:not(:disabled) {
+    background-color: $color-brand-light;
+  }
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: #334155;
+  border-color: $color-border-dark;
+
+  &:hover:not(:disabled) {
+    background-color: #F8FAFC;
+    border-color: #94A3B8;
+  }
+}
+
+.btn-danger {
+  background-color: #DC2626;
+  color: #FFFFFF;
+
+  &:hover:not(:disabled) {
+    background-color: #B91C1C;
+  }
+}
+
+.btn-success {
+  background-color: #059669;
+  color: #FFFFFF;
+
+  &:hover:not(:disabled) {
+    background-color: #047857;
+  }
+}
+
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+// Form Controls
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid $color-border-dark;
+  border-radius: $radius-sm;
+  background-color: #FFFFFF;
+  color: #0F172A;
+  outline: none;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    border-color: $color-brand-accent;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  }
+
+  &::placeholder {
+    color: #94A3B8;
+  }
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 70px;
+}
+
+// Status Badges
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &.success {
+    background-color: $color-status-success-bg;
+    color: $color-status-success;
+    border: 1px solid $color-status-success-border;
+  }
+
+  &.warning {
+    background-color: $color-status-warning-bg;
+    color: $color-status-warning;
+    border: 1px solid $color-status-warning-border;
+  }
+
+  &.danger {
+    background-color: $color-status-danger-bg;
+    color: $color-status-danger;
+    border: 1px solid $color-status-danger-border;
+  }
+
+  &.info {
+    background-color: $color-status-info-bg;
+    color: $color-status-info;
+    border: 1px solid $color-status-info-border;
+  }
+
+  &.neutral {
+    background-color: #F1F5F9;
+    color: #475569;
+    border: 1px solid #CBD5E1;
+  }
+}
+
+// Metric Stat Card
+.stat-card {
+  background: $color-bg-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: 16px;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: $color-text-main;
+  }
+
+  .stat-sub {
+    font-size: 11px;
+    color: $color-text-subtle;
+  }
+}
+
+// Modal Backdrop
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  border-radius: $radius-lg;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: $shadow-lg;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0F172A;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94A3B8;
+    &:hover { color: #0F172A; }
+  }
+}
+
+.modal-body {
+  padding: 20px;
+  flex: 1;
+}
+
+.modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid $color-border;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: #F8FAFC;
+}
