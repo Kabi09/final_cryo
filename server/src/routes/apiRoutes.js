@@ -80,8 +80,11 @@ router.post('/boms/:id/revision', protect, requireRole('SUPER_ADMIN', 'ADMIN', '
 router.get('/leads', protect, leadCtrl.listLeads);
 router.get('/leads/:id', protect, leadCtrl.getLeadById);
 router.post('/leads', protect, leadCtrl.createLead);
+router.put('/leads/:id', protect, leadCtrl.updateLead);
 router.put('/leads/:id/qualify', protect, leadCtrl.qualifyLead);
 router.post('/leads/:id/follow-up', protect, leadCtrl.addFollowUp);
+router.put('/leads/:leadId/follow-up/:followUpId', protect, leadCtrl.updateFollowUp);
+router.delete('/leads/:leadId/follow-up/:followUpId', protect, leadCtrl.deleteFollowUp);
 
 // ---------------- Quotations & Negotiation ----------------
 router.get('/quotations', protect, quotationCtrl.listQuotations);
@@ -120,7 +123,11 @@ router.post('/payments', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'FINANCE',
 router.get('/production-orders', protect, prodCtrl.listProductionOrders);
 router.get('/production-orders/:id', protect, prodCtrl.getProductionOrderById);
 router.put('/production-orders/:id/stage', protect, prodCtrl.updateStageStatus);
+router.put('/production-orders/:id/bom', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'PRODUCTION_MANAGER', 'PRODUCTION'), prodCtrl.assignBOM);
 router.post('/production-orders/:id/plan-materials', protect, prodCtrl.planMaterials);
+router.put('/production-orders/material-requests/:id/department-approve', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'PRODUCTION_MANAGER', 'PRODUCTION', 'MANAGEMENT'), prodCtrl.approveMaterialRequestDept);
+router.put('/production-orders/material-requests/:id/advance-procurement', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'STORE', 'PRODUCTION_MANAGER', 'PURCHASE_MANAGER', 'MANAGEMENT'), prodCtrl.advanceProcurementStep);
+router.post('/production-orders/fulfill-shortage', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'STORE', 'PRODUCTION_MANAGER', 'PURCHASE_MANAGER'), prodCtrl.fulfillShortageStock);
 router.post('/production-orders/issue-materials', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'STORE', 'PRODUCTION_MANAGER'), prodCtrl.issueMaterials);
 router.put('/production-orders/:id/complete', protect, requireRole('SUPER_ADMIN', 'ADMIN', 'PRODUCTION_MANAGER'), prodCtrl.completeProduction);
 

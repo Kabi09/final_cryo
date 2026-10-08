@@ -63,6 +63,128 @@
 
 ## Change History
 
+### 2026-10-08 (Update 15)
+#### Change
+- What was changed: Moved the **"All Follow-ups & Next Date"** column in the Commercial Leads table to the final column position, appearing immediately after the **Actions** column.
+- Files changed:
+  - Frontend UI: `client/src/pages/sales/Leads.jsx`.
+  - Documentation: `project.md`.
+- Logic changed:
+  - Reordered table header (`<thead>`) and row cells (`<tbody>`) so standard lead identification columns (Lead #, Customer / Institution, Contact Person, Phone / Email, Requirement, Est. Value, Source / Type, Priority, Status / Customer Link, Actions) appear first, followed by the comprehensive scrollable **All Follow-ups & Next Date** timeline as the concluding column on the far right.
+- Reason: User requested: `All Follow-ups & Next Date move to last column; agfter acrion column;`.
+- Impact: Improved visual ergonomics: primary operational actions (Qualify, Edit, Record Follow-up) are placed centrally next to statuses, while the detailed multi-record follow-up discussion cards and history timeline neatly anchor the end of the table.
+
+
+### 2026-10-08 (Update 14)
+#### Change
+- What was changed: Implemented full timeline display of **ALL follow-up records** (message notes, interaction date, next follow-up date, response status, and contacted by) in the Commercial Leads table; built complete **Modify Follow-up** capability (`PUT /api/leads/:leadId/follow-up/:followUpId`) and **Delete Follow-up** capability (`DELETE /api/leads/:leadId/follow-up/:followUpId`); added Lead Status modifier dropdown to the Edit Lead modal; and reinforced automated Customer Master conversion (`CUST-xxxx`) upon modifying follow-up status to `REQUESTED_QUOTE`.
+- Files changed:
+  - Backend Controller: `server/src/controllers/leadController.js`.
+  - Backend Routes: `server/src/routes/apiRoutes.js`.
+  - Frontend UI: `client/src/pages/sales/Leads.jsx`.
+  - Documentation: `project.md`.
+- Logic changed:
+  1. **All Follow-ups Timeline in Leads Table**: Replaced the single latest follow-up preview with a comprehensive scrollable timeline rendering every follow-up interaction for the lead. Each entry details the interaction date, semantic status badge, discussion message (`notes`), next scheduled follow-up date (`nextFollowUpDate`), and sales representative name (`contactedBy`).
+  2. **Direct Modify Follow-up Action**: Added a direct "Modify ✎" button on every follow-up card inside the timeline. Opens a dedicated **Modify Follow-up** modal to adjust interaction date, customer response status, discussion remarks, next follow-up date, and sales rep name.
+  3. **Delete Follow-up Action**: Added entry deletion with confirmation (`DELETE /api/leads/:leadId/follow-up/:followUpId`) in case an interaction was logged in error.
+  4. **Automated Customer Conversion on Modified Follow-up**: If a follow-up's status is modified to `REQUESTED_QUOTE`, the system auto-qualifies the lead (`lead.status = 'QUALIFIED'`), auto-generates a sequential customer code (`CUST-xxxx`) in the Customer Master if not already registered, links `lead.customerId`, and records a compliance audit log.
+  5. **Lead Status Selector in Edit Lead Modal**: Added direct status editing (`NEW`, `CONTACTED`, `QUALIFIED`, `NOT_QUALIFIED`, `LOST`, `QUOTATION_CREATED`) in the Edit Lead modal for complete administrative control.
+  6. **Follow-up Date Selector in Record Follow-up**: Operators can now specify the exact date of interaction when logging follow-ups.
+- Reason: User requested: `i want all follow display -measeg with date end next floow date; fix the modify;`.
+- Impact: Full historical visibility of prospect conversations right in the leads dashboard, with instantaneous editing, accurate scheduling of future follow-ups, and frictionless transition from inquiries to qualified corporate accounts.
+
+
+### 2026-10-08 (Update 13)
+#### Change
+- What was changed: Added dedicated "Latest Follow-up & Date" column in Leads dashboard table and enabled automated Customer Master account creation when recording a follow-up with response status `REQUESTED_QUOTE` (Requested Official Quotation).
+- Files changed:
+  - Backend Controller: `server/src/controllers/leadController.js`.
+  - Backend Config: `server/package.json`.
+  - Frontend UI: `client/src/pages/sales/Leads.jsx`.
+- Logic changed:
+  1. **Latest Follow-up Column in Leads Table**: Added a dedicated table column displaying the date of the latest discussion, response status badge (`REQUESTED_QUOTE`, `INTERESTED`, `NO_RESPONSE`, `NOT_INTERESTED`), discussion notes snippet with full-text tooltip, and next scheduled follow-up date.
+  2. **Automated Customer Creation on Follow-up Quote Request**: In `addFollowUp`, when an operator logs a follow-up with response status `REQUESTED_QUOTE`:
+     - Sets `lead.status = 'QUALIFIED'`.
+     - Searches if customer already exists or generates a new sequential Customer record (`CUST-xxxx`) in the `Customer` collection with facility address, city, state, pincode, tax ID, and industry segment.
+     - Links `lead.customerId` and `lead.convertedCustomerCode`.
+     - Logs compliance audit: `CUSTOMER_CREATED_FROM_LEAD`.
+  3. **UI Follow-up Notification Banner**: Added real-time notification banner in the Follow-up modal informing the user that selecting "Requested Official Quotation" auto-qualifies the lead and registers the customer in the Customer Master.
+  4. **Server Script Watch Mode**: Updated `server/package.json` `"start"` script to run with `node --watch src/server.js` ensuring changes hot-reload reliably.
+- Reason: User requested: `lead- follow up - message display to another column with date; follow up- request official quation -auto customer add; fix this features;`.
+- Impact: Operators have full visibility into the latest customer conversations directly from the lead pipeline, and official quotation requests instantly convert prospects into registered customer accounts.
+
+
+### 2026-10-08 (Update 12)
+#### Change
+- What was changed: Implemented automated Customer Master record creation upon Lead qualification; added full Lead editing capability (`PUT /api/leads/:id`) with Edit action in UI; and expanded Lead Capture/Edit modals with facility address, industry segment, tax ID (GSTIN), lead source, lead type, target dates, and assigned sales representatives.
+- Files changed:
+  - Backend Model: `server/src/models/Lead.js`.
+  - Backend Controller: `server/src/controllers/leadController.js`.
+  - Backend Routes: `server/src/routes/apiRoutes.js`.
+  - Frontend UI: `client/src/pages/sales/Leads.jsx`.
+- Logic changed:
+  1. **Automated Customer Master Storage**: In `qualifyLead`, when a lead is marked `QUALIFIED`, the system verifies if a customer already exists. If not, it automatically creates and stores a complete `Customer` record in the Customer Master with auto-sequenced `customerCode` (`CUST-xxxx`), linking `lead.customerId` and `lead.convertedCustomerCode`.
+  2. **Edit Lead Action**: Added `updateLead` controller and registered `PUT /api/leads/:id`. In `Leads.jsx`, added an **Edit** button in the Actions column with a dedicated modal allowing sales teams to revise lead specs, estimated values, priorities, and contact data.
+  3. **Comprehensive Modal Fields**: Added missing fields across modals and schema: `leadSource` (Direct, Website, Exhibition, Tender, Referral, etc.), `leadType` (New vs Existing Customer), `segment` (Research, Hospital, Pharma, etc.), facility `address`, `city`, `state`, `pincode`, `gstin`, `expectedDate`, and `assignedTo`.
+  4. **Direct Customer Navigation**: Added customer link in Leads table displaying the generated Customer Code with direct navigation to the Customer Master dossier.
+- Reason: User requested: `onefunctionality add=> add lead- then qualified- directly store the customer; also edit action add; also modal some feild not there so add;`.
+- Impact: Streamlined sales pipeline where leads seamlessly convert into permanent corporate accounts without duplicate data entry.
+
+
+### 2026-10-08 (Update 11)
+#### Change
+- What was changed: Aligned manufacturing real-time workflow with the exact engineering flowchart: Production Order → BOM → Material Requirement → Stock Check → [Stock Available vs Shortage] → Procurement (PR → Vendor PO → GRN) → Stores Inventory → Issue Material → Production.
+- Files changed:
+  - Backend Controller: `server/src/controllers/productionController.js`.
+  - Backend Routes: `server/src/routes/apiRoutes.js`.
+  - Frontend UI: `client/src/pages/production/Production.jsx`.
+- Logic changed:
+  1. **BOM-First Material Planning**: `planMaterials` prioritizes `order.bom.items`, calculating material requirements strictly from the active BOM (`unitQty × orderQty`). Added `availableBOMs` to response and implemented `PUT /api/production-orders/:id/bom` (`assignBOM`) allowing operators to assign or switch BOM versions on the fly.
+  2. **Direct Real-Time Stock Check**: Removed artificial blocking approvals from the engineering workflow. Evaluates live available stock (`currentStock - reservedStock`) from `Inventory`.
+  3. **Dual-Branch Resolution**:
+     - *Branch 1 (Stock Available)*: Highlights ready stock in store. Clicking **"Issue Material to Production"** deducts stock, writes `MATERIAL_ISSUE` to `StockLedger`, sets `order.status = 'IN_PROGRESS'`, and starts Stage 1 (`Fabrication`) immediately.
+     - *Branch 2 (Shortage)*: Auto-initializes `PurchaseRequest` (`PR-xxxx`). Provides step-by-step buttons (`Approve PR` → `Issue Vendor PO` → `Receive GRN & Stores In`) plus a `⚡ 1-Click Procure & Inward to Stores` button that credits inventory stock and transitions to Branch 1.
+  4. **Visual Flowchart & UI Stepper**: Built a unified vertical-horizontal flowchart in `Production.jsx` modal matching the user's diagram, added BOM column to the orders table, and connected live state triggers.
+- Reason: User requested fixing the workflow mismatch to match real-time production flow: `Production Order → BOM → Material Requirement → Stock Check → [Stock Available: Issue Material → Inventory → Production] / [Shortage: Procurement → Vendor PO → GRN → Inventory → Issue Material → Production]`.
+- Impact: Full real-time synchronization between engineering BOMs, stores inventory, procurement inwarding, and shop-floor manufacturing stages.
+
+
+### 2026-10-07 (Update 10)
+#### Change
+- What was changed: Implemented the classical manufacturing Stores & Procurement lifecycle workflow strictly modeling the user's reference diagram: Material Request (MR) → Department Approval → Stock Available? (YES / NO branch) → Purchase Request (PR) → Purchase Approval → Vendor PO → Supplier Dispatch → GRN/MRN → Stores In → Material Available → Material Issue → Department Use.
+- Files changed:
+  - Backend Model: `server/src/models/MaterialRequest.js`.
+  - Backend Controller: `server/src/controllers/productionController.js`.
+  - Backend Routes: `server/src/routes/apiRoutes.js`.
+  - Frontend UI: `client/src/pages/production/Production.jsx`.
+- Logic changed:
+  1. **Schema Enhancements**: Updated `MaterialRequest` schema with fields for `departmentApproved`, `departmentApprovedBy`, `departmentApprovedAt`, `stockAvailable`, `shortagePresent`, `purchaseRequest` reference, `vendorPO` reference, `grn` reference, `storesInwarded`, `materialAvailable`, `issuedBy`, `issuedAt`, and `workflowStage` tracking the exact lifecycle enum (`MATERIAL_REQUEST`, `DEPARTMENT_APPROVED`, `PURCHASE_REQUEST`, `PURCHASE_APPROVED`, `PO_ISSUED`, `GRN_RECEIVED`, `STORES_IN`, `MATERIAL_AVAILABLE`, `MATERIAL_ISSUED`).
+  2. **Department Approval Controller**: Added `approveMaterialRequestDept` (`PUT /api/production-orders/material-requests/:id/department-approve`) where the Production Manager/Dept Head signs off on the MR. If `stockAvailable === true`, the workflow directly advances to `MATERIAL_AVAILABLE`; if `stockAvailable === false`, it raises an official `PurchaseRequest` (`PR-2026-xxxx`).
+  3. **Step-by-Step Procurement Advancement**: Added `advanceProcurementStep` (`PUT /api/production-orders/material-requests/:id/advance-procurement`) supporting discrete operations:
+     - `APPROVE_PR`: Purchase Manager reviews and approves the PR.
+     - `ISSUE_PO`: Generates official `VendorPO` to supplier.
+     - `PROCESS_GRN`: Generates Goods Received Note (`GRN`), inwards stock by crediting inventory `currentStock`, logs `GRN_RECEIPT` into `StockLedger`, marks `storesInwarded = true`, and sets `materialAvailable = true`.
+     - `AUTO_COMPLETE_CHAIN`: Executes the complete chain atomically for fast operational turnover.
+  4. **Material Issue to Department Use**: In `issueMaterials`, once stock is available, Stores issues the stock to the floor, deducting inventory `currentStock`, logging `MATERIAL_ISSUE` to `StockLedger`, setting `workflowStage = 'MATERIAL_ISSUED'`, and marking production order status as `MATERIAL_ISSUED` for assembly fabrication.
+  5. **Visual Stepper UI**: Implemented an interactive multi-step visual diagram in `Production.jsx` modal displaying the active stage, step-by-step action buttons, and live inventory coverage.
+- Reason: User requested fixing the workflow according to the exact reference diagram: `MATERIAL REQUEST → DEPARTMENT APPROVAL → STOCK AVAILABLE? (YES → MATERIAL ISSUE → DEPARTMENT USE / NO → PURCHASE REQUEST → PURCHASE → PO → SUPPLIER → GRN / MRN → STORES IN → MATERIAL AVAILABLE → MATERIAL ISSUE)`.
+- Impact: Complete alignment between real-world manufacturing stores protocol, inventory ledgers, procurement records, and user interface.
+
+
+### 2026-10-07 (Update 9)
+#### Change
+- What was changed: Fixed Product matching in Production Material Planning so orders for specific models (such as -90°C freezer `CS-H-90`) only evaluate their own mapped materials rather than pulling all generic inventory items; resolved calculation transparency (displaying Unit Req, Total Req, On Hand, Reserved, Available, and Shortage); implemented complete Store Requisition -> Approval -> Store Inward Fulfillment -> Material Issue workflow.
+- Files changed:
+  - Backend Controller: `server/src/controllers/productionController.js`, `server/src/controllers/salesOrderController.js`.
+  - Backend Routes: `server/src/routes/apiRoutes.js`.
+  - Frontend UI: `client/src/pages/production/Production.jsx`.
+- Logic changed:
+  1. **Accurate Product Resolution**: Previously, `planMaterials` used `order.product` which had defaulted to `CS-ULT-80` when `SO-2026-0003` was released with custom model code `CS-H-90`. Updated both `salesOrderController.js` and `productionController.js` to search by `model`, `productCode`, and `name` before falling back. `PROD-2026-0009` now maps strictly to `CS-H-90` with its exact 2 mapped materials (`A-1` × 2 Nos, `RAW-COMP-15HP` × 20 Nos).
+  2. **Shortage Calculation Transparency**: Displayed `On Hand` (16), `Reserved` (6), `Available` (10), `Total Required` (20), and `Shortage` (10) explicitly in the BOM Planning table to eliminate calculation confusion.
+  3. **End-to-End Shortage Fulfillment Workflow**: When shortage is present, system automatically raises a `PurchaseRequest` (`PR-2026-0001`) with status `PENDING_APPROVAL`. Added `POST /api/production-orders/fulfill-shortage` allowing Store/Procurement to approve and inward the shortage stock, updating inventory current stock and logging a `STOCK_IN` ledger entry. Once fulfilled, re-check evaluates coverage as `FULL` and activates the **"Issue Materials to Assembly Line"** button.
+- Reason: User pointed out that `-90 product need only to materials but production order check stock show all inversty productl also calution mismatch fix eg -> need nose 20 but stock have 10; need and update the correct worflow in case stock shortage request the stock to store approval-stock order`.
+- Impact: Material requirements match the exact product model; shortage calculations are 100% transparent; and the complete Store Requisition -> Procurement PR -> Store Receipt -> Issue workflow operates smoothly in the UI.
+
 ### 2026-10-07 (Update 8)
 #### Change
 - What was changed: Resolved `Product is not defined` ReferenceError in `salesOrderController.js` when triggering production release (`PUT /api/sales-orders/:id/release-production`).
@@ -164,7 +286,8 @@
   - Multi-select required materials configuration UI (`Products.jsx`) and API (`PUT /api/products/:id/materials`) implemented.
   - Stores Inventory Master management UI (`Inventory.jsx`) with "+ Add Material Item" modal, editing, stock receipt, and reconciliation.
   - Dynamic stock rule verified: Product ordered quantity multiplies unit material requirements (`orderQty × unitReqQty`), evaluating stores stock availability, computing exact shortage quantities, and assigning coverage status (`FULL`, `PARTIAL`, `NONE`).
-  - Automated PR generation when shortage is present; direct store issuance to production floor when coverage is `FULL`.
+  - Real-time Manufacturing Flowchart Implemented: `Production Order` → `BOM` (with version switching) → `Material Requirement` (`orderQty × BOM unitQty`) → `Stock Check` (Live Stores Inventory) → Dual branch: `Stock Available` (Issue Material → Inventory deducted → Production In Progress) OR `Shortage` (Procurement PR → Vendor PO → GRN → Inward to Inventory → Issue Material → Production).
+  - Lead Management & Automated Customer Conversion: Lead capture and edit modals expanded with address, segment, tax, source, and assignment fields; full edit action (`PUT /api/leads/:id`); automated Customer Master record generation (`CUST-xxxx`) upon Lead qualification; comprehensive timeline displaying **ALL follow-up messages with interaction dates and next follow-up dates**; direct **Modify Follow-up** (`PUT /api/leads/:leadId/follow-up/:followUpId`) and **Delete Follow-up** (`DELETE /api/leads/:leadId/follow-up/:followUpId`) functionality; and automatic Customer Master creation when logging or modifying follow-ups with status `REQUESTED_QUOTE`.
   - Express REST API running on port 5000 with complete authentication, RBAC, and business logic.
   - Vector PDF engine operational for all business documents.
   - React/Vite frontend running on port 5173 with all modules, cross-linking, and public tracking portals.

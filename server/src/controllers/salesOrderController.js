@@ -162,8 +162,22 @@ export const releaseForProduction = async (req, res) => {
       if (firstItem.product) {
         targetProduct = await Product.findById(firstItem.product);
       }
-      if (!targetProduct && firstItem.productCode) {
-        targetProduct = await Product.findOne({ productCode: firstItem.productCode });
+      if (!targetProduct && (firstItem.productCode || firstItem.model)) {
+        const code = firstItem.productCode || firstItem.model;
+        targetProduct = await Product.findOne({
+          $or: [
+            { model: code },
+            { productCode: code }
+          ]
+        });
+      }
+      if (!targetProduct && firstItem.description) {
+        targetProduct = await Product.findOne({
+          $or: [
+            { name: new RegExp(firstItem.description, 'i') },
+            { model: new RegExp(firstItem.description, 'i') }
+          ]
+        });
       }
       if (!targetProduct) {
         targetProduct = await Product.findOne();

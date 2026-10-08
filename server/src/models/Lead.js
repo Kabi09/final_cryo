@@ -28,7 +28,18 @@ const leadSchema = new mongoose.Schema({
     enum: ['NEW', 'CONTACTED', 'QUALIFIED', 'NOT_QUALIFIED', 'LOST', 'QUOTATION_CREATED'], 
     default: 'NEW' 
   },
+  address: { type: String, default: '' },
+  city: { type: String, default: '' },
+  state: { type: String, default: '' },
+  pincode: { type: String, default: '' },
+  gstin: { type: String, default: '' },
+  segment: { 
+    type: String, 
+    enum: ['Research & Labs', 'Hospital & Healthcare', 'Pharma & Biotech', 'Industrial & Manufacturing', 'Blood Bank', 'Educational'],
+    default: 'Research & Labs' 
+  },
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
+  convertedCustomerCode: { type: String, default: '' },
   followUps: [followUpSchema],
   remarks: { type: String }
 }, { timestamps: true });
